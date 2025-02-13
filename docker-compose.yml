@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  oshub-v3-database:
+    image: postgres:13
+    container_name: oshub-v3-database
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: oshub-v3
+    ports:
+      - 5435:5432
+    volumes:
+      - ${HOME}/oshub-v3-data:/var/lib/postgresql/data
+    networks:
+      - oshub-v3-network
+networks:
+  oshub-v3-network:
+    name: oshub-v3-network
