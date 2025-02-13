@@ -1,0 +1,12 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"module": "ESNext",
+		"target": "ESNext",
+		"moduleResolution": "bundler",
+		"jsx": "react-jsx",
+		"strict": true
+	},
+	"include": ["pages/**/*", "index.d.ts"]
+}
