@@ -4,7 +4,7 @@ dotenv.config({ path: '.env.local' });
 
 export const IS_PROD = process.env.NODE_ENV === 'production';
 
-const PORT = 3000;
+export const PORT = 3000;
 
 function createEnv() {
 	return {

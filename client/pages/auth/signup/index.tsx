@@ -13,7 +13,7 @@ export function SignupPage() {
 					<p className='mt-4 text-center'>
 						Already have an account?{' '}
 						<a
-							href='/auth/login'
+							href='/login'
 							className='text-blue-500 hover:text-purple-700 hover:font-bold hover:text-xl duration-500'
 						>
 							Login

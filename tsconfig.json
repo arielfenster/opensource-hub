@@ -22,6 +22,11 @@
 
 		// Some stricter flags
 		"noUnusedLocals": true,
-		"noUnusedParameters": true
+		"noUnusedParameters": true,
+		"paths": {
+			"$/server/*": ["./server/*"],
+			"$/client/*": ["./client/*"],
+			"$/shared/*": ["./shared/*"]
+		}
 	}
 }

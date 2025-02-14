@@ -2,7 +2,9 @@ import type { PropsWithChildren } from 'react';
 import type { ServerPageProps } from '..';
 import { CLIENT_DATA_NAME, STATIC_CSS_FILE_PATH } from '../../../shared/constants';
 
-type Props = PropsWithChildren<ServerPageProps>;
+type Props = PropsWithChildren<
+	Pick<ServerPageProps, 'title' | 'clientData'> & { pageScript: string }
+>;
 
 export function Html({ title, pageScript, clientData, children }: Props) {
 	function getReactSrc() {
@@ -50,7 +52,7 @@ export function Html({ title, pageScript, clientData, children }: Props) {
 			<body>
 				<div id='app'>{children}</div>
 				{injectClientData()}
-				<script src={pageScript}></script>
+				<script type='module' src={pageScript}></script>
 			</body>
 		</html>
 	);

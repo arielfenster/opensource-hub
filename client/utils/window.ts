@@ -1,4 +1,4 @@
-import type { CLIENT_DATA_NAME } from '../shared/constants';
+import type { CLIENT_DATA_NAME } from '../../shared/constants';
 
 type WindowWithClientData = Window & { [CLIENT_DATA_NAME]: Record<string, any> };
 

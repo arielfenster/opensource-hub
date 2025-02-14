@@ -1,4 +1,4 @@
-import { serveStatic } from '@hono/node-server/serve-static';
+import { serveStatic } from 'hono/bun';
 import { Hono } from 'hono';
 import { STATIC_DIR } from '../shared/constants';
 import { apiRouter, type ApiRoutes } from './routes/api';
@@ -8,6 +8,6 @@ const app = new Hono();
 
 app.route('/', pagesRouter);
 app.route('/api', apiRouter);
-app.use(`/${STATIC_DIR}/*`, serveStatic());
+app.use(`/${STATIC_DIR}/*`, serveStatic({ root: '../' }));
 
 export { app, type ApiRoutes };

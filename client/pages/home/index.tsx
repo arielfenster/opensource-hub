@@ -1,5 +1,5 @@
 import { Navbar } from '../../components/navbar';
-import { getImagePath } from '../../../shared/utils';
+import { getImagePath } from '../../utils/images';
 
 export function HomePage() {
 	return (

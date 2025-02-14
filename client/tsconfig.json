@@ -6,7 +6,12 @@
 		"target": "ESNext",
 		"moduleResolution": "bundler",
 		"jsx": "react-jsx",
-		"strict": true
+		"strict": true,
+		"baseUrl": ".",
+		"paths": {
+			"$/shared/*": ["../shared/*"],
+			"$/client/*": ["./client/*"]
+		}
 	},
-	"include": ["pages/**/*", "index.d.ts"]
+	"include": ["pages/**/*", "index.d.ts", "vite-env.d.ts"]
 }
