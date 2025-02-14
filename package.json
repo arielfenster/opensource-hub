@@ -5,7 +5,9 @@
 		"dev:server": "bun run --watch server/index.ts",
 		"dev:client": "NODE_ENV=development rollup -c -w --configPlugin typescript",
 		"build:client": "NODE_ENV=production rollup -c --configPlugin typescript",
-		"start": "NODE_ENV=production bun run server/index.ts"
+		"start": "NODE_ENV=production bun run server/index.ts",
+		"db:clear": "bun run ./server/database/scripts/clear.ts",
+		"db:reset": "bun run db:clear && npx drizzle-kit push"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.13.7",
