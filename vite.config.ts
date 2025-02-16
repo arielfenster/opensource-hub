@@ -1,8 +1,8 @@
-import devServer, { defaultOptions } from '@hono/vite-dev-server';
+import devServer from '@hono/vite-dev-server';
 import bunAdapter from '@hono/vite-dev-server/bun';
+import tailwindcss from '@tailwindcss/vite';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
-import { STATIC_DIR } from './shared/constants';
 import { PORT } from './shared/env';
 
 export default defineConfig({
@@ -10,10 +10,10 @@ export default defineConfig({
 		port: PORT,
 	},
 	plugins: [
+		tailwindcss(),
 		devServer({
 			entry: 'server/index.ts',
 			adapter: bunAdapter,
-			exclude: [`/${STATIC_DIR}/*`, ...defaultOptions.exclude],
 		}),
 	],
 	ssr: {

@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import type { ServerPageProps } from '..';
-import { CLIENT_DATA_NAME, STATIC_CSS_FILE_PATH } from '../../../shared/constants';
+import { CLIENT_DATA_NAME, STATIC_CSS_FILE_PATH } from '$/shared/constants';
+import { IS_PROD } from '$/shared/env';
 
 type Props = PropsWithChildren<
 	Pick<ServerPageProps, 'title' | 'clientData'> & { pageScript: string }
@@ -23,7 +24,12 @@ export function Html({ title, pageScript, clientData, children }: Props) {
 	}
 
 	function getStylesLink() {
-		return <link href={`/${STATIC_CSS_FILE_PATH}`} rel='stylesheet' />;
+		return (
+			<link
+				href={IS_PROD ? `/${STATIC_CSS_FILE_PATH}` : '/client/index.css'}
+				rel='stylesheet'
+			/>
+		);
 	}
 
 	function injectClientData() {
