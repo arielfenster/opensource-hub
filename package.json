@@ -3,7 +3,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "bunx --bun vite",
-		"build": "NODE_ENV=production rollup -c --configPlugin typescript",
+		"build:client": "bunx --bun vite build",
 		"start": "NODE_ENV=production bun run server/index.ts",
 		"db:clear": "bun run ./server/database/scripts/clear.ts",
 		"db:reset": "bun run db:clear && bunx --bun drizzle-kit push"
@@ -35,6 +35,7 @@
 		"@types/node": "^20.17.10",
 		"@types/react": "^19.0.1",
 		"@types/react-dom": "^19.0.2",
+		"@vitejs/plugin-react": "^4.3.4",
 		"autoprefixer": "^10.4.20",
 		"babel-preset-react": "^6.24.1",
 		"drizzle-kit": "^0.30.4",

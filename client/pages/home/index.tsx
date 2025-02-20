@@ -4,8 +4,9 @@ import { getImagePath } from '../../utils/images';
 export function HomePage() {
 	return (
 		<main className='bg-mint-500 bazooka h-screen'>
+			<Navbar />
 			<section className='flex flex-col'>
-				<h1>Welcome to Opensource Hub!</h1>
+				<h1>Welcome to Opensource Hub! 2</h1>
 				<h2>{'Your one-stop shop for sharing and collaborating open source projects'}</h2>
 			</section>
 			<div className='h-full'>

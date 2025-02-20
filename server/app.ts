@@ -8,6 +8,6 @@ const app = new Hono();
 
 app.route('/', pagesRouter);
 app.route('/api', apiRouter);
-app.use(`/${STATIC_DIR}/*`, serveStatic({ root: '../' }));
+app.use(`/${STATIC_DIR}/*`, serveStatic({ root: './' }));
 
 export { app, type ApiRoutes };
