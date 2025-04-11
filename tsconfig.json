@@ -26,7 +26,8 @@
 		"paths": {
 			"$/server/*": ["./server/*"],
 			"$/client/*": ["./client/*"],
-			"$/shared/*": ["./shared/*"]
+			"$/shared/*": ["./shared/*"],
+			"$/build-utils/*": ["./build-utils/*"]
 		}
 	}
 }

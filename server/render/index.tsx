@@ -1,32 +1,29 @@
 import type { ReactNode } from 'react';
 import { renderToString } from 'react-dom/server';
-import { STATIC_JS_PATH, type AppPage } from '../../shared/constants';
-import { IS_PROD, env } from '../../shared/env';
-import { Html } from './templates/html';
+import { getScriptsFromManifest, type PageScripts } from '../../build-utils/manifest';
+import { buildEntryInputName, type AppPage } from '../../build-utils/paths';
+import { IS_PROD } from '../../shared/env';
+import { Html, type ServerPageProps } from './templates/html';
 
-export type ServerPageProps = {
-	title?: string;
-	page: AppPage;
-	clientData?: Record<string, any>;
-};
+type Props = Pick<ServerPageProps, 'title' | 'clientData'> & { page: AppPage };
 
-export function renderServerPage(
-	component: ReactNode,
-	{ title, page, clientData }: ServerPageProps,
-) {
-	const pageScript = getPageScript(page);
+export function renderServerPage(component: ReactNode, { title, page, clientData }: Props) {
+	const pageScripts = getPageScripts(page);
 
 	return renderToString(
-		<Html title={title} pageScript={pageScript} clientData={clientData}>
+		<Html title={title} pageScripts={pageScripts} clientData={clientData}>
 			{component}
 		</Html>,
 	);
 }
 
-function getPageScript(page: AppPage) {
+function getPageScripts(page: AppPage): PageScripts {
 	if (IS_PROD) {
-		return `${env.server.HOST_URL}/${STATIC_JS_PATH}/${page}.js`;
+		return getScriptsFromManifest(page);
 	} else {
-		return `client/roots/${page}.tsx`;
+		return {
+			js: [buildEntryInputName(page)],
+			css: ['/client/index.css'],
+		};
 	}
 }

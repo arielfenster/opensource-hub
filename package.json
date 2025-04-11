@@ -3,7 +3,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "bunx --bun vite",
-		"build:client": "bunx --bun vite build",
+		"build": "bunx --bun vite build",
 		"start": "NODE_ENV=production bun run server/index.ts",
 		"db:clear": "bun run ./server/database/scripts/clear.ts",
 		"db:reset": "bun run db:clear && bunx --bun drizzle-kit push"

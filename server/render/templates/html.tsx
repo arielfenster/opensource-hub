@@ -1,13 +1,15 @@
-import type { PropsWithChildren } from 'react';
-import type { ServerPageProps } from '..';
-import { CLIENT_DATA_NAME, STATIC_CSS_FILE_PATH } from '$/shared/constants';
+import type { PageScripts } from '$/build-utils/manifest';
+import { CLIENT_DATA_NAME } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';
+import type { PropsWithChildren } from 'react';
 
-type Props = PropsWithChildren<
-	Pick<ServerPageProps, 'title' | 'clientData'> & { pageScript: string }
->;
+export type ServerPageProps = PropsWithChildren<{
+	title?: string;
+	clientData?: Record<string, any>;
+	pageScripts: PageScripts;
+}>;
 
-export function Html({ title, pageScript, clientData, children }: Props) {
+export function Html({ title, pageScripts, clientData, children }: ServerPageProps) {
 	function getReactSrc() {
 		return (
 			<>
@@ -23,13 +25,14 @@ export function Html({ title, pageScript, clientData, children }: Props) {
 		);
 	}
 
-	function getStylesLink() {
-		return (
-			<link
-				href={IS_PROD ? `/${STATIC_CSS_FILE_PATH}` : '/client/index.css'}
-				rel='stylesheet'
-			/>
-		);
+	function insertJsScripts() {
+		return pageScripts.js.map((jsFile) => <script key={jsFile} src={jsFile}></script>);
+	}
+
+	function insertStyleLinks() {
+		return pageScripts.css.map((cssFile) => (
+			<link key={cssFile} href={cssFile} rel='stylesheet' />
+		));
 	}
 
 	function injectClientData() {
@@ -52,13 +55,14 @@ export function Html({ title, pageScript, clientData, children }: Props) {
 				<meta charSet='UTF-8' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 				{getReactSrc()}
-				{getStylesLink()}
+				{IS_PROD && insertJsScripts()}
+				{insertStyleLinks()}
 				<title>{pageTitle}</title>
 			</head>
 			<body>
 				<div id='app'>{children}</div>
 				{injectClientData()}
-				<script type='module' src={pageScript}></script>
+				{!IS_PROD && <script type='module' src={pageScripts.js[0]}></script>}
 			</body>
 		</html>
 	);
