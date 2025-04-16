@@ -1,3 +1,4 @@
+import React from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { SignupPage } from '../../pages/auth/signup';
 

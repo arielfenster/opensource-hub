@@ -7,9 +7,6 @@ import { renderServerPage } from '../../render';
 
 export const pagesRouter = new Hono()
 	.get('/', (c) => {
-		return c.redirect('/home', 301);
-	})
-	.get('/home', (c) => {
 		const html = renderServerPage(<HomePage />, {
 			title: 'Home',
 			page: 'home',

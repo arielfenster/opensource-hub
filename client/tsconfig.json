@@ -10,8 +10,9 @@
 		"baseUrl": ".",
 		"paths": {
 			"$/shared/*": ["../shared/*"],
-			"$/client/*": ["./client/*"]
+			"$/client/*": ["./*"],
+			"$/server/*": ["../server/*"]
 		}
 	},
-	"include": ["pages/**/*", "index.d.ts", "vite-env.d.ts"]
+	"include": ["**/*", "../server/database/schemas", "index.d.ts", "vite-env.d.ts"]
 }

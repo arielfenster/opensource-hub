@@ -1,19 +1,9 @@
 @import 'tailwindcss';
 
 @theme {
-	--color-mint-500: rgba(30, 70, 200, 0.2);
-	/* --color- */
-}
-
-@utility ariel {
-	font-size: 12px;
-}
-
-.bazooka {
-	@variant not-dark {
-		background-color: red;
-	}
-	@variant dark {
-		background-color: green;
-	}
+	--color-royal-blue: #0a2463;
+	--color-ghost-white: #fffaff;
+	--color-cerise: #d8315b;
+	--color-eerie-black: #1e1b18;
+	--color-celestial-blue: #3e92cc;
 }

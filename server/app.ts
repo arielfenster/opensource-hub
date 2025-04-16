@@ -1,5 +1,5 @@
-import { serveStatic } from 'hono/bun';
 import { Hono } from 'hono';
+import { serveStatic } from 'hono/bun';
 import { STATIC_DIR } from '../shared/constants';
 import { apiRouter, type ApiRoutes } from './routes/api';
 import { pagesRouter } from './routes/pages';
