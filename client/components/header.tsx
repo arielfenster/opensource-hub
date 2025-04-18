@@ -1,3 +1,5 @@
+import { Button } from './ui/button';
+
 export function Header() {
 	return (
 		<header className='bg-royal-blue text-ghost-white w-full'>
@@ -12,7 +14,7 @@ export function Header() {
 				</nav>
 				<div className='ml-auto'>
 					<a href='/login' className='text-lg hover:underline'>
-						Login
+						<Button>Login</Button>
 					</a>
 				</div>
 			</div>

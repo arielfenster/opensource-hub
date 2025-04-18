@@ -3,47 +3,13 @@ import { Button } from '$/client/components/ui/button';
 import { getImagePath } from '$/client/utils/images';
 import { PageSection } from './page-section';
 import { SummaryProjectCard } from './summary-project-card';
+import type { RecentProject } from './types';
 
-const mockProjects = [
-	{
-		id: '1',
-		name: 'Project 1',
-		technologies: ['React', 'Node.js'],
-		shortDescription: 'A cool project that does cool things.',
-	},
-	{
-		id: '2',
-		name: 'Project 2',
-		technologies: ['Vue', 'Express'],
-		shortDescription: 'Another cool project that does even cooler things.',
-	},
-	{
-		id: '3',
-		name: 'Project 3',
-		technologies: ['Angular', 'Django'],
-		shortDescription: 'A project that is just okay.',
-	},
-	{
-		id: '4',
-		name: 'Project 4',
-		technologies: ['Svelte', 'Flask'],
-		shortDescription: 'A project that is not so cool.',
-	},
-	{
-		id: '5',
-		name: 'Project 5',
-		technologies: ['Next.js', 'Ruby on Rails'],
-		shortDescription: 'A project that is not cool at all.',
-	},
-	{
-		id: '6',
-		name: 'Project 6',
-		technologies: ['Golang', 'Spring'],
-		shortDescription: 'A project that is not cool at all.',
-	},
-];
+type Props = {
+	recentProjects: RecentProject[];
+};
 
-export function HomePage() {
+export function HomePage({ recentProjects }: Props) {
 	return (
 		<Layout>
 			<div className='bg-royal-blue py-12'>
@@ -58,12 +24,6 @@ export function HomePage() {
 						subheading='Are you looking for more collaborators to work with you? Create your project and search for your dream team!'
 						image={getImagePath('bookshelf.svg')}
 					/>
-					{/* <PageSection
-					heading='Looking for a project to work on?'
-					subheading='Are you looking for a project to contribute to? Search for projects that match your interests and skills!'
-					image={getImagePath('bookshelf.svg')}
-					orientation='flip'
-				/> */}
 					<PageSection
 						heading='Expand your knowledge!'
 						subheading='Want to expand your knowledge and tech stack? Looking to dive deep into a framework but never had the opportunity? Search for projects by specific technologies to find exactly what you want!'
@@ -81,14 +41,16 @@ export function HomePage() {
 						Recently Added Projects
 					</h3>
 					<div className='flex w-full justify-between'>
-						{mockProjects.slice(0, 4).map((project) => (
+						{recentProjects.slice(0, 4).map((project) => (
 							<SummaryProjectCard key={project.id} {...project} />
 						))}
 					</div>
 				</div>
 				<div className='text-royal-blue flex flex-col items-center gap-4 text-center'>
 					<span className='text-3xl'>What are you waiting for? Join the hub</span>
-					<Button>Get started</Button>
+					<a href='/login'>
+						<Button>Get started</Button>
+					</a>
 				</div>
 			</div>
 		</Layout>

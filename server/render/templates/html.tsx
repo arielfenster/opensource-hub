@@ -41,7 +41,7 @@ export function Html({ title, pageScripts, clientData, children }: ServerPagePro
 		return (
 			<script
 				dangerouslySetInnerHTML={{
-					__html: `const ${CLIENT_DATA_NAME} = ${JSON.stringify(clientData)}`,
+					__html: `${CLIENT_DATA_NAME} = ${JSON.stringify(clientData)}`,
 				}}
 			/>
 		);
