@@ -9,12 +9,12 @@ export function SignupForm() {
 
 		const formData = new FormData(event.currentTarget);
 		const response = await client.auth.signup.$post({
-			form: {
+			json: {
 				firstName: formData.get('firstName') as string,
 				lastName: formData.get('lastName') as string,
 				email: formData.get('email') as string,
 				password: formData.get('password') as string,
-				personalPicture: formData.get('personalPicture') as File,
+				// personalPicture: formData.get('personalPicture') as File,
 			},
 		});
 
@@ -25,68 +25,71 @@ export function SignupForm() {
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className='mb-4'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='firstName'>
+				<label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='firstName'>
 					First Name
 				</label>
 				<input
 					type='text'
 					id='firstName'
 					name='firstName'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
 					placeholder='Enter your first name'
 				/>
 			</div>
 			<div className='mb-4'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='lastName'>
+				<label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='lastName'>
 					Last Name
 				</label>
 				<input
 					type='text'
 					id='lastName'
 					name='lastName'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
 					placeholder='Enter your last name'
 				/>
 			</div>
 			<div className='mb-4'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='email'>
+				<label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='email'>
 					Email
 				</label>
 				<input
 					type='email'
 					id='email'
 					name='email'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
 					placeholder='Enter your email'
 				/>
 			</div>
 			<div className='mb-6'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='password'>
+				<label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='password'>
 					Password
 				</label>
 				<input
 					type='password'
 					id='password'
 					name='password'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline mb-3 w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
 					placeholder='Enter your password'
 				/>
 			</div>
 			<div className='mb-6'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='personalPicture'>
+				<label
+					className='mb-2 block text-sm font-bold text-gray-700'
+					htmlFor='personalPicture'
+				>
 					Personal Picture
 				</label>
 				<input
 					type='file'
 					id='personalPicture'
 					name='personalPicture'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
 				/>
 			</div>
 			<div className='flex items-center justify-between'>
 				<button
 					type='submit'
-					className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'
 				>
 					Sign Up
 				</button>

@@ -23,8 +23,9 @@ export default defineConfig({
 	// },
 	resolve: {
 		alias: {
-			'$/shared': resolve(__dirname, './shared'),
+			'$/server': resolve(__dirname, './server'),
 			'$/client': resolve(__dirname, './client'),
+			'$/shared': resolve(__dirname, './shared'),
 		},
 	},
 	build: {

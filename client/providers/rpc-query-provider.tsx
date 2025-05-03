@@ -7,7 +7,7 @@ type RpcQueryProviderValue = ReturnType<typeof hc<ApiRoutes>> | null;
 const RpcQueryContext = createContext<RpcQueryProviderValue>(null);
 
 export function RpcQueryProvider({ children }: PropsWithChildren) {
-	const [client] = useState(() => hc<ApiRoutes>(import.meta.env.HOST_URL));
+	const [client] = useState(() => hc<ApiRoutes>(`${import.meta.env.VITE_HOST_URL}/api`));
 
 	return <RpcQueryContext.Provider value={client}>{children}</RpcQueryContext.Provider>;
 }

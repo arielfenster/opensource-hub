@@ -5,9 +5,9 @@ import { buildEntryInputName, type AppPage } from '../../build-utils/paths';
 import { IS_PROD } from '../../shared/env';
 import { Html, type ServerPageProps } from './templates/html';
 
-type Props = Pick<ServerPageProps, 'title' | 'clientData'> & { page: AppPage };
+export type RenderServerPageProps = Pick<ServerPageProps, 'title' | 'clientData'> & { page: AppPage };
 
-export function renderServerPage(component: ReactNode, { title, page, clientData }: Props) {
+export function renderServerPage(component: ReactNode, { title, page, clientData }: RenderServerPageProps) {
 	const pageScripts = getPageScripts(page);
 
 	return renderToString(

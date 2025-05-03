@@ -23,33 +23,33 @@ export function LoginForm() {
 	return (
 		<form onSubmit={handleFormSubmit}>
 			<div className='mb-4'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='email'>
+				<label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='email'>
 					Email
 				</label>
 				<input
 					type='email'
 					id='email'
 					name='email'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
 					placeholder='Enter your email'
 				/>
 			</div>
 			<div className='mb-6'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='password'>
+				<label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='password'>
 					Password
 				</label>
 				<input
 					type='password'
 					id='password'
 					name='password'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline mb-3 w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
 					placeholder='Enter your password'
 				/>
 			</div>
 			<div className='flex items-center justify-between'>
 				<button
 					type='submit'
-					className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'
 				>
 					Login
 				</button>
