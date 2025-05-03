@@ -6,7 +6,7 @@ export function Layout({ children }: PropsWithChildren) {
 	return (
 		<div className='bg-ghost-white flex min-h-full flex-col'>
 			<Header />
-			<main className='mb-12 flex-1'>{children}</main>
+			<main className='container mx-auto mb-12 flex-1'>{children}</main>
 			<Footer />
 		</div>
 	);
