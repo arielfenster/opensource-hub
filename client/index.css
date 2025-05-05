@@ -6,4 +6,15 @@
 	--color-cerise: #d8315b;
 	--color-eerie-black: #1e1b18;
 	--color-celestial-blue: #3e92cc;
+
+	--animate-spin-slow: spin-slow 1s linear infinite;
+
+	@keyframes spin-slow {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
 }

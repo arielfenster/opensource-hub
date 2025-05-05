@@ -1,59 +1,51 @@
-import type { FormEvent } from 'react';
-import { useRpcQueryClient } from '../../../providers/rpc-query-provider';
+import { TextField } from '$/client/components/form/textfield';
+import { Button } from '$/client/components/ui/button';
+import { loginSchema, type LoginInput } from '$/shared/schemas/auth/login.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
-export function LoginForm() {
-	const client = useRpcQueryClient();
+type Props = {
+	onSubmit: (input: LoginInput) => void;
+	error?: string;
+	loading?: boolean;
+};
 
-	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-
-		const email = formData.get('email') as string;
-		const password = formData.get('password') as string;
-
-		const response = await client.auth.login.$post({ json: { email, password } });
-		if (response.redirected) {
-			window.location.href = response.url;
-		} else {
-			const data = await response.json();
-			console.error(data);
-		}
-	}
+export function LoginForm({ onSubmit, error, loading }: Props) {
+	const {
+		register,
+		formState: { errors },
+		handleSubmit,
+	} = useForm<LoginInput>({
+		resolver: zodResolver(loginSchema),
+	});
 
 	return (
-		<form onSubmit={handleFormSubmit}>
-			<div className='mb-4'>
-				<label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='email'>
-					Email
-				</label>
-				<input
-					type='email'
-					id='email'
-					name='email'
-					className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
-					placeholder='Enter your email'
-				/>
-			</div>
-			<div className='mb-6'>
-				<label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='password'>
-					Password
-				</label>
-				<input
-					type='password'
-					id='password'
-					name='password'
-					className='focus:shadow-outline mb-3 w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
-					placeholder='Enter your password'
-				/>
-			</div>
-			<div className='flex items-center justify-between'>
-				<button
-					type='submit'
-					className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'
-				>
-					Login
-				</button>
-			</div>
+		<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center gap-2'>
+			<TextField
+				label='Email'
+				error={errors.email?.message}
+				required
+				placeholder='Enter your email'
+				{...register('email')}
+			/>
+			<TextField
+				label='Password'
+				type='password'
+				error={errors.password?.message}
+				required
+				placeholder='Enter your password'
+				{...register('password')}
+			/>
+
+			{error && <span>Login error: {error}</span>}
+
+			<Button
+				type='submit'
+				className='rounded-md bg-blue-500 text-white hover:bg-blue-700'
+				loading={loading}
+			>
+				Login
+			</Button>
 		</form>
 	);
 }
