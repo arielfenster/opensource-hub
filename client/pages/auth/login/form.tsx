@@ -6,15 +6,15 @@ import { useForm } from 'react-hook-form';
 
 type Props = {
 	onSubmit: (input: LoginInput) => void;
-	error?: string;
 	loading?: boolean;
+	error?: string;
 };
 
 export function LoginForm({ onSubmit, error, loading }: Props) {
 	const {
 		register,
-		formState: { errors },
 		handleSubmit,
+		formState: { errors },
 	} = useForm<LoginInput>({
 		resolver: zodResolver(loginSchema),
 	});

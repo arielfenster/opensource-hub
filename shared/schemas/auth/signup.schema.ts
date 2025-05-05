@@ -4,7 +4,7 @@ import { passwordSchema } from './password.schema';
 export const signupSchema = z.object({
 	firstName: z.string().min(2),
 	lastName: z.string().min(2),
-	email: z.string().email(),
+	email: z.string().email().toLowerCase(),
 	password: passwordSchema,
 	bio: z.string().max(250).optional(),
 });
