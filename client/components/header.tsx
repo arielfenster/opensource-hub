@@ -11,6 +11,9 @@ export function Header() {
 					<a href='/projects' className='text-lg hover:underline'>
 						Projects
 					</a>
+					<a href='/about' className='text-lg hover:underline'>
+						About
+					</a>
 				</nav>
 				<div className='ml-auto'>
 					<a href='/login' className='text-lg'>

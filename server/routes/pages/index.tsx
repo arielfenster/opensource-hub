@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
-import { AboutPage } from '../../../client/pages/about';
 import { HomePage } from '../../../client/pages/home';
 import { renderServerPage } from '../../render';
+import { renderAboutPage } from './about.ssr';
 import { renderLoginPage } from './login.ssr';
 import { renderSignupPage } from './signup.ssr';
 
@@ -56,13 +56,6 @@ export const pagesRouter = new Hono()
 
 		return c.html(html);
 	})
-	.get('/about', (c) => {
-		const html = renderServerPage(<AboutPage />, {
-			title: 'About',
-			page: 'about',
-		});
-
-		return c.html(html);
-	})
+	.get('/about', renderAboutPage)
 	.get('/login', renderLoginPage)
 	.get('/signup', renderSignupPage);

@@ -1,38 +1,40 @@
-import { Navbar } from '../../components/navbar';
+import { Layout } from '$/client/components/layout';
 
 export function AboutPage() {
 	return (
-		<div className='min-h-screen bg-gray-100'>
-			<Navbar
-				user={{
-					id: 'meow',
-				}}
-			/>
+		<Layout>
 			<div className='container mx-auto px-4 py-8'>
-				<h1 className='mb-6 text-3xl font-bold text-blue-600'>About BookFinder</h1>
 				<div className='rounded-lg bg-white p-6 shadow-md'>
-					<p className='mb-4 text-gray-700'>
-						BookFinder is a powerful web application designed to help book enthusiasts
-						discover their next great read. Our platform leverages a comprehensive
-						third-party API to provide you with up-to-date information on a vast
-						collection of books across various genres.
+					<p className='text-eerie-black mb-4'>
+						Opensource Hub is a powerful web application designed to connect developers
+						and other relevant positions in the open source community. Our platform
+						allows users to share the projects they are working on and collaborate with
+						other enthusiasts.
 					</p>
-					<p className='mb-4 text-gray-700'>With BookFinder, you can:</p>
-					<ul className='mb-4 list-inside list-disc text-gray-700'>
-						<li>Search for books by title, author, or keywords</li>
-						<li>Filter results by genre to narrow down your search</li>
+					<h3 className='text-eerie-black mb-4 font-bold'>
+						With Opensource Hub, you can:
+					</h3>
+					<ul className='text-eerie-black mb-4 list-inside list-disc'>
 						<li>
-							View detailed information about each book, including summaries and
-							ratings
+							Search projects by various criteria to find the ones that match your
+							interests
 						</li>
-						<li>Discover new authors and expand your reading horizons</li>
+						<li>
+							View detailed information about each project, including descriptions and
+							contributors
+						</li>
+						<li>Connect with other developers and collaborate on projects</li>
+						<li>
+							Select your favorite source control, chat, and project management tools
+							to easily manage your projects
+						</li>
 					</ul>
-					<p className='text-gray-700'>
-						We're passionate about connecting readers with their perfect books. Happy
-						searching!
+					<p className='text-eerie-black'>
+						We're passionate about fostering collaboration and innovation in the open
+						source community. Join us and start sharing your projects today!
 					</p>
 				</div>
 			</div>
-		</div>
+		</Layout>
 	);
 }
