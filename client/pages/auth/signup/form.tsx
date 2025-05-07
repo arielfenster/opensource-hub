@@ -1,96 +1,83 @@
-import type { FormEvent } from 'react';
-import { useRpcQueryClient } from '../../../providers/rpc-query-provider';
+import { TextField } from '$/client/components/form/textfield';
+import { Button } from '$/client/components/ui/button';
+import { signupSchema, type SignupInput } from '$/shared/schemas/auth/signup.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
-export function SignupForm() {
-	const client = useRpcQueryClient();
+type Props = {
+	onSubmit: (input: SignupInput) => void;
+	loading?: boolean;
+	error?: string;
+};
 
-	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-		event.preventDefault();
-
-		const formData = new FormData(event.currentTarget);
-		const response = await client.auth.signup.$post({
-			form: {
-				firstName: formData.get('firstName') as string,
-				lastName: formData.get('lastName') as string,
-				email: formData.get('email') as string,
-				password: formData.get('password') as string,
-				personalPicture: formData.get('personalPicture') as File,
-			},
-		});
-
-		const data = await response.json();
-		console.log(data);
-	}
+export function SignupForm({ onSubmit, loading, error }: Props) {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<SignupInput>({
+		resolver: zodResolver(signupSchema),
+	});
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<div className='mb-4'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='firstName'>
-					First Name
-				</label>
-				<input
-					type='text'
-					id='firstName'
-					name='firstName'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-					placeholder='Enter your first name'
-				/>
-			</div>
-			<div className='mb-4'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='lastName'>
-					Last Name
-				</label>
-				<input
-					type='text'
-					id='lastName'
-					name='lastName'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-					placeholder='Enter your last name'
-				/>
-			</div>
-			<div className='mb-4'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='email'>
-					Email
-				</label>
-				<input
-					type='email'
-					id='email'
-					name='email'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-					placeholder='Enter your email'
-				/>
-			</div>
-			<div className='mb-6'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='password'>
-					Password
-				</label>
-				<input
-					type='password'
-					id='password'
-					name='password'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'
-					placeholder='Enter your password'
-				/>
-			</div>
-			<div className='mb-6'>
-				<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='personalPicture'>
+		<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-stretch gap-2'>
+			<TextField
+				label='First Name'
+				error={errors.firstName?.message}
+				required
+				placeholder='Enter your first name'
+				{...register('firstName')}
+			/>
+
+			<TextField
+				label='Last Name'
+				error={errors.lastName?.message}
+				required
+				placeholder='Enter your last name'
+				{...register('lastName')}
+			/>
+
+			<TextField
+				label='Email'
+				error={errors.email?.message}
+				required
+				placeholder='Enter your email'
+				{...register('email')}
+			/>
+
+			<TextField
+				label='Password'
+				type='password'
+				error={errors.password?.message}
+				required
+				placeholder='Enter your password'
+				{...register('password')}
+			/>
+
+			{/* <div className='my-2'>
+				<label
+					className='mb-2 block text-sm font-bold text-gray-700'
+					htmlFor='personalPicture'
+				>
 					Personal Picture
 				</label>
 				<input
 					type='file'
 					id='personalPicture'
 					name='personalPicture'
-					className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+					className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
 				/>
-			</div>
-			<div className='flex items-center justify-between'>
-				<button
-					type='submit'
-					className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-				>
-					Sign Up
-				</button>
-			</div>
+			</div> */}
+
+			{error && <span>Signup error: {error}</span>}
+
+			<Button
+				type='submit'
+				className='self-center rounded-md bg-blue-500 text-white hover:bg-blue-700'
+				loading={loading}
+			>
+				Sign Up
+			</Button>
 		</form>
 	);
 }

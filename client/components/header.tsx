@@ -13,7 +13,7 @@ export function Header() {
 					</a>
 				</nav>
 				<div className='ml-auto'>
-					<a href='/login' className='text-lg hover:underline'>
+					<a href='/login' className='text-lg'>
 						<Button>Login</Button>
 					</a>
 				</div>
