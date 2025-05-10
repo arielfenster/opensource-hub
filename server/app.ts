@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
 import { STATIC_DIR } from '../shared/constants';
-import { apiRouter, type ApiRoutes } from './routes/api';
-import { pagesRouter } from './routes/pages';
+import { apiRouter, type ApiRoutes } from './routes/api/index.api';
+import { pagesRouter } from './routes/pages/index.ssr';
 import { HTTPException } from 'hono/http-exception';
 
 const app = new Hono();
@@ -16,7 +16,7 @@ app.onError((err, c) => {
 		message: 'Something went wrong. Please try again later.',
 	}).getResponse();
 
-	console.error('An error occurred: ', err, c.req);
+	console.error('An error occurred: ', err);
 	return err instanceof HTTPException ? err.getResponse() : defaultResponse;
 });
 

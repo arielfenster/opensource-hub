@@ -3,7 +3,7 @@ import { Layout } from '$/client/components/layout';
 export function AboutPage() {
 	return (
 		<Layout>
-			<div className='container mx-auto px-4 py-8'>
+			<div className='px-4 py-8'>
 				<div className='rounded-lg bg-white p-6 shadow-md'>
 					<p className='text-eerie-black mb-4'>
 						Opensource Hub is a powerful web application designed to connect developers

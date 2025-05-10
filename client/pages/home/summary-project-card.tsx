@@ -1,5 +1,5 @@
 import { Card } from '$/client/components/ui/card';
-import type { RecentProject } from './types';
+import type { RecentProject } from '$/shared/types/projects';
 
 export function SummaryProjectCard({ name, tags, shortDescription }: RecentProject) {
 	return (

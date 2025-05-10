@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
-import { cn } from '../../utils/classnames';
+import { cn } from '../../lib/utils';
 import { Spinner } from './spinner';
 
 type Props = PropsWithChildren<ComponentPropsWithoutRef<'button'>> & {

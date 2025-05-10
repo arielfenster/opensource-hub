@@ -4,7 +4,7 @@ import { FieldControl } from './controls/field-control';
 import { LabelControl } from './controls/label-control';
 import { type FieldErrorProps } from './field-error';
 import { Input, type InputProps } from './input';
-import { cn } from '$/client/utils/classnames';
+import { cn } from '$/client/lib/utils';
 
 export type TextFieldProps = InputProps &
 	FieldErrorProps & {
