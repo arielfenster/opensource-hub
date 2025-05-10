@@ -1,4 +1,4 @@
-import { cn } from '$/client/utils/classnames';
+import { cn } from '$/client/lib/utils';
 import type { LabelHTMLAttributes } from 'react';
 
 export type LabelProps = Omit<LabelHTMLAttributes<HTMLLabelElement>, 'label'> & {

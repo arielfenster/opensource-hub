@@ -1,4 +1,4 @@
-import { cn } from '$/client/utils/classnames';
+import { cn } from '$/client/lib/utils';
 import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 
 export type InputProps = ComponentPropsWithoutRef<'input'> & {

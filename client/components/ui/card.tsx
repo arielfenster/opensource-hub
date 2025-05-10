@@ -1,4 +1,4 @@
-import { cn } from '$/client/utils/classnames';
+import { cn } from '$/client/lib/utils';
 import type { PropsWithChildren } from 'react';
 
 type CardProps = PropsWithChildren<{

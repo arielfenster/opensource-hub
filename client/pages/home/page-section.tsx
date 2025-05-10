@@ -1,4 +1,12 @@
-import { cn } from '$/client/utils/classnames';
+import { cn } from '$/client/lib/utils';
+
+type Props = {
+	heading: string;
+	subheading: string;
+	image: string;
+	orientation?: 'regular' | 'flip';
+	className?: string;
+};
 
 export function PageSection({
 	heading,
@@ -6,13 +14,7 @@ export function PageSection({
 	image,
 	orientation = 'regular',
 	className = '',
-}: {
-	heading: string;
-	subheading: string;
-	image: string;
-	orientation?: 'regular' | 'flip';
-	className?: string;
-}) {
+}: Props) {
 	return (
 		<section
 			className={cn('flex w-full items-center justify-between', {
