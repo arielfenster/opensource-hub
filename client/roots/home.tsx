@@ -1,10 +1,7 @@
 import { hydrateRoot } from 'react-dom/client';
 import { HomePage } from '../pages/home';
-import { getWindow } from '../lib/window';
 
 import '../index.css';
-
-const { __CLIENT_DATA__ } = getWindow();
 
 hydrateRoot(
 	document.getElementById('app')!,

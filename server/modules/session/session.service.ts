@@ -28,6 +28,10 @@ class SessionService {
 			sameSite: 'Strict',
 		};
 	}
+
+	async getSessionById(sessionId: string) {
+		return sessionDataAccessor.findSessionById(sessionId);
+	}
 }
 
 export const sessionService = new SessionService();

@@ -8,6 +8,14 @@ class SessionDataAccessor {
 		const [session] = await db.insert(sessions).values(data).returning();
 		return session;
 	}
+
+	async findSessionById(sessionId: string) {
+		return db.query.sessions.findFirst({
+			where(fields, { eq }) {
+				return eq(fields.id, sessionId);
+			},
+		});
+	}
 }
 
 export const sessionDataAccessor = new SessionDataAccessor();

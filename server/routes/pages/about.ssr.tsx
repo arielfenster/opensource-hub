@@ -1,16 +1,12 @@
 import { AboutPage } from '$/client/pages/about';
-import { renderServerPage, type RenderServerPageProps } from '$/server/render';
 import { type Context } from 'hono';
+import { renderServerPageWithUser } from './render';
 
-function getProps(): RenderServerPageProps {
-	return {
+export async function renderAboutPage(c: Context) {
+	const html = await renderServerPageWithUser(c, <AboutPage />, {
 		page: 'about',
 		title: 'About',
-	};
-}
-
-export function renderAboutPage(c: Context) {
-	const html = renderServerPage(<AboutPage />, getProps());
+	});
 
 	return c.html(html);
 }
