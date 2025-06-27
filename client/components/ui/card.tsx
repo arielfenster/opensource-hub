@@ -33,8 +33,8 @@ function CardFooter({ children }: PropsWithChildren) {
 	return <div>{children}</div>;
 }
 
-Card.CardHeader = CardHeader;
-Card.CardBody = CardBody;
-Card.CardFooter = CardFooter;
+Card.Header = CardHeader;
+Card.Body = CardBody;
+Card.Footer = CardFooter;
 
 export { Card };
