@@ -5,3 +5,7 @@ type WindowWithClientData = Window & { [CLIENT_DATA_NAME]: Record<string, any> }
 export function getWindow() {
 	return window as any as WindowWithClientData;
 }
+
+export function isServerSide() {
+	return typeof window === 'undefined';
+}
