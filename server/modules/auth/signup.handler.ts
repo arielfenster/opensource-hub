@@ -4,6 +4,7 @@ import { usersService } from '../users/users.service';
 import { passwordService } from './password.service';
 import type { Context } from 'hono';
 import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
+import { SESSION_COOKIE_NAME } from '../session/types';
 
 type SignupContext = Context<{}, any, { out: { json: SignupInput } }>;
 
@@ -25,7 +26,7 @@ class SignupHandler {
 
 		setCookie(
 			c,
-			'session_id',
+			SESSION_COOKIE_NAME,
 			session.id,
 			sessionService.getSessionCookieOptions(session.expiresAt),
 		);
