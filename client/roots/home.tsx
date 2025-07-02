@@ -1,14 +1,16 @@
 import { hydrateRoot } from 'react-dom/client';
 import { HomePage } from '../pages/home';
-import { getWindow } from '../lib/window';
+import { getPropertyFromClientData } from '../lib/window';
+import type { AuthenticatedUser } from '$/shared/types/users';
+import { Layout } from '../components/layout';
 
 import '../index.css';
 
-const { __CLIENT_DATA__ } = getWindow();
-const user = __CLIENT_DATA__?.['user'];
+const user = getPropertyFromClientData<AuthenticatedUser>('user');
 
 hydrateRoot(
 	document.getElementById('app')!,
-	// <HomePage recentProjects={__CLIENT_DATA__['recentProjects']} />,
-	<HomePage user={user} />,
+	<Layout user={user}>
+		<HomePage />
+	</Layout>,
 );
