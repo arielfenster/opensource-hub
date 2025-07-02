@@ -6,6 +6,7 @@ export function getWindow() {
 	return window as any as WindowWithClientData;
 }
 
-export function isServerSide() {
-	return typeof window === 'undefined';
+export function getPropertyFromClientData<T = string>(key: string): T | null {
+	const { __CLIENT_DATA__ } = getWindow();
+	return __CLIENT_DATA__?.[key] || null;
 }
