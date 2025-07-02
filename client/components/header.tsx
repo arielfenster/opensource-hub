@@ -1,6 +1,11 @@
+import { UserCircleIcon } from 'lucide-react';
+import { useAuth } from '../providers/auth-provider';
 import { Button } from './ui/button';
+import { Dropdown } from './ui/dropdown';
 
 export function Header() {
+	const { user } = useAuth();
+
 	return (
 		<header className='bg-royal-blue text-ghost-white w-full'>
 			<div className='container mx-auto flex items-center px-16'>
@@ -16,9 +21,18 @@ export function Header() {
 					</a>
 				</nav>
 				<div className='ml-auto'>
-					<a href='/login' className='text-lg'>
-						<Button>Login</Button>
-					</a>
+					{user ? (
+						<Dropdown>
+							<Dropdown.Trigger>
+								<UserCircleIcon className='h-10 w-10' />
+							</Dropdown.Trigger>
+							<Dropdown.Content>{user.email}</Dropdown.Content>
+						</Dropdown>
+					) : (
+						<a href='/login' className='text-lg'>
+							<Button>Login</Button>
+						</a>
+					)}
 				</div>
 			</div>
 		</header>

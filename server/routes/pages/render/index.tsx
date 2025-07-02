@@ -11,10 +11,9 @@ export type RenderServerPageProps = Pick<ServerPageProps, 'title' | 'clientData'
 	page: AppPage;
 };
 
-export function renderServerPage(
-	component: ReactNode,
-	{ title, page, clientData }: RenderServerPageProps,
-) {
+export function renderServerPage(component: ReactNode, serverPageProps: RenderServerPageProps) {
+	const { title, page, clientData } = serverPageProps;
+
 	const pageScripts = getPageScripts(page);
 
 	return renderToString(
