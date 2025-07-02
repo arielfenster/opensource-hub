@@ -4,6 +4,7 @@ import { usersService } from '../users/users.service';
 import { passwordService } from './password.service';
 import type { Context } from 'hono';
 import type { LoginInput } from '$/shared/schemas/auth/login.schema';
+import { SESSION_COOKIE_NAME } from '../session/types';
 
 type LoginContext = Context<{}, any, { out: { json: LoginInput } }>;
 
@@ -15,7 +16,7 @@ class LoginHandler {
 		const session = await sessionService.createSessionForUser(user.id);
 		setCookie(
 			c,
-			'session_id',
+			SESSION_COOKIE_NAME,
 			session.id,
 			sessionService.getSessionCookieOptions(session.expiresAt),
 		);

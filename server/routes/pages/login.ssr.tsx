@@ -1,21 +1,17 @@
 import { LoginPage } from '$/client/pages/auth/login';
-import { type Context } from 'hono';
-import { renderServerPage, type RenderServerPageProps } from '$/server/render';
 import { isUserLoggedIn } from '$/server/lib/auth';
-
-function getProps(): RenderServerPageProps {
-	return {
-		page: 'auth/login',
-		title: 'Login',
-	};
-}
+import { renderServerPage } from './render';
+import { type Context } from 'hono';
 
 export function renderLoginPage(c: Context) {
 	if (isUserLoggedIn(c)) {
 		return c.redirect('/');
 	}
 
-	const html = renderServerPage(<LoginPage />, getProps());
+	const html = renderServerPage(<LoginPage />, {
+		page: 'auth/login',
+		title: 'Login',
+	});
 
 	return c.html(html);
 }

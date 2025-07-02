@@ -1,4 +1,5 @@
 import type { PageScripts } from '$/build-utils/manifest';
+import { Layout } from '$/client/components/layout';
 import { CLIENT_DATA_NAME } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';
 import type { PropsWithChildren } from 'react';
@@ -60,7 +61,9 @@ export function Html({ title, pageScripts, clientData, children }: ServerPagePro
 				<title>{pageTitle}</title>
 			</head>
 			<body>
-				<div id='app'>{children}</div>
+				<div id='app'>
+					<Layout user={clientData?.user}>{children}</Layout>
+				</div>
 				{injectClientData()}
 				{!IS_PROD && <script type='module' src={pageScripts.js[0]}></script>}
 			</body>
