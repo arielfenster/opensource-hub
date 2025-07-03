@@ -1,3 +1,4 @@
+import { cn } from '$/client/lib/utils';
 import {
 	Children,
 	cloneElement,
@@ -64,7 +65,17 @@ function DropdownTrigger({ children }: PropsWithChildren) {
 function DropdownContent({ children }: PropsWithChildren) {
 	const { open } = useDropdown();
 
-	return open ? children : null;
+	return (
+		<div
+			className={cn(
+				'absolute right-8 flex w-[150px] flex-col gap-4 rounded-lg bg-neutral-400 p-4 shadow-lg transition-all duration-300 ease-in-out',
+				open && 'pointer-events-auto translate-y-2 opacity-100',
+				!open && 'pointer-events-none translate-y-[-8px] opacity-0',
+			)}
+		>
+			{children}
+		</div>
+	);
 }
 
 Dropdown.Trigger = DropdownTrigger;
