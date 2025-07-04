@@ -1,7 +1,7 @@
-import { UserCircleIcon } from 'lucide-react';
+import { UserCircleIcon, LogOutIcon } from 'lucide-react';
 import { useAuth } from '../providers/auth-provider';
 import { Button } from './ui/button';
-import { Dropdown } from './ui/dropdown';
+import { DropdownMenu } from './ui/dropdown-menu';
 
 export function Header() {
 	const { user } = useAuth();
@@ -22,12 +22,23 @@ export function Header() {
 				</nav>
 				<div className='ml-auto'>
 					{user ? (
-						<Dropdown>
-							<Dropdown.Trigger>
+						<DropdownMenu>
+							<DropdownMenu.Trigger>
 								<UserCircleIcon className='h-10 w-10' />
-							</Dropdown.Trigger>
-							<Dropdown.Content>{user.email}</Dropdown.Content>
-						</Dropdown>
+							</DropdownMenu.Trigger>
+							<DropdownMenu.Content>
+								<DropdownMenu.Item
+									text='Profile'
+									image={<UserCircleIcon />}
+									href='/profile'
+								/>
+								<DropdownMenu.Item
+									text='Logout'
+									image={<LogOutIcon />}
+									onClick={console.log}
+								/>
+							</DropdownMenu.Content>
+						</DropdownMenu>
 					) : (
 						<a href='/login' className='text-lg'>
 							<Button>Login</Button>
