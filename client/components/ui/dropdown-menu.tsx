@@ -28,7 +28,7 @@ function useDropdownMenu() {
 }
 
 function DropdownMenu({ children }: PropsWithChildren) {
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 
 	return (
 		<DropdownMenuContext.Provider value={{ open, setOpen }}>
@@ -89,6 +89,8 @@ type DropdownMenuItemProps = {
 };
 
 function DropdownMenuItem({ text, image, onClick, href = '#' }: DropdownMenuItemProps) {
+	const { setOpen } = useDropdownMenu();
+
 	function handleClick(event: MouseEvent) {
 		if (href === '#') {
 			event.stopPropagation();
@@ -97,7 +99,9 @@ function DropdownMenuItem({ text, image, onClick, href = '#' }: DropdownMenuItem
 		if (onClick) {
 			onClick();
 		}
+		setOpen(false);
 	}
+
 	return (
 		<li className='hover:border-royal-blue border-2 pl-4 transition-all duration-300 ease-in-out first:pt-4 first:pb-2 last:pt-2 last:pb-4'>
 			<a
