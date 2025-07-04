@@ -76,9 +76,7 @@ function DropdownMenuContent({ children }: PropsWithChildren) {
 				!open && 'pointer-events-none translate-y-[-8px] opacity-0',
 			)}
 		>
-			<ul className='bg-ghost-white flex flex-col gap-4 rounded-lg p-4 shadow-xl'>
-				{children}
-			</ul>
+			<ul className='bg-ghost-white flex flex-col rounded-lg shadow-xl'>{children}</ul>
 		</div>
 	);
 }
@@ -101,7 +99,7 @@ function DropdownMenuItem({ text, image, onClick, href = '#' }: DropdownMenuItem
 		}
 	}
 	return (
-		<li className='transition-opacity duration-300 ease-in-out hover:opacity-60'>
+		<li className='hover:border-royal-blue border-2 pl-4 transition-all duration-300 ease-in-out first:pt-4 first:pb-2 last:pt-2 last:pb-4'>
 			<a
 				href={href}
 				className='text-eerie-black flex items-center gap-4'
