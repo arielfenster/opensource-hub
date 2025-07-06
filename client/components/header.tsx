@@ -8,7 +8,7 @@ export function Header() {
 
 	return (
 		<header className='bg-royal-blue text-ghost-white w-full'>
-			<div className='container mx-auto flex items-center px-16'>
+			<div className='flex items-center px-8'>
 				<nav className='text-ghost-white flex items-center gap-4 py-6'>
 					<a href='/' className='text-3xl font-bold'>
 						Opensource Hub

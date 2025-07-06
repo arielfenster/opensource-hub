@@ -103,7 +103,7 @@ function DropdownMenuItem({ text, image, onClick, href = '#' }: DropdownMenuItem
 	}
 
 	return (
-		<li className='hover:border-royal-blue border-2 pl-4 transition-all duration-300 ease-in-out first:pt-4 first:pb-2 last:pt-2 last:pb-4'>
+		<li className='hover:border-royal-blue border-4 pl-4 transition-all duration-300 ease-in-out first:pt-4 first:pb-2 last:pt-2 last:pb-4'>
 			<a
 				href={href}
 				className='text-eerie-black flex items-center gap-4'
