@@ -1,7 +1,10 @@
-import { useAuth } from '$/client/providers/auth-provider';
+import { RpcQueryProvider } from '$/client/providers/rpc-query-provider';
+import { ProfileContainer } from './container';
 
 export function ProfilePage() {
-	const user = useAuth().user!;
-
-	return <div>{JSON.stringify(user)}</div>;
+	return (
+		<RpcQueryProvider>
+			<ProfileContainer />
+		</RpcQueryProvider>
+	);
 }
