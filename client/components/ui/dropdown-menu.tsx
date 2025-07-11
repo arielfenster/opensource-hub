@@ -47,6 +47,7 @@ function DropdownMenuTrigger({ children }: PropsWithChildren) {
 	const modifiedChildren = Children.map(
 		children as ReactElement<HTMLProps<Element>>,
 		(child: ReactElement<HTMLProps<Element>>) => {
+			// TODO: remove this check
 			if (isValidElement(child)) {
 				return cloneElement(child, {
 					className: `${child.props.className || ''} cursor-pointer`,
@@ -81,6 +82,7 @@ function DropdownMenuContent({ children }: PropsWithChildren) {
 	);
 }
 
+// TODO: move stuff to context
 type DropdownMenuItemProps = {
 	text: string;
 	image: string | ReactNode;
