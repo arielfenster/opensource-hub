@@ -1,3 +1,4 @@
+import { User2, LockIcon, BellIcon, ShieldIcon } from 'lucide-react';
 import { Tabs } from '$/client/components/ui/tabs';
 import { useAuth } from '$/client/providers/auth-provider';
 
@@ -8,6 +9,9 @@ const TabsType = {
 	PRIVACY: 'privacy',
 };
 
+// TODO: add the tab to the url, so that the user can share the link to a specific tab,
+// either with hash or query parameter
+
 export function ProfileContainer() {
 	const user = useAuth().user!;
 
@@ -15,10 +19,27 @@ export function ProfileContainer() {
 		<div className='flex flex-col gap-8 px-4 py-8'>
 			<h1 className='text-royal-blue text-4xl font-semibold'>Profile Settings</h1>
 			<div className='flex gap-8'>
-				<Tabs defaultTab={TabsType.PERSONAL}>
-					<Tabs.List className='flex flex-1 flex-col'>
-						<Tabs.Trigger name={TabsType.PERSONAL}>PERSONAL INFO</Tabs.Trigger>
-						<Tabs.Trigger name={TabsType.SECURITY}>SECURITY INFO</Tabs.Trigger>
+				<Tabs defaultTab={TabsType.SECURITY}>
+					<Tabs.List className='flex flex-1 flex-col gap-4 rounded-md shadow-lg'>
+						<Tabs.Trigger name={TabsType.PERSONAL} className='flex gap-2 py-4 pl-8'>
+							<User2 />
+							<span>Personal Info</span>
+						</Tabs.Trigger>
+						<Tabs.Trigger name={TabsType.SECURITY} className='flex gap-2 py-4 pl-8'>
+							<LockIcon />
+							<span>Security</span>
+						</Tabs.Trigger>
+						<Tabs.Trigger
+							name={TabsType.NOTIFICATIONS}
+							className='flex gap-2 py-4 pl-8'
+						>
+							<BellIcon />
+							<span>Notifications</span>
+						</Tabs.Trigger>
+						<Tabs.Trigger name={TabsType.PRIVACY} className='flex gap-2 py-4 pl-8'>
+							<ShieldIcon />
+							<span>Privacy</span>
+						</Tabs.Trigger>
 					</Tabs.List>
 					<Tabs.ContentContainer className='h-60 w-60 flex-3 bg-purple-300'>
 						<Tabs.Content name={TabsType.PERSONAL}>im personal info</Tabs.Content>

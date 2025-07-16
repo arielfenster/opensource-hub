@@ -1,5 +1,6 @@
 import { useState, type PropsWithChildren } from 'react';
 import { TabsContext, useTabs } from './context';
+import { cn } from '$/client/lib/utils';
 
 type CommonProps = PropsWithChildren<{ className?: string }>;
 type CommonPropsWithName = CommonProps & { name: string };
@@ -23,9 +24,13 @@ function TabsTrigger({ name, className, children }: CommonPropsWithName) {
 	return (
 		<button
 			onClick={() => setActiveTab(name)}
-			className={`rounded px-4 py-2 ${
-				isActive ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800'
-			} ${className}`}
+			className={cn(
+				'cursor-pointer rounded-md px-4 py-2 hover:bg-gray-200',
+				isActive
+					? 'bg-celestial-blue hover:bg-celestial-blue-hover text-white'
+					: 'text-eerie-black',
+				className,
+			)}
 		>
 			{children}
 		</button>

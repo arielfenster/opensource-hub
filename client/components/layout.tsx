@@ -7,7 +7,7 @@ export function Layout({ user, children }: AuthProviderProps) {
 		<AuthProvider user={user}>
 			<div className='bg-ghost-white flex min-h-full flex-col'>
 				<Header />
-				<main className='container mx-auto mb-12 flex-1'>{children}</main>
+				<main className='w-[85%] mx-auto mb-12 flex-1'>{children}</main>
 				<Footer />
 			</div>
 		</AuthProvider>
