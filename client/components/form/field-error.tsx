@@ -3,5 +3,5 @@ export type FieldErrorProps = {
 };
 
 export function FieldError({ error }: FieldErrorProps) {
-	return <p className='mt-1 pl-0.5 text-sm text-red-600'>{error}</p>;
+	return <p className='mt-1 text-sm text-red-600'>{error}</p>;
 }
