@@ -3,16 +3,17 @@ import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react
 
 export type InputProps = ComponentPropsWithoutRef<'input'> & {
 	name: string;
+	stretch?: boolean;
 	startIcon?: ReactNode;
 	endIcon?: ReactNode;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-	{ className, name, startIcon, endIcon, ...rest },
+	{ className, name, stretch = false, startIcon, endIcon, ...rest },
 	ref,
 ) {
 	return (
-		<div className='relative flex w-full items-center justify-between'>
+		<div className={cn('relative flex items-center justify-between', stretch && 'w-full')}>
 			{startIcon && <div className='absolute left-2'>{startIcon}</div>}
 			<input
 				className={cn(
