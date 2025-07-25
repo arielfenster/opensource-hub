@@ -5,6 +5,7 @@ import {
 	updatePersonalInfoSchema,
 	type UpdatePersonalInfoInput,
 } from '$/shared/schemas/user/update-personal-info.schema';
+import { MAX_BIO_LENGTH } from '$/shared/schemas/user/user.schema';
 import type { AuthenticatedUser } from '$/shared/types/users';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -20,6 +21,7 @@ export function PersonalSettingsForm({ user, onSubmit, loading }: Props) {
 		register,
 		handleSubmit,
 		formState: { errors },
+		watch,
 	} = useForm<UpdatePersonalInfoInput>({
 		defaultValues: user,
 		resolver: zodResolver(updatePersonalInfoSchema),
@@ -44,8 +46,13 @@ export function PersonalSettingsForm({ user, onSubmit, loading }: Props) {
 			</div>
 
 			<TextField label='Email' error={errors.email?.message} stretch {...register('email')} />
-			{/* TODO: add validation to this. make the limit a constant */}
-			<Textarea label='Bio' limit={200} error={errors.bio?.message} {...register('bio')} />
+			<Textarea
+				label='Bio'
+				limit={MAX_BIO_LENGTH}
+				error={errors.bio?.message}
+				value={watch('bio') || ''}
+				{...register('bio')}
+			/>
 
 			<div className='flex flex-col gap-2'>
 				<span className='text-xl font-medium'>Social Links</span>
