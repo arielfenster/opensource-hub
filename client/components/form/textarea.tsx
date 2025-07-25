@@ -20,19 +20,21 @@ export const Textarea = forwardRef<HTMLTextAreaElement, Props>(function Textarea
 		<FieldControl>
 			<LabelControl label={label} name={name} required={required}>
 				<ErrorControl error={error}>
-					<textarea
-						className='w-full rounded-lg border border-solid border-gray-400 pt-1 pl-2'
-						ref={ref}
-						name={name}
-						id={name}
-						rows={4}
-						{...rest}
-					/>
-					{limit && (
-						<span className='self-end'>
-							{String(value || '').length}/{limit}
-						</span>
-					)}
+					<div className='relative w-full'>
+						<textarea
+							className='w-full rounded-lg border border-solid border-gray-400 pt-1 pl-2'
+							ref={ref}
+							name={name}
+							id={name}
+							rows={4}
+							{...rest}
+						/>
+						{limit && (
+							<span className='absolute right-0 -bottom-6'>
+								{String(value || '').length}/{limit}
+							</span>
+						)}
+					</div>
 				</ErrorControl>
 			</LabelControl>
 		</FieldControl>
