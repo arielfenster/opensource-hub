@@ -11,9 +11,16 @@ function createScopedDataAccessors(tx: Transaction) {
 	return accessors as DataAccessors;
 }
 
-export async function executeDataOperation(work: (da: DataAccessors) => Promise<any>) {
+type DataOperation = (dataAccessors: DataAccessors) => Promise<any>;
+
+export async function executeDataOperation(operation: DataOperation) {
 	return db.transaction(async (tx) => {
-		const scopedAccessors = createScopedDataAccessors(tx);
-		return work(scopedAccessors);
+		try {
+			const scopedAccessors = createScopedDataAccessors(tx);
+			return operation(scopedAccessors);
+		} catch (error) {
+			console.error('Data operation failed:', error);
+			tx.rollback();
+		}
 	});
 }
