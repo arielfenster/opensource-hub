@@ -16,6 +16,11 @@ class UsersService {
 	async createUser(data: SignupInput) {
 		return usersDataAccessor.insertUser(data);
 	}
+
+	async checkIfEmailExists(email: string) {
+		const user = await usersDataAccessor.findUserByUniqueIdentifier('email', email);
+		return !!user;
+	}
 }
 
 export const usersService = new UsersService();

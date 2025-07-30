@@ -4,8 +4,7 @@ import { createMiddleware } from 'hono/factory';
 import { HTTPException } from 'hono/http-exception';
 
 export const loggedInMiddleware = createMiddleware(async (c: Context, next: Next) => {
-	const isLoggedIn = isUserLoggedIn(c);
-	if (!isLoggedIn) {
+	if (!isUserLoggedIn(c)) {
 		return new HTTPException(401, {
 			message: 'Unauthorized access. Please log in.',
 		}).getResponse();

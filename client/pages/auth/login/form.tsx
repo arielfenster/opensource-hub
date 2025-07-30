@@ -24,6 +24,7 @@ export function LoginForm({ onSubmit, error, loading }: Props) {
 			<TextField
 				label='Email'
 				error={errors.email?.message}
+				stretch
 				required
 				placeholder='Enter your email'
 				{...register('email')}
@@ -31,6 +32,7 @@ export function LoginForm({ onSubmit, error, loading }: Props) {
 			<TextField
 				label='Password'
 				type='password'
+				stretch
 				error={errors.password?.message}
 				required
 				placeholder='Enter your password'
