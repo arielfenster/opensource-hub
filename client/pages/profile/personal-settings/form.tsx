@@ -34,18 +34,16 @@ export function PersonalSettingsForm({ user, onSubmit, loading }: Props) {
 				<TextField
 					label='First Name'
 					error={errors.firstName?.message}
-					stretch
 					{...register('firstName')}
 				/>
 				<TextField
 					label='Last Name'
 					error={errors.lastName?.message}
-					stretch
 					{...register('lastName')}
 				/>
 			</div>
 
-			<TextField label='Email' error={errors.email?.message} stretch {...register('email')} />
+			<TextField label='Email' error={errors.email?.message} {...register('email')} />
 			<Textarea
 				label='Bio'
 				limit={MAX_BIO_LENGTH}
@@ -59,28 +57,24 @@ export function PersonalSettingsForm({ user, onSubmit, loading }: Props) {
 				<div className='grid grid-cols-2 gap-x-12 gap-y-4'>
 					<TextField
 						placeholder='https://www.example.com'
-						stretch
 						label='Github'
 						error={errors.socialLinks?.[0]?.url?.message}
 						{...register('socialLinks.0.url')}
 					/>
 					<TextField
 						placeholder='https://www.example.com'
-						stretch
 						label='Linkedin'
 						error={errors.socialLinks?.[1]?.url?.message}
 						{...register('socialLinks.1.url')}
 					/>
 					<TextField
 						placeholder='https://www.example.com'
-						stretch
 						label='Personal Website'
 						error={errors.socialLinks?.[2]?.url?.message}
 						{...register('socialLinks.2.url')}
 					/>
 					<TextField
 						placeholder='https://www.example.com'
-						stretch
 						label='Other'
 						error={errors.socialLinks?.[3]?.url?.message}
 						{...register('socialLinks.3.url')}
