@@ -1,16 +1,28 @@
 import type { PageScripts } from '$/build-utils/manifest';
 import { Layout } from '$/client/components/layout';
-import { CLIENT_DATA_NAME } from '$/shared/constants';
+import { RpcQueryProvider } from '$/client/providers/rpc-query-provider';
+import { CLIENT_DATA_NAME, PREFETCHED_STATE_NAME } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';
+import { QueryClient, dehydrate, type QueryKey } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
 
 export type ServerPageProps = PropsWithChildren<{
 	title?: string;
 	clientData?: Record<string, any>;
 	pageScripts: PageScripts;
+	prefetchedState?: {
+		key: QueryKey;
+		data: Record<string, any>;
+	};
 }>;
 
-export function Html({ title, pageScripts, clientData, children }: ServerPageProps) {
+export function Html({
+	title,
+	pageScripts,
+	clientData,
+	prefetchedState,
+	children,
+}: ServerPageProps) {
 	function getReactSrc() {
 		return (
 			<>
@@ -36,13 +48,33 @@ export function Html({ title, pageScripts, clientData, children }: ServerPagePro
 		));
 	}
 
-	function injectClientData() {
-		if (!clientData) return null;
+	// function injectClientData() {
+	// 	if (!clientData) {
+	// 		return null;
+	// 	}
+
+	// 	return (
+	// 		<script
+	// 			dangerouslySetInnerHTML={{
+	// 				__html: `${CLIENT_DATA_NAME} = ${JSON.stringify(clientData)};`,
+	// 			}}
+	// 		/>
+	// 	);
+	// }
+
+	function injectPrefetchedState() {
+		if (!prefetchedState) {
+			return null;
+		}
+
+		const queryClient = new QueryClient();
+		queryClient.setQueryData(prefetchedState.key, prefetchedState.data);
+		const dehydratedState = dehydrate(queryClient);
 
 		return (
 			<script
 				dangerouslySetInnerHTML={{
-					__html: `${CLIENT_DATA_NAME} = ${JSON.stringify(clientData)}`,
+					__html: `${PREFETCHED_STATE_NAME} = ${JSON.stringify(dehydratedState)};`,
 				}}
 			/>
 		);
@@ -62,9 +94,12 @@ export function Html({ title, pageScripts, clientData, children }: ServerPagePro
 			</head>
 			<body>
 				<div id='app'>
-					<Layout user={clientData?.user}>{children}</Layout>
+					<RpcQueryProvider>
+						<Layout user={clientData?.user}>{children}</Layout>
+					</RpcQueryProvider>
 				</div>
-				{injectClientData()}
+				{/* {injectClientData()} */}
+				{injectPrefetchedState()}
 				{!IS_PROD && <script type='module' src={pageScripts.js[0]}></script>}
 			</body>
 		</html>

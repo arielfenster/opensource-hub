@@ -1,9 +1,12 @@
-import type { CLIENT_DATA_NAME } from '../../shared/constants';
+import type { DehydratedState } from '@tanstack/react-query';
+import type { CLIENT_DATA_NAME, PREFETCHED_STATE_NAME } from '../../shared/constants';
 
-type WindowWithClientData = Window & { [CLIENT_DATA_NAME]: Record<string, any> };
+type AppWindow = Window & { [CLIENT_DATA_NAME]: Record<string, any> } & {
+	[PREFETCHED_STATE_NAME]: DehydratedState;
+};
 
 export function getWindow() {
-	return window as any as WindowWithClientData;
+	return window as any as AppWindow;
 }
 
 export function getPropertyFromClientData<T = string>(key: string): T | null {

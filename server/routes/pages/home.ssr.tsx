@@ -3,7 +3,7 @@ import { type Context } from 'hono';
 import { renderServerPageWithUser } from './render';
 
 export async function renderHomePage(c: Context) {
-	const html = renderServerPageWithUser(c, <HomePage />, {
+	const html = await renderServerPageWithUser(c, <HomePage />, {
 		page: 'home',
 		title: 'Home',
 	});

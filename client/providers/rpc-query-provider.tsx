@@ -7,6 +7,8 @@ type RpcQueryProviderValue = ReturnType<typeof hc<ApiRoutes>> | null;
 
 const RpcQueryContext = createContext<RpcQueryProviderValue>(null);
 
+// TODO: create a ReactQueryProvider that receives queryClientState and encapsulates the HydrationBoundary
+// maybe also create a combined provider that combines RpcQueryProvider and ReactQueryProvider
 export function RpcQueryProvider({ children }: PropsWithChildren) {
 	const [rpcClient] = useState(() => hc<ApiRoutes>(`${import.meta.env.VITE_HOST_URL}/api`));
 	const [queryClient] = useState(
