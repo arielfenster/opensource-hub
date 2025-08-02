@@ -9,10 +9,11 @@ import { cn } from '$/client/lib/utils';
 export type TextFieldProps = InputProps &
 	FieldErrorProps & {
 		label: string;
+		inputClassName?: string;
 	};
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
-	{ name, className, label, required, error, ...rest },
+	{ name, className, inputClassName, label, required, error, ...rest },
 	ref,
 ) {
 	return (
@@ -23,7 +24,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
 						name={name}
 						className={cn(
 							error && 'border-red-600 outline-1 outline-red-600',
-							className,
+							inputClassName,
 						)}
 						ref={ref}
 						{...rest}

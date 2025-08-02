@@ -12,7 +12,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 	ref,
 ) {
 	return (
-		<div className='relative flex w-full items-center justify-between'>
+		<div className={cn('relative flex w-full items-center justify-between', className)}>
 			{startIcon && <div className='absolute left-2'>{startIcon}</div>}
 			<input
 				className={cn(

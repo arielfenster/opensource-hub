@@ -1,6 +1,7 @@
 export function AboutPage() {
 	return (
-		<div className='px-4 py-8'>
+		<div className='flex flex-col gap-8 px-4 py-8'>
+			<h1 className='text-royal-blue text-4xl font-semibold'>About Opensource Hub</h1>
 			<div className='rounded-lg bg-white p-6 shadow-md'>
 				<p className='text-eerie-black mb-4'>
 					Opensource Hub is a powerful web application designed to connect developers and

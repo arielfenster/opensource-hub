@@ -28,7 +28,7 @@ function useDropdownMenu() {
 }
 
 function DropdownMenu({ children }: PropsWithChildren) {
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 
 	return (
 		<DropdownMenuContext.Provider value={{ open, setOpen }}>
@@ -47,6 +47,7 @@ function DropdownMenuTrigger({ children }: PropsWithChildren) {
 	const modifiedChildren = Children.map(
 		children as ReactElement<HTMLProps<Element>>,
 		(child: ReactElement<HTMLProps<Element>>) => {
+			// TODO: remove this check
 			if (isValidElement(child)) {
 				return cloneElement(child, {
 					className: `${child.props.className || ''} cursor-pointer`,
@@ -81,6 +82,7 @@ function DropdownMenuContent({ children }: PropsWithChildren) {
 	);
 }
 
+// TODO: move stuff to context
 type DropdownMenuItemProps = {
 	text: string;
 	image: string | ReactNode;
@@ -89,6 +91,8 @@ type DropdownMenuItemProps = {
 };
 
 function DropdownMenuItem({ text, image, onClick, href = '#' }: DropdownMenuItemProps) {
+	const { setOpen } = useDropdownMenu();
+
 	function handleClick(event: MouseEvent) {
 		if (href === '#') {
 			event.stopPropagation();
@@ -97,9 +101,11 @@ function DropdownMenuItem({ text, image, onClick, href = '#' }: DropdownMenuItem
 		if (onClick) {
 			onClick();
 		}
+		setOpen(false);
 	}
+
 	return (
-		<li className='hover:border-royal-blue border-2 pl-4 transition-all duration-300 ease-in-out first:pt-4 first:pb-2 last:pt-2 last:pb-4'>
+		<li className='hover:border-royal-blue border-4 pl-4 transition-all duration-300 ease-in-out first:pt-4 first:pb-2 last:pt-2 last:pb-4'>
 			<a
 				href={href}
 				className='text-eerie-black flex items-center gap-4'

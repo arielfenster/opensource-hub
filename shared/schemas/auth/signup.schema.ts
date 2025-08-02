@@ -1,12 +1,17 @@
 import { z } from 'zod';
-import { passwordSchema } from './password.schema';
+import { userSchema } from '../user/user.schema';
+import { imageSchema } from '../common/image.schema';
 
-export const signupSchema = z.object({
-	firstName: z.string().min(2),
-	lastName: z.string().min(2),
-	email: z.string().email().toLowerCase(),
-	password: passwordSchema,
-	bio: z.string().max(250).optional(),
-});
+export const signupSchema = userSchema
+	.pick({
+		firstName: true,
+		lastName: true,
+		email: true,
+		password: true,
+		bio: true,
+	})
+	.extend({
+		image: imageSchema.optional(),
+	});
 
 export type SignupInput = z.infer<typeof signupSchema>;

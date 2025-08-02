@@ -1,9 +1,10 @@
 import { db } from '../../database/db';
 import { sessions, type Session } from '../../database/schemas';
+import { DataAccessor } from '../dal/data-accessor';
 
 type InsertSessionPayload = Pick<Session, 'id' | 'userId' | 'expiresAt'>;
 
-class SessionDataAccessor {
+export class SessionDataAccessor extends DataAccessor {
 	async insertSession(data: InsertSessionPayload) {
 		const [session] = await db.insert(sessions).values(data).returning();
 		return session;
@@ -18,4 +19,4 @@ class SessionDataAccessor {
 	}
 }
 
-export const sessionDataAccessor = new SessionDataAccessor();
+export const sessionDataAccessor = new SessionDataAccessor(db);

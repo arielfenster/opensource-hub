@@ -1,3 +1,3 @@
-import type { User } from '$/server/database/schemas';
+import type { SocialLink, User } from '$/server/database/schemas';
 
-export type AuthenticatedUser = Omit<User, 'password' | 'role'>;
+export type AuthenticatedUser = Omit<User, 'password' | 'role'> & { socialLinks: SocialLink[] };

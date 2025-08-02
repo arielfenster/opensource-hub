@@ -5,6 +5,7 @@ import { passwordService } from './password.service';
 import type { Context } from 'hono';
 import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
 import { SESSION_COOKIE_NAME } from '../session/types';
+import { HTTPException } from 'hono/http-exception';
 
 type SignupContext = Context<{}, any, { out: { json: SignupInput } }>;
 
@@ -38,9 +39,8 @@ class SignupHandler {
 	}
 
 	private async validateSignupRequest(email: string) {
-		const user = await usersService.findUser({ email });
-		if (user) {
-			throw new Error('Email already exists');
+		if (await usersService.checkIfEmailExists(email)) {
+			throw new HTTPException(409, { message: 'Email already exists' });
 		}
 	}
 }
