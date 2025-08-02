@@ -2,7 +2,7 @@ import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
 import type { UpdatePersonalInfoInput } from '$/shared/schemas/user/update-personal-info.schema';
 import { executeDataOperation } from '../dal/data-executor';
 import { socialLinksDataAccessor } from '../social-links/social-links.data-accessor';
-import type { FindUserParams, FindUserUniqueIdentifier } from './types';
+import type { FindUserParams, FindUserUniqueIdentifier, UserWithSocialLinks } from './types';
 import { usersDataAccessor } from './users.data-accessor';
 
 class UsersService {
@@ -36,7 +36,10 @@ class UsersService {
 		return !!user;
 	}
 
-	async updatePersonalInfo(userId: string, data: UpdatePersonalInfoInput) {
+	async updatePersonalInfo(
+		userId: string,
+		data: UpdatePersonalInfoInput,
+	): Promise<UserWithSocialLinks> {
 		const { socialLinks, ...userPayload } = data;
 
 		const socialLinksPayload = socialLinks?.filter((socialLink) => !!socialLink.id) || [];

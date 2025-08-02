@@ -11,7 +11,7 @@ export const userRouter = new Hono().post(
 	async (c) => {
 		try {
 			const user = await usersHandler.updatePersonalInfo(c);
-			return c.json({ message: 'wow' });
+			return c.json(user);
 		} catch (error) {
 			console.log('error dog: ', error);
 			return c.json({ message: 'no bueno' });
