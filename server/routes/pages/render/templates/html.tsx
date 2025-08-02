@@ -1,7 +1,8 @@
 import type { PageScripts } from '$/build-utils/manifest';
 import { Layout } from '$/client/components/layout';
+import { ReactQueryProvider } from '$/client/providers/react-query-provider';
 import { RpcQueryProvider } from '$/client/providers/rpc-query-provider';
-import { CLIENT_DATA_NAME, PREFETCHED_STATE_NAME } from '$/shared/constants';
+import { PREFETCHED_STATE_NAME } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';
 import { QueryClient, dehydrate, type QueryKey } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
@@ -95,7 +96,9 @@ export function Html({
 			<body>
 				<div id='app'>
 					<RpcQueryProvider>
-						<Layout user={clientData?.user}>{children}</Layout>
+						<ReactQueryProvider>
+							<Layout user={clientData?.user}>{children}</Layout>
+						</ReactQueryProvider>
 					</RpcQueryProvider>
 				</div>
 				{/* {injectClientData()} */}
