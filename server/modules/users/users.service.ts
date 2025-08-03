@@ -49,10 +49,8 @@ class UsersService {
 			const updatedUser = await users.updateUser(userId, userPayload);
 
 			return {
-				user: {
-					...updatedUser,
-					socialLinks: updatedSocialLinks,
-				},
+				...updatedUser,
+				socialLinks: updatedSocialLinks,
 			};
 		});
 	}

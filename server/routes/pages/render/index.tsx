@@ -7,17 +7,17 @@ import { Html, type ServerPageProps } from './templates/html';
 import type { Context } from 'hono';
 import { usersHandler } from '../../../modules/users/users.handler';
 
-export type RenderServerPageProps = Pick<ServerPageProps, 'title' | 'clientData'> & {
+export type RenderServerPageProps = Pick<ServerPageProps, 'title' | 'prefetchedState'> & {
 	page: AppPage;
 };
 
 export function renderServerPage(component: ReactNode, serverPageProps: RenderServerPageProps) {
-	const { title, page, clientData } = serverPageProps;
+	const { title, page, prefetchedState } = serverPageProps;
 
 	const pageScripts = getPageScripts(page);
 
 	return renderToString(
-		<Html title={title} pageScripts={pageScripts} clientData={clientData}>
+		<Html title={title} pageScripts={pageScripts} prefetchedState={prefetchedState}>
 			{component}
 		</Html>,
 	);
@@ -42,8 +42,10 @@ export async function renderServerPageWithUser(
 	const user = await usersHandler.getCurrentUser(c);
 
 	if (user) {
-		serverPageProps.clientData = serverPageProps.clientData || {};
-		serverPageProps.clientData.user = user;
+		serverPageProps.prefetchedState = {
+			key: ['user'],
+			data: user,
+		};
 	}
 
 	return renderServerPage(component, serverPageProps);

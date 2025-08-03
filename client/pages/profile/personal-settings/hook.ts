@@ -14,7 +14,7 @@ export function usePersonalSettings() {
 		async onSuccess(response) {
 			if (response.ok) {
 				const user = (await response.json()) as any as UserWithSocialLinks;
-				queryClient.setQueryData(['user', user.id], user);
+				queryClient.setQueryData(['user'], user);
 			} else {
 				const errorText = await response.text();
 				throw new Error(errorText);

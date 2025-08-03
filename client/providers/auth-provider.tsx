@@ -1,15 +1,20 @@
 import type { AuthenticatedUser } from '$/shared/types/users';
+import { useQuery } from '@tanstack/react-query';
 import { createContext, useContext, type PropsWithChildren } from 'react';
 
 type AuthProviderValue = {
-	user?: AuthenticatedUser | null;
+	user?: AuthenticatedUser;
 };
 
 const AuthContext = createContext<AuthProviderValue | null>(null);
 
-export type AuthProviderProps = PropsWithChildren<AuthProviderValue>;
+export function AuthProvider({ children }: PropsWithChildren) {
+	const { data: user } = useQuery({
+		queryKey: ['user'],
+		queryFn: () => Promise.resolve({}) as Promise<AuthenticatedUser>, // this will either resolve with the SSR data or return undefined
+		enabled: false,
+	});
 
-export function AuthProvider({ user, children }: AuthProviderProps) {
 	return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 }
 

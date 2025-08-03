@@ -2,9 +2,6 @@ import { cn } from '$/client/lib/utils';
 import {
 	Children,
 	cloneElement,
-	createContext,
-	isValidElement,
-	useContext,
 	useState,
 	type HTMLProps,
 	type MouseEvent,
@@ -12,20 +9,7 @@ import {
 	type ReactElement,
 	type ReactNode,
 } from 'react';
-
-type DropdownMenuContextValue = {
-	open: boolean;
-	setOpen: (open: boolean) => void;
-};
-const DropdownMenuContext = createContext<DropdownMenuContextValue | null>(null);
-
-function useDropdownMenu() {
-	const context = useContext(DropdownMenuContext);
-	if (!context) {
-		throw new Error('useDropdownMenu must be used within a DropdownMenuProvider');
-	}
-	return context;
-}
+import { DropdownMenuContext, useDropdownMenu } from './context';
 
 function DropdownMenu({ children }: PropsWithChildren) {
 	const [open, setOpen] = useState(false);
@@ -44,26 +28,19 @@ function DropdownMenuTrigger({ children }: PropsWithChildren) {
 		setOpen(!open);
 	}
 
-	const modifiedChildren = Children.map(
+	return Children.map(
 		children as ReactElement<HTMLProps<Element>>,
-		(child: ReactElement<HTMLProps<Element>>) => {
-			// TODO: remove this check
-			if (isValidElement(child)) {
-				return cloneElement(child, {
-					className: `${child.props.className || ''} cursor-pointer`,
-					onClick: (event: MouseEvent) => {
-						toggleDropdownMenu();
-						if (child.props.onClick) {
-							child.props.onClick(event);
-						}
-					},
-				});
-			}
-			return child;
-		},
+		(child: ReactElement<HTMLProps<Element>>) =>
+			cloneElement(child, {
+				className: cn(child.props.className, 'cursor-pointer'),
+				onClick: (event: MouseEvent) => {
+					toggleDropdownMenu();
+					if (child.props.onClick) {
+						child.props.onClick(event);
+					}
+				},
+			}),
 	);
-
-	return modifiedChildren;
 }
 
 function DropdownMenuContent({ children }: PropsWithChildren) {
@@ -82,10 +59,10 @@ function DropdownMenuContent({ children }: PropsWithChildren) {
 	);
 }
 
-// TODO: move stuff to context
 type DropdownMenuItemProps = {
 	text: string;
 	image: string | ReactNode;
+	// supports either performing an action (e.g logout) or navigating to a page (e.g profile)
 	onClick?: () => void;
 	href?: string;
 };

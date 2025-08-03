@@ -1,16 +1,24 @@
 import { hydrateRoot } from 'react-dom/client';
 import { Layout } from '../components/layout';
-import { getPropertyFromClientData } from '../lib/window';
 import { AboutPage } from '../pages/about';
-import { type AuthenticatedUser } from '$/shared/types/users';
+import { AuthProvider } from '../providers/auth-provider';
+import { ReactQueryProvider } from '../providers/react-query-provider';
+import { RpcQueryProvider } from '../providers/rpc-query-provider';
+import { getWindow } from '../lib/window';
 
 import '../index.css';
 
-const user = getPropertyFromClientData<AuthenticatedUser>('user');
+const dehydratedState = getWindow().__PREFETCHED_STATE__;
 
 hydrateRoot(
 	document.getElementById('app')!,
-	<Layout user={user}>
-		<AboutPage />
-	</Layout>,
+	<RpcQueryProvider>
+		<ReactQueryProvider dehydratedState={dehydratedState}>
+			<AuthProvider>
+				<Layout>
+					<AboutPage />
+				</Layout>
+			</AuthProvider>
+		</ReactQueryProvider>
+	</RpcQueryProvider>,
 );
