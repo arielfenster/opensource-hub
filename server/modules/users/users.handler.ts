@@ -38,7 +38,8 @@ class UsersHandler {
 		const user = await this.validateUpdatePersonalInfoRequest(c);
 		const payload = c.req.valid('json');
 
-		return usersService.updatePersonalInfo(user.id, payload);
+		const updatedUser = await usersService.updatePersonalInfo(user.id, payload);
+		return this.stripPrivateData(updatedUser);
 	}
 
 	private async validateUpdatePersonalInfoRequest(c: UpdatePersonalInfoContext) {

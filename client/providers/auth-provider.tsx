@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { createContext, useContext, type PropsWithChildren } from 'react';
 
 type AuthProviderValue = {
-	user?: AuthenticatedUser | null;
+	user?: AuthenticatedUser;
 };
 
 const AuthContext = createContext<AuthProviderValue | null>(null);
