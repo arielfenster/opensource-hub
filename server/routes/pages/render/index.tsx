@@ -7,26 +7,17 @@ import { Html, type ServerPageProps } from './templates/html';
 import type { Context } from 'hono';
 import { usersHandler } from '../../../modules/users/users.handler';
 
-export type RenderServerPageProps = Pick<
-	ServerPageProps,
-	'title' | 'clientData' | 'prefetchedState'
-> & {
+export type RenderServerPageProps = Pick<ServerPageProps, 'title' | 'prefetchedState'> & {
 	page: AppPage;
 };
 
-// TODO: remove/comment clientData
 export function renderServerPage(component: ReactNode, serverPageProps: RenderServerPageProps) {
-	const { title, page, clientData, prefetchedState } = serverPageProps;
+	const { title, page, prefetchedState } = serverPageProps;
 
 	const pageScripts = getPageScripts(page);
 
 	return renderToString(
-		<Html
-			title={title}
-			pageScripts={pageScripts}
-			clientData={clientData}
-			prefetchedState={prefetchedState}
-		>
+		<Html title={title} pageScripts={pageScripts} prefetchedState={prefetchedState}>
 			{component}
 		</Html>,
 	);

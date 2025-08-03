@@ -9,10 +9,10 @@ export function getWindow() {
 	return window as any as AppWindow;
 }
 
-export function getPropertyFromClientData<T = string>(key: string): T | null {
-	const { __CLIENT_DATA__ } = getWindow();
-	return __CLIENT_DATA__?.[key] || null;
-}
+// export function getPropertyFromClientData<T = string>(key: string): T | null {
+// 	const { __CLIENT_DATA__ } = getWindow();
+// 	return __CLIENT_DATA__?.[key] || null;
+// }
 
 export function isServerSide() {
 	return typeof window === 'undefined';
