@@ -1,6 +1,5 @@
 import { Tabs } from '$/client/components/ui/tabs';
 import { useAuth } from '$/client/providers/auth-provider';
-import { RpcQueryProvider } from '$/client/providers/rpc-query-provider';
 import { BellIcon, LockIcon, ShieldIcon, User2 } from 'lucide-react';
 import { PersonalSettingsContainer } from './personal-settings';
 
@@ -17,8 +16,7 @@ export function ProfilePage() {
 	const user = useAuth().user!;
 
 	return (
-		<RpcQueryProvider>
-			<div className='flex flex-col gap-8 px-4 py-8'>
+		<div className='flex flex-col gap-8 px-4 py-8'>
 			<h1 className='text-royal-blue text-4xl font-semibold'>Profile Settings</h1>
 			<div className='flex gap-8'>
 				<Tabs defaultTab={TabsType.PERSONAL}>
@@ -52,6 +50,5 @@ export function ProfilePage() {
 				</Tabs>
 			</div>
 		</div>
-		</RpcQueryProvider>
 	);
 }
