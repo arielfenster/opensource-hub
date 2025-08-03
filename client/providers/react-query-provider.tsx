@@ -8,12 +8,13 @@ import { useState, type PropsWithChildren } from 'react';
 import { isServerSide } from '../lib/window';
 
 type Props = PropsWithChildren<{
+	client?: QueryClient;
 	dehydratedState?: DehydratedState;
 }>;
 
-export function ReactQueryProvider({ dehydratedState, children }: Props) {
+export function ReactQueryProvider({ client, dehydratedState, children }: Props) {
 	const [queryClient] = useState(
-		() =>
+		client ??
 			new QueryClient({
 				// defaultOptions: {
 				// 	hydrate: {

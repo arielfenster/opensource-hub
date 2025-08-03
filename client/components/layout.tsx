@@ -1,15 +1,13 @@
-import { AuthProvider, type AuthProviderProps } from '../providers/auth-provider';
+import type { PropsWithChildren } from 'react';
 import { Footer } from './footer';
 import { Header } from './header';
 
-export function Layout({ user, children }: AuthProviderProps) {
+export function Layout({ children }: PropsWithChildren) {
 	return (
-		<AuthProvider user={user}>
-			<div className='bg-ghost-white flex min-h-full flex-col'>
-				<Header />
-				<main className='w-[85%] mx-auto mb-12 flex-1'>{children}</main>
-				<Footer />
-			</div>
-		</AuthProvider>
+		<div className='bg-ghost-white flex min-h-full flex-col'>
+			<Header />
+			<main className='mx-auto mb-12 w-[85%] flex-1'>{children}</main>
+			<Footer />
+		</div>
 	);
 }

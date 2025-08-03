@@ -1,10 +1,11 @@
 import type { PageScripts } from '$/build-utils/manifest';
 import { Layout } from '$/client/components/layout';
+import { AuthProvider } from '$/client/providers/auth-provider';
 import { ReactQueryProvider } from '$/client/providers/react-query-provider';
 import { RpcQueryProvider } from '$/client/providers/rpc-query-provider';
 import { PREFETCHED_STATE_NAME } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';
-import { QueryClient, dehydrate, type QueryKey } from '@tanstack/react-query';
+import { QueryClient, dehydrate, type QueryKey, type DehydratedState } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
 
 export type ServerPageProps = PropsWithChildren<{
@@ -20,7 +21,7 @@ export type ServerPageProps = PropsWithChildren<{
 export function Html({
 	title,
 	pageScripts,
-	clientData,
+	// clientData,
 	prefetchedState,
 	children,
 }: ServerPageProps) {
@@ -63,7 +64,7 @@ export function Html({
 	// 	);
 	// }
 
-	function injectPrefetchedState() {
+	function createServerQueryContext() {
 		if (!prefetchedState) {
 			return null;
 		}
@@ -71,6 +72,17 @@ export function Html({
 		const queryClient = new QueryClient();
 		queryClient.setQueryData(prefetchedState.key, prefetchedState.data);
 		const dehydratedState = dehydrate(queryClient);
+
+		return {
+			queryClient,
+			dehydratedState,
+		};
+	}
+
+	function injectPrefetchedState(dehydratedState?: DehydratedState) {
+		if (!dehydratedState) {
+			return null;
+		}
 
 		return (
 			<script
@@ -82,6 +94,8 @@ export function Html({
 	}
 
 	const pageTitle = `Opensource Hub | ${title}`;
+
+	const serverQueryContext = createServerQueryContext();
 
 	return (
 		<html lang='en'>
@@ -96,13 +110,15 @@ export function Html({
 			<body>
 				<div id='app'>
 					<RpcQueryProvider>
-						<ReactQueryProvider>
-							<Layout user={clientData?.user}>{children}</Layout>
+						<ReactQueryProvider client={serverQueryContext?.queryClient}>
+							<AuthProvider>
+								<Layout>{children}</Layout>
+							</AuthProvider>
 						</ReactQueryProvider>
 					</RpcQueryProvider>
 				</div>
 				{/* {injectClientData()} */}
-				{injectPrefetchedState()}
+				{injectPrefetchedState(serverQueryContext?.dehydratedState)}
 				{!IS_PROD && <script type='module' src={pageScripts.js[0]}></script>}
 			</body>
 		</html>
