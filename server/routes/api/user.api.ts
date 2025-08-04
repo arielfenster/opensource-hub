@@ -15,8 +15,8 @@ export const userRouter = new Hono()
 				const user = await usersHandler.updatePersonalInfo(c);
 				return c.json(user);
 			} catch (error) {
-				console.log('error dog: ', error);
-				return c.json({ message: 'no bueno' });
+				console.error('Error updating personal info:', error);
+				throw error;
 			}
 		},
 	)
@@ -29,8 +29,8 @@ export const userRouter = new Hono()
 				const user = await usersHandler.updateSecurityInfo(c);
 				return c.json(user);
 			} catch (error) {
-				console.log('error dog: ', error);
-				return c.json({ message: 'no bueno' });
+				console.error('Error updating security info:', error);
+				throw error;
 			}
 		},
 	);
