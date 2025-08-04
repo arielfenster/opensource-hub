@@ -1,4 +1,4 @@
-import { setCookie } from 'hono/cookie';
+import { deleteCookie, setCookie } from 'hono/cookie';
 import { sessionService } from '../session/session.service';
 import { usersService } from '../users/users.service';
 import { passwordService } from './password.service';
@@ -39,6 +39,10 @@ class LoginHandler {
 		}
 
 		return user;
+	}
+
+	async logoutUser(c: Context) {
+		deleteCookie(c, SESSION_COOKIE_NAME);
 	}
 }
 

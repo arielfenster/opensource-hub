@@ -25,6 +25,15 @@ export const authRouter = new Hono()
 			throw new HTTPException(400, { message: 'Incorrect email or password' });
 		}
 	})
+	.post('/logout', loggedInMiddleware, async (c) => {
+		try {
+			await loginHandler.logoutUser(c);
+			return c.redirect('/');
+		} catch (error) {
+			console.error('Logout error: ', error);
+			throw new HTTPException(500, { message: 'Internal server error' });
+		}
+	})
 	.post('/profile', loggedInMiddleware, async (c) => {
 		try {
 			const user = await usersHandler.getSafeCurrentUser(c);

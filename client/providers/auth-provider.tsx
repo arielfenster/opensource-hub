@@ -1,21 +1,44 @@
 import type { AuthenticatedUser } from '$/shared/types/users';
-import { useQuery } from '@tanstack/react-query';
-import { createContext, useContext, type PropsWithChildren } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { createContext, useContext, type PropsWithChildren, useCallback, useMemo } from 'react';
+import { useRpcQueryClient } from './rpc-query-provider';
 
 type AuthProviderValue = {
 	user?: AuthenticatedUser;
+	logout: () => void;
 };
 
 const AuthContext = createContext<AuthProviderValue | null>(null);
 
 export function AuthProvider({ children }: PropsWithChildren) {
+	const rpcQueryClient = useRpcQueryClient();
+
 	const { data: user } = useQuery({
 		queryKey: ['user'],
 		queryFn: () => Promise.resolve({}) as Promise<AuthenticatedUser>, // this will either resolve with the SSR data or return undefined
 		enabled: false,
 	});
 
-	return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+	const logoutMutation = useMemo(
+		() =>
+			useMutation({
+				mutationKey: ['logout'],
+				mutationFn: () => rpcQueryClient.auth.logout.$post(),
+				async onSuccess(response) {
+					if (response.redirected) {
+						window.location.href = response.url;
+					} else {
+						const data = await response.text();
+						throw new Error(data);
+					}
+				},
+			}),
+		[rpcQueryClient],
+	);
+
+	const logout = useCallback(() => logoutMutation.mutate(), [logoutMutation]);
+
+	return <AuthContext.Provider value={{ user, logout }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
