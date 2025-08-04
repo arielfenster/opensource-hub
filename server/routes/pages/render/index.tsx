@@ -39,7 +39,7 @@ export async function renderServerPageWithUser(
 	...args: Parameters<typeof renderServerPage>
 ) {
 	const [component, serverPageProps] = args;
-	const user = await usersHandler.getCurrentUser(c);
+	const user = await usersHandler.getSafeCurrentUser(c);
 
 	if (user) {
 		serverPageProps.prefetchedState = {

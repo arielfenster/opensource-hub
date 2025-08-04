@@ -14,7 +14,7 @@ type UpdatePersonalInfoContext = Context<{}, any, { out: { json: UpdatePersonalI
 type UpdateSecurityInfoContext = Context<{}, any, { out: { json: UpdateSecurityInfoInput } }>;
 
 class UsersHandler {
-	async getCurrentUser(c: Context): Promise<AuthenticatedUser | null> {
+	async getCurrentUser(c: Context): Promise<User | null> {
 		const sessionCookie = getSessionCookie(c);
 		if (!sessionCookie) {
 			return null;
@@ -25,12 +25,16 @@ class UsersHandler {
 			return null;
 		}
 
-		const user = await usersService.findUserWithSocialLinks({ id: session.userId });
+		return usersService.findUserWithSocialLinks({ id: session.userId });
+	}
+
+	async getSafeCurrentUser(c: Context): Promise<AuthenticatedUser | null> {
+		const user = await this.getCurrentUser(c);
 		if (!user) {
 			return null;
 		}
 
-		return this.stripPrivateData(user);
+		return this.stripPrivateData(user) as AuthenticatedUser;
 	}
 
 	private stripPrivateData<TUser extends User>(user: TUser) {
@@ -48,10 +52,10 @@ class UsersHandler {
 
 	private async validateUpdatePersonalInfoRequest(c: UpdatePersonalInfoContext) {
 		const user = (await this.getCurrentUser(c))!;
-
 		const { email: inputEmail } = c.req.valid('json');
 
 		const userWithEmail = await usersService.findUser({ email: inputEmail });
+
 		if (userWithEmail && userWithEmail.id !== user.id) {
 			throw new HTTPException(409, { message: 'Email already exists' });
 		}

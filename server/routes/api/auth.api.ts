@@ -27,7 +27,7 @@ export const authRouter = new Hono()
 	})
 	.post('/profile', loggedInMiddleware, async (c) => {
 		try {
-			const user = await usersHandler.getCurrentUser(c);
+			const user = await usersHandler.getSafeCurrentUser(c);
 			return c.json(user);
 		} catch (error) {
 			throw new HTTPException(500, { message: 'Internal server error' });
