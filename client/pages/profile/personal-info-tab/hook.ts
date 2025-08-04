@@ -3,12 +3,12 @@ import type { UserWithSocialLinks } from '$/server/modules/users/types';
 import type { UpdatePersonalInfoInput } from '$/shared/schemas/user/update-personal-info.schema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export function usePersonalSettings() {
+export function usePersonalInfo() {
 	const rpcClient = useRpcQueryClient();
 	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
-		mutationKey: ['update-personal-settings'],
+		mutationKey: ['update-personal-info'],
 		mutationFn: async (data: UpdatePersonalInfoInput) =>
 			rpcClient.user['update-personal'].$post({ json: data }),
 		async onSuccess(response) {
@@ -23,7 +23,7 @@ export function usePersonalSettings() {
 	});
 
 	return {
-		updatePersonalSettings: mutation.mutate,
+		updatePersonalInfo: mutation.mutate,
 		loading: mutation.isPending,
 		error: mutation.error?.message,
 		success: mutation.isSuccess,

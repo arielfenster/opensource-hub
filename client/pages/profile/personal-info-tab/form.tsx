@@ -16,7 +16,7 @@ type Props = {
 	loading?: boolean;
 };
 
-export function PersonalSettingsForm({ user, onSubmit, loading }: Props) {
+export function PersonalInfoForm({ user, onSubmit, loading }: Props) {
 	const {
 		register,
 		handleSubmit,
