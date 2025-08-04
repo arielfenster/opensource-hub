@@ -1,11 +1,11 @@
+import { getScriptsFromManifest, type PageScripts } from '$/build-utils/manifest';
+import { buildEntryInputName, type AppPage } from '$/build-utils/paths';
+import { IS_PROD } from '$/shared/env';
+import type { Context } from 'hono';
 import type { ReactNode } from 'react';
 import { renderToString } from 'react-dom/server';
-import { getScriptsFromManifest, type PageScripts } from '../../../../build-utils/manifest';
-import { buildEntryInputName, type AppPage } from '../../../../build-utils/paths';
-import { IS_PROD } from '../../../../shared/env';
-import { Html, type ServerPageProps } from './templates/html';
-import type { Context } from 'hono';
 import { usersHandler } from '../../../modules/users/users.handler';
+import { Html, type ServerPageProps } from './templates/html';
 
 export type RenderServerPageProps = Pick<ServerPageProps, 'title' | 'prefetchedState'> & {
 	page: AppPage;

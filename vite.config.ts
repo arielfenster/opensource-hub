@@ -26,6 +26,7 @@ export default defineConfig({
 			'$/server': resolve(__dirname, './server'),
 			'$/client': resolve(__dirname, './client'),
 			'$/shared': resolve(__dirname, './shared'),
+			'$/build-utils': resolve(__dirname, './build-utils'),
 		},
 	},
 	build: {
