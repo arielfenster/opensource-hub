@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { DropdownMenu } from './ui/dropdown-menu';
 
 export function Header() {
-	const { user } = useAuth();
+	const { user, logout } = useAuth();
 
 	return (
 		<header className='bg-royal-blue text-ghost-white w-full'>
@@ -35,7 +35,7 @@ export function Header() {
 								<DropdownMenu.Item
 									text='Logout'
 									image={<LogOutIcon />}
-									onClick={console.log}
+									onClick={logout}
 								/>
 							</DropdownMenu.Content>
 						</DropdownMenu>

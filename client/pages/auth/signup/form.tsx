@@ -1,3 +1,4 @@
+import { PasswordField } from '$/client/components/form/password-field';
 import { TextField } from '$/client/components/form/textfield';
 import { Button } from '$/client/components/ui/button';
 import { signupSchema, type SignupInput } from '$/shared/schemas/auth/signup.schema';
@@ -45,14 +46,7 @@ export function SignupForm({ onSubmit, loading, error }: Props) {
 				{...register('email')}
 			/>
 
-			<TextField
-				label='Password'
-				type='password'
-				error={errors.password?.message}
-				required
-				placeholder='Enter your password'
-				{...register('password')}
-			/>
+			<PasswordField error={errors.password?.message} required {...register('password')} />
 
 			{/* <div className='my-2'>
 				<label
