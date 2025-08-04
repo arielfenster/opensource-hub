@@ -1,4 +1,4 @@
-export const PAGES = ['home', 'about', 'auth/login', 'auth/signup', 'profile'] as const;
+export const PAGES = ['home', 'about', 'auth/login', 'auth/signup', 'profile', 'projects'] as const;
 export type AppPage = (typeof PAGES)[number];
 
 const ENTRY_INPUT_NAME_PREFIX = 'client/roots';
