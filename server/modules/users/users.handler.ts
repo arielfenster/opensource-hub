@@ -1,13 +1,17 @@
 import { getSessionCookie } from '$/server/lib/auth';
-import type { Context } from 'hono';
-import { usersService } from './users.service';
-import { sessionService } from '../session/session.service';
-import type { AuthenticatedUser } from '$/shared/types/users';
 import type { UpdatePersonalInfoInput } from '$/shared/schemas/user/update-personal-info.schema';
+import type { UpdateSecurityInfoInput } from '$/shared/schemas/user/update-security-info.schema';
+import type { AuthenticatedUser } from '$/shared/types/users';
+import type { Context } from 'hono';
 import { HTTPException } from 'hono/http-exception';
-import type { UserWithSocialLinks } from './types';
+import { sessionService } from '../session/session.service';
+import { usersService } from './users.service';
+import type { User } from '$/server/database/schemas';
+import { passwordService } from '../auth/password.service';
 
 type UpdatePersonalInfoContext = Context<{}, any, { out: { json: UpdatePersonalInfoInput } }>;
+
+type UpdateSecurityInfoContext = Context<{}, any, { out: { json: UpdateSecurityInfoInput } }>;
 
 class UsersHandler {
 	async getCurrentUser(c: Context): Promise<AuthenticatedUser | null> {
@@ -29,7 +33,7 @@ class UsersHandler {
 		return this.stripPrivateData(user);
 	}
 
-	private stripPrivateData(user: UserWithSocialLinks) {
+	private stripPrivateData<TUser extends User>(user: TUser) {
 		const { password, role, ...rest } = user;
 		return rest;
 	}
@@ -50,6 +54,30 @@ class UsersHandler {
 		const userWithEmail = await usersService.findUser({ email: inputEmail });
 		if (userWithEmail && userWithEmail.id !== user.id) {
 			throw new HTTPException(409, { message: 'Email already exists' });
+		}
+
+		return user;
+	}
+
+	async updateSecurityInfo(c: UpdateSecurityInfoContext) {
+		const user = await this.validateUpdateSecurityInfoRequest(c);
+		const payload = c.req.valid('json');
+
+		const updatedUser = await usersService.updateSecurityInfo(user.id, payload);
+		return this.stripPrivateData(updatedUser);
+	}
+
+	private async validateUpdateSecurityInfoRequest(c: UpdateSecurityInfoContext) {
+		const user = (await this.getCurrentUser(c))!;
+		const { password } = c.req.valid('json');
+
+		const isCurrentPasswordCorrect = await passwordService.comparePasswords(
+			password,
+			user.password,
+		);
+
+		if (!isCurrentPasswordCorrect) {
+			throw new HTTPException(400, { message: 'Current password is incorrect' });
 		}
 
 		return user;

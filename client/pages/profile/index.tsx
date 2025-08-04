@@ -2,6 +2,7 @@ import { Tabs } from '$/client/components/ui/tabs';
 import { useAuth } from '$/client/providers/auth-provider';
 import { BellIcon, LockIcon, ShieldIcon, User2 } from 'lucide-react';
 import { PersonalInfoTab } from './personal-info-tab';
+import { SecurityInfoTab } from './security-info-tab';
 
 const TabsType = {
 	PERSONAL: 'personal',
@@ -45,7 +46,9 @@ export function ProfilePage() {
 						<Tabs.Content name={TabsType.PERSONAL}>
 							<PersonalInfoTab user={user} />
 						</Tabs.Content>
-						<Tabs.Content name={TabsType.SECURITY}>im security info</Tabs.Content>
+						<Tabs.Content name={TabsType.SECURITY}>
+							<SecurityInfoTab />
+						</Tabs.Content>
 					</Tabs.ContentContainer>
 				</Tabs>
 			</div>

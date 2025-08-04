@@ -1,5 +1,7 @@
 import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
 import type { UpdatePersonalInfoInput } from '$/shared/schemas/user/update-personal-info.schema';
+import type { UpdateSecurityInfoInput } from '$/shared/schemas/user/update-security-info.schema';
+import { passwordService } from '../auth/password.service';
 import { executeDataOperation } from '../dal/data-executor';
 import { socialLinksDataAccessor } from '../social-links/social-links.data-accessor';
 import type { FindUserParams, FindUserUniqueIdentifier, UserWithSocialLinks } from './types';
@@ -53,6 +55,12 @@ class UsersService {
 				socialLinks: updatedSocialLinks,
 			};
 		});
+	}
+
+	async updateSecurityInfo(userId: string, data: Pick<UpdateSecurityInfoInput, 'password'>) {
+		const hashedPassword = await passwordService.hashPassword(data.password);
+
+		return usersDataAccessor.updateUser(userId, { password: hashedPassword });
 	}
 }
 
