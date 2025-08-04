@@ -1,8 +1,6 @@
 import type { PageScripts } from '$/build-utils/manifest';
 import { Layout } from '$/client/components/layout';
-import { AuthProvider } from '$/client/providers/auth-provider';
-import { ReactQueryProvider } from '$/client/providers/react-query-provider';
-import { RpcQueryProvider } from '$/client/providers/rpc-query-provider';
+import { AppProviders } from '$/client/providers/app-providers';
 import { PREFETCHED_STATE_NAME } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';
 import { QueryClient, dehydrate, type DehydratedState, type QueryKey } from '@tanstack/react-query';
@@ -51,13 +49,9 @@ export function Body({ pageScripts, prefetchedState, children }: BodyProps) {
 	return (
 		<body>
 			<div id='app'>
-				<RpcQueryProvider>
-					<ReactQueryProvider client={serverQueryContext?.queryClient}>
-						<AuthProvider>
-							<Layout>{children}</Layout>
-						</AuthProvider>
-					</ReactQueryProvider>
-				</RpcQueryProvider>
+				<AppProviders client={serverQueryContext?.queryClient}>
+					<Layout>{children}</Layout>
+				</AppProviders>
 			</div>
 			{injectPrefetchedState(serverQueryContext?.dehydratedState)}
 			{!IS_PROD && <script type='module' src={pageScripts.js[0]}></script>}
