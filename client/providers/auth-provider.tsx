@@ -1,6 +1,6 @@
 import type { AuthenticatedUser } from '$/shared/types/users';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { createContext, useContext, type PropsWithChildren, useCallback, useMemo } from 'react';
+import { createContext, useCallback, useContext, type PropsWithChildren } from 'react';
 import { useRpcQueryClient } from './rpc-query-provider';
 
 type AuthProviderValue = {
@@ -19,22 +19,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
 		enabled: false,
 	});
 
-	const logoutMutation = useMemo(
-		() =>
-			useMutation({
-				mutationKey: ['logout'],
-				mutationFn: () => rpcQueryClient.auth.logout.$post(),
-				async onSuccess(response) {
-					if (response.redirected) {
-						window.location.href = response.url;
-					} else {
-						const data = await response.text();
-						throw new Error(data);
-					}
-				},
-			}),
-		[rpcQueryClient],
-	);
+	const logoutMutation = useMutation({
+		mutationKey: ['logout'],
+		mutationFn: () => rpcQueryClient.auth.logout.$post(),
+		async onSuccess(response) {
+			if (response.redirected) {
+				window.location.href = response.url;
+			} else {
+				const data = await response.text();
+				throw new Error(data);
+			}
+		},
+	});
 
 	const logout = useCallback(() => logoutMutation.mutate(), [logoutMutation]);
 
