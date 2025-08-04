@@ -1,3 +1,4 @@
+import { PasswordField } from '$/client/components/form/password-field';
 import { TextField } from '$/client/components/form/textfield';
 import { Button } from '$/client/components/ui/button';
 import { loginSchema, type LoginInput } from '$/shared/schemas/auth/login.schema';
@@ -28,14 +29,7 @@ export function LoginForm({ onSubmit, error, loading }: Props) {
 				placeholder='Enter your email'
 				{...register('email')}
 			/>
-			<TextField
-				label='Password'
-				type='password'
-				error={errors.password?.message}
-				required
-				placeholder='Enter your password'
-				{...register('password')}
-			/>
+			<PasswordField error={errors.password?.message} required {...register('password')} />
 
 			{error && <span>Login error: {error}</span>}
 
