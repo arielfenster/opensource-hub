@@ -18,9 +18,9 @@ export default defineConfig({
 			adapter: bunAdapter,
 		}),
 	],
-	// ssr: {
-	// 	external: ['react', 'react-dom', 'react-dom/client', 'hono'],
-	// },
+	ssr: {
+		external: ['react', 'react-dom/client'],
+	},
 	resolve: {
 		alias: {
 			'$/server': resolve(__dirname, './server'),
@@ -41,18 +41,9 @@ export default defineConfig({
 				chunkFileNames: '[name]-[hash].js',
 				format: 'es',
 				extend: true,
-				globals: {
-					react: 'React',
-					'react-dom': 'ReactDOM',
-					'react-dom/client': 'ReactDOM',
-				},
 				inlineDynamicImports: false,
 			},
-			jsx: {
-				preset: 'react-jsx',
-				jsxImportSource: 'react',
-			},
-			external: ['react', 'react-dom', 'react-dom/client'],
+			external: ['react', 'react-dom/client'],
 		},
 	},
 });
