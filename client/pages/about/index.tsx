@@ -1,3 +1,5 @@
+import { ExpensiveComponent, Test } from './test';
+
 export function AboutPage() {
 	return (
 		<div className='flex flex-col gap-8 px-4 py-8'>
@@ -30,6 +32,9 @@ export function AboutPage() {
 					community. Join us and start sharing your projects today!
 				</p>
 			</div>
+			<Test>
+				<ExpensiveComponent />
+			</Test>
 		</div>
 	);
 }
