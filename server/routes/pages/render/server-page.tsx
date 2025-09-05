@@ -1,9 +1,9 @@
-import { Body, type BodyProps } from './body';
-import { Head, type HeadProps } from './head';
+import { Body, type BodyProps } from './templates/body';
+import { Head, type HeadProps } from './templates/head';
 
 export type ServerPageProps = HeadProps & BodyProps;
 
-export function Html({ title, pageScripts, prefetchedState, children }: ServerPageProps) {
+export function ServerPage({ title, pageScripts, prefetchedState, children }: ServerPageProps) {
 	return (
 		<html lang='en'>
 			<Head pageScripts={pageScripts} title={title} />

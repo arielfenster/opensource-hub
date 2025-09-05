@@ -5,7 +5,7 @@ import type { Context } from 'hono';
 import type { ReactNode } from 'react';
 import { renderToString } from 'react-dom/server';
 import { usersHandler } from '../../../modules/users/users.handler';
-import { Html, type ServerPageProps } from './templates/html';
+import { ServerPage, type ServerPageProps } from './server-page';
 
 export type RenderServerPageProps = Pick<ServerPageProps, 'title' | 'prefetchedState'> & {
 	page: AppPage;
@@ -17,9 +17,9 @@ export function renderServerPage(component: ReactNode, serverPageProps: RenderSe
 	const pageScripts = getPageScripts(page);
 
 	return renderToString(
-		<Html title={title} pageScripts={pageScripts} prefetchedState={prefetchedState}>
+		<ServerPage title={title} pageScripts={pageScripts} prefetchedState={prefetchedState}>
 			{component}
-		</Html>,
+		</ServerPage>,
 	);
 }
 
