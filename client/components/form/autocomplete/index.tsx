@@ -5,7 +5,7 @@ import { type Option, type RenderOptionFn } from './types';
 
 import './index.css';
 
-type Props = InputProps & {
+type Props = Omit<InputProps, 'onSelect'> & {
 	options: Option[];
 	onSelect: (option: Option) => void;
 	renderOption?: RenderOptionFn;
@@ -42,13 +42,13 @@ export function AutoComplete({
 				onKeyDown={handleKeyDown}
 			/>
 			{showDropdown && (
-				<div className='absolute z-10 flex w-full flex-col gap-1 bg-white shadow-2xl'>
+				<div className='absolute z-10 flex max-h-[20rem] w-full flex-col gap-1 overflow-y-scroll bg-white shadow-2xl'>
 					{filteredOptions.length > 0 ? (
 						filteredOptions.map((option, index) => (
 							<div
 								key={option}
 								className={cn(
-									'cursor-pointer rounded px-4 py-1 hover:bg-gray-100',
+									'cursor-pointer items-center rounded px-4 py-1 hover:bg-gray-100',
 									index === selectedOptionIndex && 'bg-gray-200',
 								)}
 								onClick={() => handleSelect(option)}

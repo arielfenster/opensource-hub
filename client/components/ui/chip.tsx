@@ -12,7 +12,7 @@ export function Chip({ color, outlined = false, removable = false, onClick, chil
 	return (
 		<div
 			className={cn(
-				'my-auto rounded-2xl px-2 font-semibold',
+				'flex gap-1 rounded-2xl px-3 py-1 font-semibold',
 				color,
 				outlined && 'border border-solid border-black',
 			)}
