@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type ChangeEvent, useCallback } from 'react';
-import type { Option } from './types';
+import type { Option, OptionData } from './types';
 
 const Keys = {
 	ARROW_UP: 'ArrowUp',
@@ -10,13 +10,13 @@ const Keys = {
 
 const UNINITIALIZED_OPTION_INDEX = -1;
 
-type Props = {
-	options: Option[];
-	onSelect: (option: Option) => void;
+type Props<TData extends OptionData> = {
+	options: Option<TData>[];
+	onSelect: (option: Option<TData>) => void;
 };
 
-export function useAutocomplete({ options, onSelect }: Props) {
-	const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
+export function useAutoComplete<TData extends OptionData>({ options, onSelect }: Props<TData>) {
+	const [filteredOptions, setFilteredOptions] = useState<Option<TData>[]>(options);
 	const [showDropdown, setShowDropdown] = useState(false);
 	const [selectedOptionIndex, setSelectedOptionIndex] = useState(UNINITIALIZED_OPTION_INDEX);
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -38,13 +38,15 @@ export function useAutocomplete({ options, onSelect }: Props) {
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>) {
 		const lowercasedInput = event.target.value.toLowerCase();
-		const filtered = options.filter((option) => option.toLowerCase().includes(lowercasedInput));
+		const filtered = options.filter((option) =>
+			option.value.toLowerCase().includes(lowercasedInput),
+		);
 
 		setFilteredOptions(filtered);
 		setShowDropdown(true);
 	}
 
-	const handleSelect = useCallback((option: Option) => {
+	const handleSelect = useCallback((option: Option<TData>) => {
 		onSelect(option);
 		setShowDropdown(false);
 		setFilteredOptions(options);

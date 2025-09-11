@@ -1,23 +1,22 @@
 import { cn } from '$/client/lib/utils';
 import { Input, type InputProps } from '../input';
-import { useAutocomplete } from './hook';
-import { type Option, type RenderOptionFn } from './types';
+import { useAutoComplete } from './hook';
+import type { Option, OptionData, RenderOptionFn } from './types';
 
 import './index.css';
 
-type Props = Omit<InputProps, 'onSelect'> & {
-	options: Option[];
-	onSelect: (option: Option) => void;
-	renderOption?: RenderOptionFn;
+type Props<TData extends OptionData = OptionData> = Omit<InputProps, 'onSelect'> & {
+	options: Option<TData>[];
+	onSelect: (option: Option<TData>) => void;
+	renderOption?: RenderOptionFn<TData>;
 };
 
-export function AutoComplete({
+export function AutoComplete<TData extends OptionData = OptionData>({
 	options,
-	name,
 	onSelect,
-	renderOption = (option) => <span>{option}</span>,
+	renderOption = (option) => <span>{option.value}</span>,
 	...rest
-}: Props) {
+}: Props<TData>) {
 	const {
 		filteredOptions,
 		showDropdown,
@@ -27,14 +26,12 @@ export function AutoComplete({
 		handleChange,
 		handleSelect,
 		handleKeyDown,
-	} = useAutocomplete({ options, onSelect });
+	} = useAutoComplete({ options, onSelect });
 
 	return (
 		<div className='relative' ref={dropdownRef}>
 			<Input
 				{...rest}
-				name={name}
-				list={name}
 				ref={inputRef}
 				type='search'
 				id={undefined}
@@ -46,7 +43,7 @@ export function AutoComplete({
 					{filteredOptions.length > 0 ? (
 						filteredOptions.map((option, index) => (
 							<div
-								key={option}
+								key={option.value}
 								className={cn(
 									'cursor-pointer items-center rounded px-4 py-1 hover:bg-gray-100',
 									index === selectedOptionIndex && 'bg-gray-200',
