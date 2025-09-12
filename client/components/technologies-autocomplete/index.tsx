@@ -17,10 +17,14 @@ export function TechnologiesAutocomplete({ data }: Props) {
 
 	const technologyOptions = useMemo(() => convertTechnologiesDataToOptionsArray(data), [data]);
 
+	function renderEmptyState() {
+		return <div className='h-12 rounded px-4 py-2 text-lg'>my custom empty state</div>;
+	}
+
 	function renderOption(option: TechnologyOption) {
 		return (
 			<div className='flex cursor-pointer justify-between p-2'>
-				<span className='text-md'>{option.value}</span>
+				<span className='text-lg'>{option.value}</span>
 				<div
 					className={cn(
 						'flex gap-2 rounded-md border bg-gray-100 p-1',
@@ -58,6 +62,7 @@ export function TechnologiesAutocomplete({ data }: Props) {
 				startIcon={<SearchIcon className='text-gray-300' />}
 				placeholder='Search projects by tech stack - start typing to see the available options'
 				autoFocus
+				renderEmptyState={renderEmptyState}
 			/>
 			{selectedTechnologies.length > 0 && (
 				<div className='flex flex-wrap gap-3'>
