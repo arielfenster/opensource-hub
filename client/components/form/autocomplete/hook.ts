@@ -48,13 +48,19 @@ export function useAutoComplete<TData extends OptionData>({ options, onSelect }:
 
 	const handleSelect = useCallback((option: Option<TData>) => {
 		onSelect(option);
-		setShowDropdown(false);
 		setFilteredOptions(options);
+		resetState();
+	}, []);
+
+	const resetState = useCallback(() => {
+		setShowDropdown(false);
+		setSelectedOptionIndex(UNINITIALIZED_OPTION_INDEX);
 		inputRef.current!.value = '';
+		inputRef.current!.focus();
 	}, []);
 
 	function handleKeyDown(event: React.KeyboardEvent) {
-		if (!showDropdown) {
+		if (!showDropdown || filteredOptions.length === 0) {
 			return;
 		}
 
@@ -75,8 +81,7 @@ export function useAutoComplete<TData extends OptionData>({ options, onSelect }:
 				break;
 			}
 			case Keys.ESCAPE: {
-				setShowDropdown(false);
-				setSelectedOptionIndex(UNINITIALIZED_OPTION_INDEX);
+				resetState();
 				break;
 			}
 		}
