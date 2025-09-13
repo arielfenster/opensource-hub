@@ -12,6 +12,9 @@ export type TextFieldProps = InputProps &
 		inputClassName?: string;
 	};
 
+// TODO: the className prop isn't used.
+// the Input component should have the inputClassName prop as well as className.
+// this component should pass inputClassName={inputClassName} and className={cn(..., className)}
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
 	{ name, className, inputClassName, label, required, error, ...rest },
 	ref,

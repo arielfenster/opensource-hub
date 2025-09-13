@@ -12,11 +12,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 	ref,
 ) {
 	return (
-		<div className={cn('relative flex w-full items-center justify-between', className)}>
-			{startIcon && <div className='absolute left-2'>{startIcon}</div>}
+		<div className={cn('relative flex w-full items-center justify-between')}>
+			{startIcon && <div className='absolute left-3'>{startIcon}</div>}
 			<input
 				className={cn(
 					'w-full rounded border px-3 py-2 leading-tight text-gray-700 shadow-sm',
+					startIcon && 'pl-12',
+					endIcon && 'pr-12',
 					className,
 				)}
 				ref={ref}
@@ -24,7 +26,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 				name={name}
 				{...rest}
 			/>
-			{endIcon && <div className='absolute right-2'>{endIcon}</div>}
+			{endIcon && <div className='absolute right-3'>{endIcon}</div>}
 		</div>
 	);
 });

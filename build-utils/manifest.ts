@@ -17,6 +17,11 @@ type ManifestCssEntryObject = {
 
 type ManifestEntryObject = ManifestJsEntryObject | ManifestCssEntryObject;
 
+export type PageScripts = {
+	js: string[];
+	css: string[];
+};
+
 function getManifestFile(): Record<string, ManifestEntryObject> {
 	const manifestPath = `${STATIC_OUTPUT_DIR_PATH}/.vite/manifest.json`;
 
@@ -30,10 +35,6 @@ function getManifestFile(): Record<string, ManifestEntryObject> {
 
 export const manifest = getManifestFile();
 
-export type PageScripts = {
-	js: string[];
-	css: string[];
-};
 export function getScriptsFromManifest(page: AppPage): PageScripts {
 	if (!manifest) {
 		console.log('%cManifest file not found. Cannot continue%s', 'color: red');

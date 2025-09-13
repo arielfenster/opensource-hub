@@ -8,22 +8,26 @@ export type HeadProps = {
 
 export function Head({ title, pageScripts }: HeadProps) {
 	function getReactSrc() {
+		const importMap = {
+			imports: {
+				react: 'https://esm.sh/react@18.2.0',
+				'react-dom/client': 'https://esm.sh/react-dom@18.2.0/client',
+				'react/jsx-runtime': 'https://esm.sh/react@18.2.0/jsx-runtime',
+			},
+		};
+
 		return (
-			<>
-				<script
-					crossOrigin=''
-					src='https://unpkg.com/react@18.2.0/umd/react.production.min.js'
-				></script>
-				<script
-					crossOrigin=''
-					src='https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js'
-				></script>
-			</>
+			<script
+				type='importmap'
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(importMap, null, 2) }}
+			/>
 		);
 	}
 
 	function insertJsScripts() {
-		return pageScripts.js.map((jsFile) => <script key={jsFile} src={jsFile}></script>);
+		return pageScripts.js.map((jsFile) => (
+			<script type='module' key={jsFile} src={jsFile}></script>
+		));
 	}
 
 	function insertStyleLinks() {
@@ -38,7 +42,7 @@ export function Head({ title, pageScripts }: HeadProps) {
 		<head>
 			<meta charSet='UTF-8' />
 			<meta name='viewport' content='width=device-width, initial-scale=1.0' />
-			{getReactSrc()}
+			{IS_PROD && getReactSrc()}
 			{IS_PROD && insertJsScripts()}
 			{insertStyleLinks()}
 			<title>{pageTitle}</title>

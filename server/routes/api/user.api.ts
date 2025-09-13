@@ -26,8 +26,8 @@ export const userRouter = new Hono()
 		zValidator('json', updateSecurityInfoSchema),
 		async (c) => {
 			try {
-				const user = await usersHandler.updateSecurityInfo(c);
-				return c.json(user);
+				await usersHandler.updateSecurityInfo(c);
+				return c.body(null, 204);
 			} catch (error) {
 				console.error('Error updating security info:', error);
 				throw error;
