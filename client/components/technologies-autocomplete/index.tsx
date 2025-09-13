@@ -32,16 +32,18 @@ export function TechnologiesAutocomplete({ data }: Props) {
 	}
 
 	function renderOption(option: TechnologyOption) {
+		const Icon = config[option.groupName as TechnologyName].icon;
+
 		return (
 			<div className='flex cursor-pointer justify-between p-2'>
 				<span className='text-lg'>{option.value}</span>
 				<div
 					className={cn(
-						'flex items-center gap-2 rounded-lg border bg-gray-100 p-1',
+						'flex items-center gap-2 rounded-lg border bg-gray-100 px-2 py-1',
 						config[option.groupName as TechnologyName].className,
 					)}
 				>
-					{config[option.groupName as TechnologyName].icon}{' '}
+					<Icon className='h-4 w-4' />
 					{config[option.groupName as TechnologyName].label}
 				</div>
 			</div>
