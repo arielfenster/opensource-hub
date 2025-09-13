@@ -18,7 +18,17 @@ export function TechnologiesAutocomplete({ data }: Props) {
 	const technologyOptions = useMemo(() => convertTechnologiesDataToOptionsArray(data), [data]);
 
 	function renderEmptyState() {
-		return <div className='h-12 rounded px-4 py-2 text-lg'>my custom empty state</div>;
+		return (
+			<div className='p-3 text-sm text-gray-600'>
+				<p>No matches found.</p>
+				<button
+					className='mt-1 text-blue-600 underline hover:text-blue-800'
+					onClick={console.log}
+				>
+					Request a new technology
+				</button>
+			</div>
+		);
 	}
 
 	function renderOption(option: TechnologyOption) {
@@ -27,12 +37,12 @@ export function TechnologiesAutocomplete({ data }: Props) {
 				<span className='text-lg'>{option.value}</span>
 				<div
 					className={cn(
-						'flex gap-2 rounded-md border bg-gray-100 p-1',
-						config[option.groupName as TechnologyName].color,
+						'flex items-center gap-2 rounded-lg border bg-gray-100 p-1',
+						config[option.groupName as TechnologyName].className,
 					)}
 				>
 					{config[option.groupName as TechnologyName].icon}{' '}
-					{config[option.groupName as TechnologyName].text}
+					{config[option.groupName as TechnologyName].label}
 				</div>
 			</div>
 		);
@@ -69,7 +79,7 @@ export function TechnologiesAutocomplete({ data }: Props) {
 					{selectedTechnologies.map((technology) => (
 						<Chip
 							key={technology.id}
-							color={config[technology.groupName as TechnologyName].color}
+							className={config[technology.groupName as TechnologyName].className}
 							outlined
 							removable
 							onClick={() => removeTechItem(technology)}

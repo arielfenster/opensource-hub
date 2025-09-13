@@ -1,23 +1,44 @@
+import { passwordService } from '$/server/modules/auth/password.service';
+import { technologyGroupNames } from '$/shared/types/technologies';
 import { db } from '../db';
-import { technologies, technologyGroups } from '../schemas';
+import { technologies, technologyGroups, users } from '../schemas';
 
 async function seed() {
+	await insertUsers();
 	await insertTechnologies();
+}
+
+async function insertUsers() {
+	const password = await passwordService.hashPassword('arielfenster');
+	await db
+		.insert(users)
+		.values({
+			firstName: 'Ariel',
+			lastName: 'Test',
+			email: 'ariel@gmail.com',
+			password: password,
+			role: 'Admin',
+		})
+		.execute();
+
+	console.log('Successfully inserted users');
 }
 
 async function insertTechnologies() {
 	const groups = await db
 		.insert(technologyGroups)
-		.values([
-			{ name: 'languages' },
-			{ name: 'frameworks' },
-			{ name: 'databases' },
-			{ name: 'tools' },
-			{ name: 'clouds' },
-		])
+		.values(technologyGroupNames.map((name) => ({ name })))
 		.returning();
 
-	const [languagesGroup, frameworksGroup, databasesGroup, toolsGroup, cloudsGroup] = groups;
+	const [
+		languagesGroup,
+		frameworksGroup,
+		databasesGroup,
+		infraGroup,
+		servicesGroup,
+		developerToolsGroup,
+		cloudsGroup,
+	] = groups;
 
 	const languages = [
 		'Assembly',
@@ -53,12 +74,12 @@ async function insertTechnologies() {
 	await db
 		.insert(technologies)
 		.values(languages.map((name) => ({ name, groupId: languagesGroup.id })))
-		.returning();
+		.execute();
 
 	const frameworks = [
 		'Express.js',
 		'Node.js',
-		'Nest.js',
+		'NestJS',
 		'Hono',
 		'Angular',
 		'React',
@@ -70,7 +91,7 @@ async function insertTechnologies() {
 		'Ruby on Rails',
 		'Gatsby',
 		'Next.js',
-		'Nuxt.js',
+		'Nuxt',
 		'Phoenix',
 		'Remix',
 		'Ionic',
@@ -80,11 +101,12 @@ async function insertTechnologies() {
 		'Svelte',
 		'Svelte Kit',
 		'Rocket',
+		'Tailwind',
 	];
 	await db
 		.insert(technologies)
 		.values(frameworks.map((name) => ({ name, groupId: frameworksGroup.id })))
-		.returning();
+		.execute();
 
 	const databases = [
 		'PostgreSQL',
@@ -93,42 +115,49 @@ async function insertTechnologies() {
 		'MongoDB',
 		'Redis',
 		'Elasticsearch',
-		'Firebase',
+		'Firestore',
 		'MariaDB',
 		'Cassandra',
 		'DynamoDB',
 		'Neo4j',
-		'InfluxDB',
 	];
 	await db
 		.insert(technologies)
 		.values(databases.map((name) => ({ name, groupId: databasesGroup.id })))
-		.returning();
+		.execute();
 
-	const tools = [
-		'Docker',
-		'Kubernetes',
-		'Jenkins',
-		'Travis CI',
-		'CircleCI',
+	const developerTools = [
 		'Webpack',
 		'Babel',
 		'ESLint',
 		'Prettier',
-		'Tailwind CSS',
 		'Vite',
 		'Parcel',
+		'Turbopack',
+		'Turborepo',
 	];
 	await db
 		.insert(technologies)
-		.values(tools.map((name) => ({ name, groupId: toolsGroup.id })))
-		.returning();
+		.values(developerTools.map((name) => ({ name, groupId: developerToolsGroup.id })))
+		.execute();
+
+	const infra = ['Docker', 'Kubernetes', 'Jenkins', 'Travis CI', 'CircleCI', 'Github Actions'];
+	await db
+		.insert(technologies)
+		.values(infra.map((name) => ({ name, groupId: infraGroup.id })))
+		.execute();
+
+	const services = ['Stripe', 'Twilio', 'SendGrid', 'Firebase', 'Auth0'];
+	await db
+		.insert(technologies)
+		.values(services.map((name) => ({ name, groupId: servicesGroup.id })))
+		.execute();
 
 	const clouds = ['AWS', 'Google Cloud', 'Azure', 'DigitalOcean', 'Heroku', 'Vercel', 'Netlify'];
 	await db
 		.insert(technologies)
 		.values(clouds.map((name) => ({ name, groupId: cloudsGroup.id })))
-		.returning();
+		.execute();
 
 	console.log('Successfully inserted technologies');
 }

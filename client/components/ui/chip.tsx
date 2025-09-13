@@ -2,19 +2,19 @@ import { cn } from '$/client/lib/utils';
 import { type PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-	color?: string;
+	className?: string;
 	outlined?: boolean;
 	removable?: boolean;
 	onClick?: () => void;
 }>;
 
-export function Chip({ color, outlined = false, removable = false, onClick, children }: Props) {
+export function Chip({ className, outlined = false, removable = false, onClick, children }: Props) {
 	return (
 		<div
 			className={cn(
 				'flex gap-1 rounded-2xl px-3 py-1 font-semibold',
-				color,
-				outlined && 'border border-solid border-black',
+				outlined && 'border-1 border-solid border-black',
+				className,
 			)}
 		>
 			{children}
