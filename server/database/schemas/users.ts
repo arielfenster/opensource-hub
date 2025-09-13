@@ -19,7 +19,7 @@ export const users = pgTable(
 		createdAt: createdAt,
 		updatedAt: updatedAt,
 	},
-	(t) => [index('email_index').on(t.email)],
+	(table) => [index('email_index').on(table.email)],
 );
 
 export const userRelations = relations(users, ({ many }) => ({
