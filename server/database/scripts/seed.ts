@@ -1,16 +1,25 @@
 import { passwordService } from '$/server/modules/auth/password.service';
 import { technologyGroupNames } from '$/shared/types/technologies';
+import { eq } from 'drizzle-orm';
 import { db } from '../db';
-import { technologies, technologyGroups, users } from '../schemas';
+import {
+	projects,
+	technologies,
+	technologyGroups,
+	users,
+	type User,
+	projectsToTechnologies,
+} from '../schemas';
 
 async function seed() {
-	await insertUsers();
+	const user = await insertUsers();
 	await insertTechnologies();
+	await insertProjects(user);
 }
 
 async function insertUsers() {
 	const password = await passwordService.hashPassword('arielfenster');
-	await db
+	const createdUsers = await db
 		.insert(users)
 		.values({
 			firstName: 'Ariel',
@@ -19,9 +28,11 @@ async function insertUsers() {
 			password: password,
 			role: 'Admin',
 		})
-		.execute();
+		.returning();
 
 	console.log('Successfully inserted users');
+
+	return createdUsers[0];
 }
 
 async function insertTechnologies() {
@@ -160,6 +171,155 @@ async function insertTechnologies() {
 		.execute();
 
 	console.log('Successfully inserted technologies');
+}
+
+async function insertProjects(owner: User) {
+	const [projectA, projectB] = await db
+		.insert(projects)
+		.values([
+			{
+				name: 'Project Management Tool',
+				shortDescription: 'A web application to manage projects and tasks.',
+				longDescription:
+					'A full-featured project management tool that allows teams to collaborate, track progress, and manage tasks efficiently.',
+				status: 'In Progress',
+				teamPositions: [
+					'Frontend',
+					'Backend',
+					'Fullstack',
+					'Devops',
+					'QA',
+					'Product Manager',
+				],
+				ownerId: owner.id,
+			},
+			{
+				name: 'E-commerce Platform',
+				shortDescription: 'An online platform for buying and selling products.',
+				longDescription:
+					'An e-commerce platform that supports product listings, shopping carts, payment processing, and order management.',
+				status: 'Created',
+				teamPositions: [
+					'Frontend',
+					'Backend',
+					'Fullstack',
+					'Devops',
+					'QA',
+					'Product Manager',
+				],
+				ownerId: owner.id,
+			},
+		])
+		.returning();
+
+	const [
+		react,
+		typescript,
+		nodejs,
+		vite,
+		express,
+		postgres,
+		docker,
+		aws,
+		rust,
+		mongodb,
+		stripe,
+		googleCloud,
+	] = await Promise.all([
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'React'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'TypeScript'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'Node.js'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'Vite'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'Express.js'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'PostgreSQL'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'Docker'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'AWS'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'Rust'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'MongoDB'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'Stripe'),
+		}),
+		await db.query.technologies.findFirst({
+			where: (tech) => eq(tech.name, 'Google Cloud'),
+		}),
+	]);
+
+	await db.insert(projectsToTechnologies).values([
+		{
+			projectId: projectA.id,
+			technologyId: react!.id,
+		},
+		{
+			projectId: projectA.id,
+			technologyId: typescript!.id,
+		},
+		{
+			projectId: projectA.id,
+			technologyId: nodejs!.id,
+		},
+		{
+			projectId: projectA.id,
+			technologyId: vite!.id,
+		},
+		{
+			projectId: projectA.id,
+			technologyId: express!.id,
+		},
+		{
+			projectId: projectA.id,
+			technologyId: postgres!.id,
+		},
+		{
+			projectId: projectA.id,
+			technologyId: docker!.id,
+		},
+		{
+			projectId: projectA.id,
+			technologyId: aws!.id,
+		},
+		{
+			projectId: projectB.id,
+			technologyId: rust!.id,
+		},
+		{
+			projectId: projectB.id,
+			technologyId: mongodb!.id,
+		},
+		{
+			projectId: projectB.id,
+			technologyId: stripe!.id,
+		},
+		{
+			projectId: projectB.id,
+			technologyId: docker!.id,
+		},
+		{
+			projectId: projectB.id,
+			technologyId: googleCloud!.id,
+		},
+	]);
+
+	console.log('Successfully inserted projects');
 }
 
 seed()

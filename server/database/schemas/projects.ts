@@ -4,6 +4,7 @@ import { users } from '.';
 import { createdAt, id, updatedAt } from './utils';
 import { projectLinks } from './project-links';
 import { usersToProjects } from './users-to-projects';
+import { projectsToTechnologies } from './projects-to-technologies';
 
 export const projectStatusEnum = pgEnum('projectStatusEnum', [
 	'Created',
@@ -27,10 +28,6 @@ export const projects = pgTable('projects', {
 	name: varchar('name').notNull().unique(),
 	shortDescription: varchar('shortDescription').notNull(),
 	longDescription: varchar('longDescription').notNull(),
-	tags: varchar('tags')
-		.array()
-		.notNull()
-		.default(sql`ARRAY[]::text[]`),
 	status: projectStatusEnum('status').notNull().default('Created'),
 	teamPositions: teamPositionEnum('teamPositions')
 		.array()
@@ -50,6 +47,7 @@ export const projectRelations = relations(projects, ({ one, many }) => ({
 	}),
 	members: many(usersToProjects),
 	links: many(projectLinks),
+	technologies: many(projectsToTechnologies),
 }));
 
 export type Project = typeof projects.$inferSelect;
