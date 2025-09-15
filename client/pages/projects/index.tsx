@@ -1,10 +1,14 @@
 import { TechnologiesAutocomplete } from '$/client/components/technologies-autocomplete';
 import { Card } from '$/client/components/ui/card';
+import { useProjects } from '$/client/hooks/useProjects';
 import { useTechnologies } from '$/client/hooks/useTechnologies';
 import { projectTeamPositions } from '$/shared/types/projects';
 
 export function ProjectsPage() {
 	const { data } = useTechnologies();
+	const { projects } = useProjects();
+
+	console.log(projects);
 
 	return (
 		<div className='flex flex-col gap-6 px-4 py-8'>

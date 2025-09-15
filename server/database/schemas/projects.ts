@@ -1,6 +1,6 @@
 import { relations, sql } from 'drizzle-orm';
 import { pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
-import { users } from '.';
+import { users, type Technology } from '.';
 import { createdAt, id, updatedAt } from './utils';
 import { projectLinks } from './project-links';
 import { usersToProjects } from './users-to-projects';
@@ -53,3 +53,6 @@ export const projectRelations = relations(projects, ({ one, many }) => ({
 export type Project = typeof projects.$inferSelect;
 export type ProjectStatus = Project['status'];
 export type ProjectTeamPosition = Project['teamPositions'][number];
+export type ProjectWithTechnologies = Project & {
+	technologies: Technology[];
+};
