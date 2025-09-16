@@ -2,11 +2,11 @@ import { useMemo, useState } from 'react';
 import { config } from './config';
 import { AutoComplete } from '../form/autocomplete';
 import { SearchIcon } from 'lucide-react';
-import { Chip } from '../ui/chip';
 import { cn } from '$/client/lib/utils';
 import type { TechnologyGroupData } from '$/shared/types/technologies';
 import type { TechnologyName, TechnologyOption } from './types';
 import { convertTechnologiesDataToOptionsArray } from './utils';
+import { TechnologyChip } from './technology-chip';
 
 type Props = {
 	data: TechnologyGroupData[];
@@ -79,15 +79,11 @@ export function TechnologiesAutocomplete({ data }: Props) {
 			{selectedTechnologies.length > 0 && (
 				<div className='flex flex-wrap gap-3'>
 					{selectedTechnologies.map((technology) => (
-						<Chip
+						<TechnologyChip
 							key={technology.id}
-							className={config[technology.groupName as TechnologyName].className}
-							outlined
-							removable
+							technology={technology}
 							onClick={() => removeTechItem(technology)}
-						>
-							{technology.value}
-						</Chip>
+						/>
 					))}
 				</div>
 			)}
