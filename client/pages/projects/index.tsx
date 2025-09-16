@@ -5,15 +5,13 @@ import { useTechnologies } from '$/client/hooks/useTechnologies';
 import { projectTeamPositions } from '$/shared/types/projects';
 
 export function ProjectsPage() {
-	const { data } = useTechnologies();
-	const { projects } = useProjects();
-
-	console.log(projects);
+	const { data: technologies } = useTechnologies();
+	const { data: projects } = useProjects();
 
 	return (
 		<div className='flex flex-col gap-6 px-4 py-8'>
 			<h1 className='text-royal-blue text-4xl font-semibold'>Discover Projects</h1>
-			<TechnologiesAutocomplete data={data} />
+			<TechnologiesAutocomplete data={technologies} />
 			<div className='flex w-full justify-between'>
 				<div className='flex flex-1 flex-col'>
 					<Card>

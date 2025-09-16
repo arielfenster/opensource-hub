@@ -5,7 +5,7 @@ import { PageSection } from './page-section';
 import { SummaryProjectCard } from './summary-project-card';
 
 export function HomePage() {
-	const { projects: recentProjects } = useProjects({ limit: 4 });
+	const { data: recentProjects } = useProjects({ limit: 4 });
 
 	return (
 		<>

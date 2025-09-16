@@ -7,7 +7,7 @@ type Props = Partial<PaginationInput>;
 export function useProjects(pagination: Props = {}) {
 	const rpcClient = useRpcQueryClient();
 
-	const { data } = useQuery({
+	return useQuery({
 		queryKey: ['projects', pagination],
 		queryFn: async () => {
 			const filters = paginationSchema.safeParse(pagination).data!;
@@ -22,8 +22,4 @@ export function useProjects(pagination: Props = {}) {
 		initialData: [],
 		refetchOnWindowFocus: false,
 	});
-
-	return {
-		projects: data,
-	};
 }
