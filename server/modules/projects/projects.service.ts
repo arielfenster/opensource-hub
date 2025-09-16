@@ -3,7 +3,14 @@ import { projectsDataAccessor } from './projects.data-accessor';
 
 class ProjectsService {
 	async getProjects({ limit, skip }: PaginationInput) {
-		return projectsDataAccessor.findProjects(limit, skip);
+		const projects = await projectsDataAccessor.findProjects(limit, skip);
+
+		return projects.flatMap((project) => {
+			return {
+				...project,
+				technologies: project.technologies.map((tech) => tech.technology),
+			};
+		});
 	}
 }
 

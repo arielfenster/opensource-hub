@@ -1,8 +1,12 @@
 import { Button } from '$/client/components/ui/button';
+import { useProjects } from '$/client/hooks/useProjects';
 import { getImagePath } from '$/client/lib/images';
 import { PageSection } from './page-section';
+import { SummaryProjectCard } from './summary-project-card';
 
 export function HomePage() {
+	const { projects: recentProjects } = useProjects({ limit: 4 });
+
 	return (
 		<>
 			<div className='py-12'>
@@ -29,20 +33,18 @@ export function HomePage() {
 						image={getImagePath('bookshelf.svg')}
 					/>
 				</div>
-				{/* {Number(recentProjects?.length) > 0 && (
+				{Number(recentProjects?.length) > 0 && (
 					<div className='bg-celestial-blue flex w-full flex-col items-center gap-4 p-8'>
 						<h3 className='text-ghost-white text-3xl font-semibold'>
 							Recently Added Projects
 						</h3>
-						<div className='flex w-full justify-between'>
-							{recentProjects
-								?.slice(0, 4)
-								.map((project) => (
-									<SummaryProjectCard key={project.id} {...project} />
-								))}
+						<div className='flex w-full justify-around'>
+							{recentProjects.map((project) => (
+								<SummaryProjectCard key={project.id} {...project} />
+							))}
 						</div>
 					</div>
-				)} */}
+				)}
 				<div className='text-royal-blue flex flex-col items-center gap-4 text-center'>
 					<span className='text-3xl'>What are you waiting for? Join the Hub</span>
 					<a href='/login'>
