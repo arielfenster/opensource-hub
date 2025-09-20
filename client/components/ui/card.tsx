@@ -13,27 +13,33 @@ function Card({ className, children }: CardProps) {
 	);
 }
 
-function CardHeader({
-	title,
-	subtitle = '',
-}: PropsWithChildren<{ title: string; subtitle?: string }>) {
-	return (
-		<div className='flex flex-col gap-2'>
-			<span className='text-royal-blue text-2xl font-semibold'>{title}</span>
-			{subtitle && <span className='text-cerise text-lg'>{subtitle}</span>}
-		</div>
-	);
+function CardHeader({ children }: PropsWithChildren) {
+	return <div className='flex flex-col gap-2'>{children}</div>;
+}
+
+function CardTitle({ children }: PropsWithChildren) {
+	return <span className='text-royal-blue text-2xl font-semibold'>{children}</span>;
 }
 
 function CardBody({ children }: PropsWithChildren) {
 	return <div>{children}</div>;
 }
 
-function CardFooter({ children }: PropsWithChildren) {
-	return <div>{children}</div>;
+function CardFooter({ separator, children }: PropsWithChildren<{ separator?: boolean }>) {
+	return (
+		<div
+			className={cn(
+				'flex w-full justify-between',
+				separator && 'w-full border-t border-black pt-4',
+			)}
+		>
+			{children}
+		</div>
+	);
 }
 
 Card.Header = CardHeader;
+Card.Title = CardTitle;
 Card.Body = CardBody;
 Card.Footer = CardFooter;
 

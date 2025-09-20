@@ -15,7 +15,9 @@ export function ProjectsPage() {
 			<div className='flex w-full justify-between'>
 				<div className='flex flex-1 flex-col'>
 					<Card>
-						<Card.Header title='Filters' />
+						<Card.Header>
+							<Card.Title>Filters</Card.Title>
+						</Card.Header>
 						<Card.Body>
 							<div className='flex flex-col gap-1'>
 								<span className='text-lg'>Roles</span>
