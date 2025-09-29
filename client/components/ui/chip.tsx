@@ -1,14 +1,14 @@
 import { cn } from '$/client/lib/utils';
 import { type PropsWithChildren } from 'react';
 
-type Props = PropsWithChildren<{
+export type ChipProps = PropsWithChildren<{
 	className?: string;
 	outlined?: boolean;
 	removable?: boolean;
 	onClick?: () => void;
 }>;
 
-export function Chip({ className, outlined = false, removable = false, onClick, children }: Props) {
+export function Chip({ className, outlined = false, removable = false, onClick, children }: ChipProps) {
 	return (
 		<div
 			className={cn(

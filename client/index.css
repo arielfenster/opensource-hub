@@ -10,6 +10,14 @@
 
 	--animate-spin-slow: spin-slow 1s linear infinite;
 
+	--color-chart-1: oklch(0.7 0.25 27);
+	--color-chart-2: oklch(0.65 0.25 264);
+	--color-chart-3: oklch(0.7 0.22 142);
+	--color-chart-4: oklch(0.75 0.2 60);
+	--color-chart-5: oklch(0.6 0.25 320);
+	--color-chart-6: oklch(0.75 0.28 340); /* Bright coral/red-orange */
+	--color-chart-9: oklch(0.75 0.25 250); /* Bright lime */
+
 	@keyframes spin-slow {
 		0% {
 			transform: rotate(0deg);

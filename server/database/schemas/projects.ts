@@ -53,6 +53,3 @@ export const projectRelations = relations(projects, ({ one, many }) => ({
 export type Project = typeof projects.$inferSelect;
 export type ProjectStatus = Project['status'];
 export type ProjectTeamPosition = Project['teamPositions'][number];
-export type ProjectWithTechnologies = Project & {
-	technologies: Technology[];
-};

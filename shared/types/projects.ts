@@ -1,4 +1,9 @@
-import { teamPositionEnum, type ProjectWithTechnologies } from '$/server/database/schemas';
+import { teamPositionEnum, type Project } from '$/server/database/schemas';
+import type { TechnologyData } from './technologies';
+
+export type ProjectWithTechnologies = Project & {
+	technologies: TechnologyData[];
+};
 
 export type RecentProject = Pick<
 	ProjectWithTechnologies,

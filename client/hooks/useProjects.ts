@@ -19,7 +19,6 @@ export function useProjects(pagination: Props = {}) {
 			});
 			return response.json();
 		},
-		initialData: [],
 		refetchOnWindowFocus: false,
 	});
 }

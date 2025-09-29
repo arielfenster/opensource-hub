@@ -9,7 +9,11 @@ export class ProjectsDataAccessor extends DataAccessor {
 			with: {
 				technologies: {
 					with: {
-						technology: true,
+						technology: {
+							with: {
+								group: true,
+							},
+						},
 					},
 				},
 			},

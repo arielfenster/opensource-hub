@@ -12,7 +12,7 @@ export function SummaryProjectCard({ name, shortDescription, technologies }: Rec
 		<Card className='bg-ghost-white w-[22rem]'>
 			<Card.Header>
 				<Card.Title>{name}</Card.Title>
-				<span className='text-md text-gray-600'>{technologiesList}</span>
+				<Card.Description>{technologiesList}</Card.Description>
 			</Card.Header>
 			<Card.Body>
 				<span className='text-eerie-black-black text-lg'>{shortDescription}</span>

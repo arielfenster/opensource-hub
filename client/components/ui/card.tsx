@@ -1,36 +1,41 @@
 import { cn } from '$/client/lib/utils';
 import type { PropsWithChildren } from 'react';
 
-type CardProps = PropsWithChildren<{
+type CommonProps = PropsWithChildren<{
 	className?: string;
 }>;
 
-function Card({ className, children }: CardProps) {
+function Card({ className, children }: CommonProps) {
 	return (
-		<div className={cn('flex flex-col gap-6 rounded-2xl p-6 shadow-lg', className)}>
+		<article className={cn('flex flex-col gap-6 rounded-2xl p-6 shadow-lg', className)}>
 			{children}
-		</div>
+		</article>
 	);
 }
 
-function CardHeader({ children }: PropsWithChildren) {
+function CardHeader({ children }: CommonProps) {
 	return <div className='flex flex-col gap-2'>{children}</div>;
 }
 
-function CardTitle({ children }: PropsWithChildren) {
-	return <span className='text-royal-blue text-2xl font-semibold'>{children}</span>;
+function CardTitle({ children }: CommonProps) {
+	return <span className='text-eerie-black text-2xl font-semibold'>{children}</span>;
 }
 
-function CardBody({ children }: PropsWithChildren) {
-	return <div>{children}</div>;
+function CardDescription({ children }: CommonProps) {
+	return <span className='text-md line-clamp-3 text-gray-600'>{children}</span>;
 }
 
-function CardFooter({ separator, children }: PropsWithChildren<{ separator?: boolean }>) {
+function CardBody({ className, children }: CommonProps) {
+	return <div className={cn(className)}>{children}</div>;
+}
+
+function CardFooter({ separator, className, children }: CommonProps & { separator?: boolean }) {
 	return (
 		<div
 			className={cn(
-				'flex w-full justify-between',
+				'flex w-full justify-between mt-auto',
 				separator && 'w-full border-t border-black pt-4',
+				className,
 			)}
 		>
 			{children}
@@ -40,6 +45,7 @@ function CardFooter({ separator, children }: PropsWithChildren<{ separator?: boo
 
 Card.Header = CardHeader;
 Card.Title = CardTitle;
+Card.Description = CardDescription;
 Card.Body = CardBody;
 Card.Footer = CardFooter;
 

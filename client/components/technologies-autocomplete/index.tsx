@@ -5,17 +5,18 @@ import { SearchIcon } from 'lucide-react';
 import { cn } from '$/client/lib/utils';
 import type { TechnologyGroupData } from '$/shared/types/technologies';
 import type { TechnologyName, TechnologyOption } from './types';
-import { convertTechnologiesDataToOptionsArray } from './utils';
+import { convertTechnologyGroupsToOptionsArray } from './utils';
 import { TechnologyChip } from './technology-chip';
 
-type Props = {
+export type TechnologiesAutocompleteProps = {
 	data: TechnologyGroupData[];
+	onSelect?: (item: TechnologyOption) => void;
 };
 
-export function TechnologiesAutocomplete({ data }: Props) {
+export function TechnologiesAutocomplete({ onSelect, data }: TechnologiesAutocompleteProps) {
 	const [selectedTechnologies, setSelectedTechnologies] = useState<TechnologyOption[]>([]);
 
-	const technologyOptions = useMemo(() => convertTechnologiesDataToOptionsArray(data), [data]);
+	const technologyOptions = useMemo(() => convertTechnologyGroupsToOptionsArray(data), [data]);
 
 	function renderEmptyState() {
 		return (
@@ -55,6 +56,10 @@ export function TechnologiesAutocomplete({ data }: Props) {
 			if (prev.includes(technology)) {
 				return prev;
 			}
+
+			if (onSelect) {
+				onSelect(technology);
+			}
 			return [...prev, technology];
 		});
 	}
@@ -82,6 +87,7 @@ export function TechnologiesAutocomplete({ data }: Props) {
 						<TechnologyChip
 							key={technology.id}
 							technology={technology}
+							removable
 							onClick={() => removeTechItem(technology)}
 						/>
 					))}
