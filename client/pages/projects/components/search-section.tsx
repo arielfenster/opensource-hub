@@ -1,7 +1,9 @@
+import { Select } from '$/client/components/form/select';
+import type { SelectItem } from '$/client/components/form/select/types';
 import { TechnologiesAutocomplete } from '$/client/components/technologies-autocomplete';
-import { Card } from '$/client/components/ui/card';
-import { projectTeamPositions } from '$/shared/types/projects';
+import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/projects';
 import type { TechnologyGroupData } from '$/shared/types/technologies';
+import { useMemo } from 'react';
 import type { SearchFilter } from '../service';
 
 type SearchSectionProps = {
@@ -10,41 +12,26 @@ type SearchSectionProps = {
 };
 
 export function SearchSection({ onFilter, technologies }: SearchSectionProps) {
+	const selectPositionItems: SelectItem<ProjectTeamPosition>[] = useMemo(
+		() =>
+			projectTeamPositions.map((position) => ({
+				label: position,
+				value: position,
+			})),
+		[],
+	);
+
 	return (
 		<section className='flex gap-2'>
 			<TechnologiesAutocomplete
 				data={technologies}
 				onSelect={(technology) => onFilter({ type: 'tech', value: technology })}
 			/>
-			<div className='flex w-full justify-between'>
-				<div className='flex flex-1 flex-col'>
-					<Card>
-						<Card.Header>
-							<Card.Title>Filters</Card.Title>
-						</Card.Header>
-						<Card.Body>
-							<div className='flex flex-col gap-1'>
-								<span className='text-lg'>Roles</span>
-								<ul>
-									{projectTeamPositions.map((role) => (
-										<li key={role}>
-											<label
-												className='flex w-fit cursor-pointer gap-2 px-2 py-1'
-												onClick={() =>
-													onFilter({ type: 'position', value: role })
-												}
-											>
-												<input type='checkbox' name='teamPosition' className='cursor-pointer' />
-												<span>{role}</span>
-											</label>
-										</li>
-									))}
-								</ul>
-							</div>
-						</Card.Body>
-					</Card>
-				</div>
-			</div>
+			<Select
+				items={selectPositionItems}
+				emptyItem={'Filter by position'}
+				onSelect={(position) => onFilter({ type: 'position', value: position })}
+			/>
 		</section>
 	);
 }

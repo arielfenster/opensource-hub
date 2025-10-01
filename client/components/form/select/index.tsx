@@ -3,14 +3,14 @@ import { useMemo, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import type { Items, SelectItem } from './types';
 import { buildSelectItems } from './utils';
 
-type SelectProps = ComponentPropsWithoutRef<'select'> & {
-	items: Items;
+type SelectProps<TValue> = Omit<ComponentPropsWithoutRef<'select'>, 'onSelect'> & {
+	items: Items<TValue>;
 	emptyItem?: ReactNode;
-	onSelect?: (item: SelectItem) => void;
+	onSelect?: (value: TValue) => void;
 	renderItem?: (item: SelectItem) => ReactNode;
 };
 
-export function Select({
+export function Select<TValue>({
 	items,
 	emptyItem,
 	onSelect,
@@ -18,11 +18,21 @@ export function Select({
 	className,
 	name,
 	...rest
-}: SelectProps) {
+}: SelectProps<TValue>) {
 	const selectItems = useMemo(() => buildSelectItems(items), [items]);
 
 	return (
-		<select className={cn('', className)} name={name} id={name} onChange={onSelect} {...rest}>
+		<select
+			className={cn('border border-black', className)}
+			name={name}
+			id={name}
+			onChange={(e) => {
+				if (e.target.value && onSelect) {
+					onSelect(e.target.value as TValue);
+				}
+			}}
+			{...rest}
+		>
 			{emptyItem && (
 				<option key={name} value=''>
 					{emptyItem}
