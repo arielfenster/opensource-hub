@@ -12,36 +12,36 @@ export const config: Record<TechnologyName, TechnologyConfig> = {
 	languages: {
 		icon: Code,
 		label: 'Language',
-		className: 'text-orange-600 bg-orange-100 border-orange-600',
+		className: 'text-ghost-white bg-chip-1 border-0',
 	},
 	frameworks: {
 		icon: Layers,
 		label: 'Framework',
-		className: 'text-emerald-600 bg-emerald-100 border-emerald-600',
+		className: 'text-ghost-white bg-chip-2 border-0',
 	},
 	databases: {
 		icon: Database,
 		label: 'Database',
-		className: 'text-yellow-600 bg-yellow-200 border-yellow-600',
+		className: 'text-ghost-white bg-chip-4 border-0',
 	},
 	infra: {
 		icon: Server,
 		label: 'Infra',
-		className: 'text-blue-600 bg-blue-100 border-blue-600',
+		className: 'text-ghost-white bg-chip-3 border-0',
 	},
 	services: {
 		icon: CreditCard,
 		label: 'Services',
-		className: 'text-pink-600 bg-pink-100 border-pink-600',
+		className: 'text-ghost-white bg-chip-5 border-0',
 	},
 	developerTools: {
 		icon: Settings,
 		label: 'Dev Tools',
-		className: 'text-purple-600 bg-purple-100 border-purple-600',
+		className: 'text-ghost-white bg-chip-6 border-0',
 	},
 	clouds: {
 		icon: Cloud,
 		label: 'Cloud',
-		className: 'text-cyan-600 bg-cyan-100 border-cyan-600',
+		className: 'text-ghost-white bg-chip-7 border-0',
 	},
 };

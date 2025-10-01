@@ -7,6 +7,7 @@ export class ProjectsDataAccessor extends DataAccessor {
 			limit: limit,
 			offset: skip,
 			with: {
+				links: true,
 				technologies: {
 					with: {
 						technology: {

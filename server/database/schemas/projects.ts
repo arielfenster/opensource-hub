@@ -1,8 +1,7 @@
 import { relations, sql } from 'drizzle-orm';
 import { pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
-import { users, type Technology } from '.';
+import { users, projectLinks } from '.';
 import { createdAt, id, updatedAt } from './utils';
-import { projectLinks } from './project-links';
 import { usersToProjects } from './users-to-projects';
 import { projectsToTechnologies } from './projects-to-technologies';
 
@@ -26,6 +25,7 @@ export const teamPositionEnum = pgEnum('teamPositionEnum', [
 export const projects = pgTable('projects', {
 	id: id,
 	name: varchar('name').notNull().unique(),
+	slug: varchar('slug').notNull().unique(),
 	shortDescription: varchar('shortDescription').notNull(),
 	longDescription: varchar('longDescription').notNull(),
 	status: projectStatusEnum('status').notNull().default('Created'),
@@ -46,10 +46,9 @@ export const projectRelations = relations(projects, ({ one, many }) => ({
 		references: [users.id],
 	}),
 	members: many(usersToProjects),
-	links: many(projectLinks),
+	links: one(projectLinks),
 	technologies: many(projectsToTechnologies),
 }));
 
 export type Project = typeof projects.$inferSelect;
 export type ProjectStatus = Project['status'];
-export type ProjectTeamPosition = Project['teamPositions'][number];

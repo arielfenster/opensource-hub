@@ -3,21 +3,21 @@
 [] add an option for a page title (like in about/profile) instead of repeating the same styles. maybe in Layout?
 
 3. work on implementing the "add new" flow:
-see https://v0.app/chat/autocomplete-component-design-dYC6mzPKCwQ (v9) for the design of the empty state and example of a modal form
+   see https://v0.app/chat/autocomplete-component-design-dYC6mzPKCwQ (v9) for the design of the empty state and example of a modal form
 
 export const technologyRequestEnum = pgEnum('technologyRequestEnum', [
-	'pending',
-	'approved',
-	'rejected',
+'pending',
+'approved',
+'rejected',
 ]);
 
 export const technologyRequests = pgTable('technologyRequests', {
-	id: id,
-	name: varchar('name').notNull(),
-	requestedBy: varchar('requestedBy').notNull(),
-	status: technologyRequestEnum('status').notNull().default('pending'),
-	createdAt: createdAt,
-	updatedAt: updatedAt,
+id: id,
+name: varchar('name').notNull(),
+requestedBy: varchar('requestedBy').notNull(),
+status: technologyRequestEnum('status').notNull().default('pending'),
+createdAt: createdAt,
+updatedAt: updatedAt,
 });
 
 created a technologiesHandler class that has a "requestTechnology" function.
@@ -28,3 +28,5 @@ i need to create an admin dashboard in the navbar where i can see all the reques
 
 4. see if need to add props to tech-autocomplete or autocomplete regarding showing this option for form.
    4.1. maybe a container for tech-auto is needed, to be able to render the component in different places with different behaviors
+
+5. add class-variance-authority. use it for buttons - regular, link. look at compoundVariants

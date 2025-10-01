@@ -9,12 +9,13 @@ export const projectManagementTypeEnum = pgEnum('projectManagementTypeEnum', ['J
 
 export const projectLinks = pgTable('projectLinks', {
 	id: id,
-	sourceControlType: sourceControlTypeEnum('sourceControlType').notNull(),
-	sourceControlLink: varchar('sourceControlLink').notNull(),
-	chatType: chatTypeEnum('chatType').notNull(),
-	chatLink: varchar('chatLink').notNull(),
-	projectManagementType: projectManagementTypeEnum('projectManagementType').notNull(),
-	projectManagementLink: varchar('projectManagementLink').notNull(),
+	projectLink: varchar('projectLink').notNull(),
+	sourceControlType: sourceControlTypeEnum('sourceControlType'),
+	sourceControlLink: varchar('sourceControlLink'),
+	chatType: chatTypeEnum('chatType'),
+	chatLink: varchar('chatLink'),
+	projectManagementType: projectManagementTypeEnum('projectManagementType'),
+	projectManagementLink: varchar('projectManagementLink'),
 	projectId: varchar('projectId')
 		.notNull()
 		.references(() => projects.id),

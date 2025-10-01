@@ -13,7 +13,7 @@ export type TechnologiesAutocompleteProps = {
 	onSelect?: (item: TechnologyOption) => void;
 };
 
-export function TechnologiesAutocomplete({ onSelect, data }: TechnologiesAutocompleteProps) {
+export function TechnologiesAutocomplete({ data, onSelect }: TechnologiesAutocompleteProps) {
 	const [selectedTechnologies, setSelectedTechnologies] = useState<TechnologyOption[]>([]);
 
 	const technologyOptions = useMemo(() => convertTechnologyGroupsToOptionsArray(data), [data]);
@@ -66,6 +66,9 @@ export function TechnologiesAutocomplete({ onSelect, data }: TechnologiesAutocom
 
 	function removeTechItem(technology: TechnologyOption) {
 		setSelectedTechnologies((prev) => prev.filter((tech) => tech !== technology));
+		if (onSelect) {
+			onSelect(technology)
+		}
 	}
 
 	return (

@@ -33,7 +33,7 @@ function CardFooter({ separator, className, children }: CommonProps & { separato
 	return (
 		<div
 			className={cn(
-				'flex w-full justify-between mt-auto',
+				'mt-auto flex w-full justify-between',
 				separator && 'w-full border-t border-black pt-4',
 				className,
 			)}

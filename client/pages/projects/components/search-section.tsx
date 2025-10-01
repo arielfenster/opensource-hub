@@ -1,22 +1,20 @@
-import { Select } from '$/client/components/form/select';
-import {
-	TechnologiesAutocomplete,
-	type TechnologiesAutocompleteProps,
-} from '$/client/components/technologies-autocomplete';
+import { TechnologiesAutocomplete } from '$/client/components/technologies-autocomplete';
 import { Card } from '$/client/components/ui/card';
 import { projectTeamPositions } from '$/shared/types/projects';
+import type { TechnologyGroupData } from '$/shared/types/technologies';
+import type { SearchFilter } from '../service';
 
 type SearchSectionProps = {
-	technologies: Pick<TechnologiesAutocompleteProps, 'data'>['data'];
-	onFilter: (type: 'tech' | 'position', value: string) => void;
+	technologies: TechnologyGroupData[];
+	onFilter: (filter: SearchFilter) => void;
 };
 
 export function SearchSection({ onFilter, technologies }: SearchSectionProps) {
 	return (
-		<div className='flex gap-2'>
+		<section className='flex gap-2'>
 			<TechnologiesAutocomplete
 				data={technologies}
-				onSelect={(option) => onFilter('tech', option.value)}
+				onSelect={(technology) => onFilter({ type: 'tech', value: technology })}
 			/>
 			<div className='flex w-full justify-between'>
 				<div className='flex flex-1 flex-col'>
@@ -32,9 +30,11 @@ export function SearchSection({ onFilter, technologies }: SearchSectionProps) {
 										<li key={role}>
 											<label
 												className='flex w-fit cursor-pointer gap-2 px-2 py-1'
-												onClick={() => onFilter('position', role)}
+												onClick={() =>
+													onFilter({ type: 'position', value: role })
+												}
 											>
-												<input type='checkbox' name='teamPosition' />
+												<input type='checkbox' name='teamPosition' className='cursor-pointer' />
 												<span>{role}</span>
 											</label>
 										</li>
@@ -45,6 +45,6 @@ export function SearchSection({ onFilter, technologies }: SearchSectionProps) {
 					</Card>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 }

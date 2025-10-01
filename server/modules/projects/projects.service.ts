@@ -1,4 +1,5 @@
 import type { PaginationInput } from '$/shared/schemas/common/pagination.schema';
+import { nanoid } from 'nanoid';
 import { projectsDataAccessor } from './projects.data-accessor';
 
 class ProjectsService {
@@ -11,6 +12,15 @@ class ProjectsService {
 				technologies: project.technologies.map((tech) => tech.technology),
 			};
 		});
+	}
+
+	generateProjectSlug(name: string) {
+		const slug = name
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-+|-+$/g, '');
+
+		return `${slug}-${nanoid(10)}`;
 	}
 }
 
