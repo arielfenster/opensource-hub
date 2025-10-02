@@ -1,15 +1,14 @@
 import { useProjects } from '$/client/hooks/useProjects';
 import { useTechnologies } from '$/client/hooks/useTechnologies';
+import type { ProjectTeamPosition } from '$/shared/types/projects';
 import { useState } from 'react';
 import { ResultsSection } from './components/results-section';
 import { SearchSection } from './components/search-section';
-import type { TechnologyGroupData } from '$/shared/types/technologies';
-import type { ProjectTeamPosition } from '$/shared/types/projects';
 import { getFilteredProjects, type SearchFilter } from './service';
 
 export function ProjectsPage() {
 	const { data: technologies } = useTechnologies();
-	const { data: projects, isSuccess } = useProjects();
+	const { data: projects } = useProjects();
 
 	const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
 	const [selectedPositions, setSelectedPositions] = useState<ProjectTeamPosition[]>([]);
@@ -48,8 +47,10 @@ export function ProjectsPage() {
 	return (
 		<div className='flex flex-col gap-6 px-4 py-8'>
 			<h1 className='text-royal-blue text-4xl font-semibold'>Discover Projects</h1>
-			<SearchSection technologies={technologies} onFilter={handleApplyFilter} />
-			<ResultsSection projects={filteredProjects} />
+			<div className='flex flex-col gap-12'>
+				<SearchSection technologies={technologies} onFilter={handleApplyFilter} />
+				<ResultsSection projects={filteredProjects} />
+			</div>
 		</div>
 	);
 }

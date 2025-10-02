@@ -1,5 +1,4 @@
 import { Select } from '$/client/components/form/select';
-import type { SelectItem } from '$/client/components/form/select/types';
 import { TechnologiesAutocomplete } from '$/client/components/technologies-autocomplete';
 import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/projects';
 import type { TechnologyGroupData } from '$/shared/types/technologies';
@@ -12,7 +11,7 @@ type SearchSectionProps = {
 };
 
 export function SearchSection({ onFilter, technologies }: SearchSectionProps) {
-	const selectPositionItems: SelectItem<ProjectTeamPosition>[] = useMemo(
+	const selectPositionItems = useMemo(
 		() =>
 			projectTeamPositions.map((position) => ({
 				label: position,
@@ -30,7 +29,10 @@ export function SearchSection({ onFilter, technologies }: SearchSectionProps) {
 			<Select
 				items={selectPositionItems}
 				emptyItem={'Filter by position'}
-				onSelect={(position) => onFilter({ type: 'position', value: position })}
+				multiple
+				onSelect={(position) =>
+					onFilter({ type: 'position', value: position as ProjectTeamPosition })
+				}
 			/>
 		</section>
 	);

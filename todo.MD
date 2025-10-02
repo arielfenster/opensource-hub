@@ -30,3 +30,4 @@ i need to create an admin dashboard in the navbar where i can see all the reques
    4.1. maybe a container for tech-auto is needed, to be able to render the component in different places with different behaviors
 
 5. add class-variance-authority. use it for buttons - regular, link. look at compoundVariants
+6. create reuseable Dropdown/Menu component - for the user profile icon and for the select

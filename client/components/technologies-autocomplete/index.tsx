@@ -67,7 +67,7 @@ export function TechnologiesAutocomplete({ data, onSelect }: TechnologiesAutocom
 	function removeTechItem(technology: TechnologyOption) {
 		setSelectedTechnologies((prev) => prev.filter((tech) => tech !== technology));
 		if (onSelect) {
-			onSelect(technology)
+			onSelect(technology);
 		}
 	}
 
@@ -78,7 +78,7 @@ export function TechnologiesAutocomplete({ data, onSelect }: TechnologiesAutocom
 				options={technologyOptions}
 				renderOption={renderOption}
 				name='technologies'
-				className='border border-gray-500 py-3 text-lg'
+				className='bg-ghost-white border border-gray-500 py-3 text-lg'
 				startIcon={<SearchIcon className='text-gray-300' />}
 				placeholder='Search projects by tech stack - start typing to see the available options'
 				autoFocus

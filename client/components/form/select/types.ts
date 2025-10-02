@@ -1,6 +1,6 @@
-export type SelectItem<TValue = string> = {
+export type SelectItem = {
 	label: string;
-	value: TValue;
+	value: string;
 };
 
-export type Items<TValue> = SelectItem<TValue>[] | Record<string, any>;
+export type Items = SelectItem[] | Record<string, any>;
