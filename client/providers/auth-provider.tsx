@@ -1,3 +1,4 @@
+import { PREFETCHED_USER_QUERY_KEY } from '$/shared/constants';
 import type { AuthenticatedUser } from '$/shared/types/users';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createContext, useCallback, useContext, type PropsWithChildren } from 'react';
@@ -14,7 +15,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 	const rpcQueryClient = useRpcQueryClient();
 
 	const { data: user } = useQuery({
-		queryKey: ['user'],
+		queryKey: PREFETCHED_USER_QUERY_KEY,
 		queryFn: () => Promise.resolve({}) as Promise<AuthenticatedUser>, // this will either resolve with the SSR data or return undefined
 		enabled: false,
 	});
