@@ -1,6 +1,7 @@
 import { relations } from 'drizzle-orm';
 import { pgEnum, pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core';
 import { id } from './utils';
+import { projectsToTechnologies } from '.';
 
 export const technologyGroupNameEnum = pgEnum('technologyGroupNameEnum', [
 	'languages',
@@ -39,9 +40,10 @@ export const technologies = pgTable(
 
 export type Technology = typeof technologies.$inferSelect;
 
-export const technologyRelations = relations(technologies, ({ one }) => ({
+export const technologyRelations = relations(technologies, ({ one, many }) => ({
 	group: one(technologyGroups, {
 		fields: [technologies.groupId],
 		references: [technologyGroups.id],
 	}),
+	projects: many(projectsToTechnologies),
 }));

@@ -41,7 +41,7 @@ export function AutoComplete<TData extends OptionData = OptionData>({
 				onKeyDown={handleKeyDown}
 			/>
 			{showDropdown && (
-				<div className='absolute z-10 flex max-h-[20rem] w-full flex-col gap-1 overflow-y-scroll bg-white shadow-2xl'>
+				<div className='absolute z-10 flex max-h-[20rem] w-full flex-col gap-1 overflow-y-scroll bg-ghost-white shadow-2xl'>
 					{filteredOptions.length > 0
 						? filteredOptions.map((option, index) => (
 								<div

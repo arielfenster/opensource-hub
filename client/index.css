@@ -10,6 +10,14 @@
 
 	--animate-spin-slow: spin-slow 1s linear infinite;
 
+	--color-chip-1: oklch(0.75 0.2 60);
+	--color-chip-2: oklch(0.7 0.22 142);
+	--color-chip-3: oklch(0.65 0.25 264);
+	--color-chip-4: oklch(0.7 0.25 27);
+	--color-chip-5: oklch(0.75 0.28 340);
+	--color-chip-6: oklch(0.6 0.25 320);
+	--color-chip-7: oklch(0.75 0.25 250);
+
 	@keyframes spin-slow {
 		0% {
 			transform: rotate(0deg);

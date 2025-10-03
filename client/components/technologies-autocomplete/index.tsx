@@ -2,20 +2,21 @@ import { useMemo, useState } from 'react';
 import { config } from './config';
 import { AutoComplete } from '../form/autocomplete';
 import { SearchIcon } from 'lucide-react';
-import { Chip } from '../ui/chip';
 import { cn } from '$/client/lib/utils';
 import type { TechnologyGroupData } from '$/shared/types/technologies';
 import type { TechnologyName, TechnologyOption } from './types';
-import { convertTechnologiesDataToOptionsArray } from './utils';
+import { convertTechnologyGroupsToOptionsArray } from './utils';
+import { TechnologyChip } from './technology-chip';
 
-type Props = {
+export type TechnologiesAutocompleteProps = {
 	data: TechnologyGroupData[];
+	onSelect?: (item: TechnologyOption) => void;
 };
 
-export function TechnologiesAutocomplete({ data }: Props) {
+export function TechnologiesAutocomplete({ data, onSelect }: TechnologiesAutocompleteProps) {
 	const [selectedTechnologies, setSelectedTechnologies] = useState<TechnologyOption[]>([]);
 
-	const technologyOptions = useMemo(() => convertTechnologiesDataToOptionsArray(data), [data]);
+	const technologyOptions = useMemo(() => convertTechnologyGroupsToOptionsArray(data), [data]);
 
 	function renderEmptyState() {
 		return (
@@ -55,12 +56,19 @@ export function TechnologiesAutocomplete({ data }: Props) {
 			if (prev.includes(technology)) {
 				return prev;
 			}
+
+			if (onSelect) {
+				onSelect(technology);
+			}
 			return [...prev, technology];
 		});
 	}
 
 	function removeTechItem(technology: TechnologyOption) {
 		setSelectedTechnologies((prev) => prev.filter((tech) => tech !== technology));
+		if (onSelect) {
+			onSelect(technology);
+		}
 	}
 
 	return (
@@ -70,7 +78,7 @@ export function TechnologiesAutocomplete({ data }: Props) {
 				options={technologyOptions}
 				renderOption={renderOption}
 				name='technologies'
-				className='border border-gray-500 py-3 text-lg'
+				className='bg-ghost-white border border-gray-500 py-3 text-lg'
 				startIcon={<SearchIcon className='text-gray-300' />}
 				placeholder='Search projects by tech stack - start typing to see the available options'
 				autoFocus
@@ -79,15 +87,12 @@ export function TechnologiesAutocomplete({ data }: Props) {
 			{selectedTechnologies.length > 0 && (
 				<div className='flex flex-wrap gap-3'>
 					{selectedTechnologies.map((technology) => (
-						<Chip
+						<TechnologyChip
 							key={technology.id}
-							className={config[technology.groupName as TechnologyName].className}
-							outlined
+							technology={technology}
 							removable
 							onClick={() => removeTechItem(technology)}
-						>
-							{technology.value}
-						</Chip>
+						/>
 					))}
 				</div>
 			)}

@@ -1,3 +1,4 @@
+import { ProjectsDataAccessor } from '../projects/projects.data-accessor';
 import { SessionDataAccessor } from '../session/session.data-accessor';
 import { SocialLinksDataAccessor } from '../social-links/social-links.data-accessor';
 import { TechnologiesDataAccessor } from '../technologies/technologies.data-accessor';
@@ -9,6 +10,7 @@ export const dataAccessorsRegistry = {
 	session: SessionDataAccessor,
 	socialLinks: SocialLinksDataAccessor,
 	technologies: TechnologiesDataAccessor,
+	projects: ProjectsDataAccessor,
 };
 
 export type DataAccessors = {

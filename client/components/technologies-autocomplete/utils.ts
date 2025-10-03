@@ -1,7 +1,7 @@
-import type { TechnologyGroupData } from '$/shared/types/technologies';
+import type { TechnologyData, TechnologyGroupData } from '$/shared/types/technologies';
 import type { TechnologyOption } from './types';
 
-export function convertTechnologiesDataToOptionsArray(
+export function convertTechnologyGroupsToOptionsArray(
 	data: TechnologyGroupData[],
 ): TechnologyOption[] {
 	return data
@@ -13,4 +13,12 @@ export function convertTechnologiesDataToOptionsArray(
 			}));
 		})
 		.flat();
+}
+
+export function convertTechnologyDataToOptionItem(technology: TechnologyData): TechnologyOption {
+	return {
+		id: technology.id,
+		value: technology.name,
+		groupName: technology.group.name,
+	};
 }

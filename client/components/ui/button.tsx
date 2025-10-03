@@ -2,11 +2,11 @@ import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 import { cn } from '../../lib/utils';
 import { Spinner } from './spinner';
 
-type Props = PropsWithChildren<ComponentPropsWithoutRef<'button'>> & {
+export type ButtonProps = PropsWithChildren<ComponentPropsWithoutRef<'button'>> & {
 	loading?: boolean;
 };
 
-export function Button({ className, loading, children, ...props }: Props) {
+export function Button({ className, loading, children, ...props }: ButtonProps) {
 	return (
 		<button
 			{...props}
