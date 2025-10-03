@@ -3,4 +3,4 @@ export type SelectItem = {
 	value: string;
 };
 
-export type Items = SelectItem[] | Record<string, any>;
+export type Items = SelectItem[] | Record<string, string>;

@@ -7,7 +7,12 @@ type CommonProps = PropsWithChildren<{
 
 function Card({ className, children }: CommonProps) {
 	return (
-		<article className={cn('flex flex-col gap-6 rounded-2xl p-6 shadow-lg', className)}>
+		<article
+			className={cn(
+				'flex flex-col justify-between gap-6 rounded-2xl p-6 shadow-lg',
+				className,
+			)}
+		>
 			{children}
 		</article>
 	);
@@ -18,11 +23,11 @@ function CardHeader({ children }: CommonProps) {
 }
 
 function CardTitle({ children }: CommonProps) {
-	return <span className='text-eerie-black text-2xl font-semibold'>{children}</span>;
+	return <span className='text-eerie-black text-xl font-semibold'>{children}</span>;
 }
 
 function CardDescription({ children }: CommonProps) {
-	return <span className='text-md line-clamp-3 text-gray-600'>{children}</span>;
+	return <span className='text-md text-eerie-black line-clamp-4'>{children}</span>;
 }
 
 function CardBody({ className, children }: CommonProps) {

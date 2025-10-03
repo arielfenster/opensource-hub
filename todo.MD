@@ -20,9 +20,9 @@ createdAt: createdAt,
 updatedAt: updatedAt,
 });
 
-created a technologiesHandler class that has a "requestTechnology" function.
+create a technologiesHandler class that has a "requestTechnology" function.
 it creates an entry in the technologyRequests table, sends me an email and notifies the user that their request was submitted successfully.
-also, need to created methods for approving and declining requests.
+also, need to create methods for approving and declining requests.
 each of them should update the request's status and send an email to the requester (if email exists).
 i need to create an admin dashboard in the navbar where i can see all the requests and click to approve/decline them. (NICE!)
 

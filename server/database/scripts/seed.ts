@@ -189,14 +189,7 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'A full-featured project management tool that allows teams to collaborate, track progress, and manage tasks efficiently.',
 				status: 'In Progress',
-				teamPositions: [
-					'Frontend',
-					'Backend',
-					'Fullstack',
-					'Devops',
-					'QA',
-					'Product Manager',
-				],
+				teamPositions: ['Fullstack'],
 				ownerId: owner.id,
 			},
 			{
@@ -206,14 +199,7 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'An e-commerce platform that supports product listings, shopping carts, payment processing, and order management.',
 				status: 'Created',
-				teamPositions: [
-					'Frontend',
-					'Backend',
-					'Fullstack',
-					'Devops',
-					'QA',
-					'Product Manager',
-				],
+				teamPositions: ['Product Manager'],
 				ownerId: owner.id,
 			},
 			{
