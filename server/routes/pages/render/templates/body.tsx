@@ -56,7 +56,7 @@ export function Body({ pageScripts, prefetchedState, children }: BodyProps) {
 				</AppProviders>
 			</div>
 			{injectPrefetchedState(serverQueryContext?.dehydratedState)}
-			{!IS_PROD && <script type='module' src={pageScripts.js[0]}></script>}
+			{!IS_PROD && <script type='module' src={`/${pageScripts.js[0]}`}></script>}
 		</body>
 	);
 }
