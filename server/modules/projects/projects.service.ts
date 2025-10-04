@@ -1,6 +1,7 @@
 import type { PaginationInput } from '$/shared/schemas/common/pagination.schema';
 import { nanoid } from 'nanoid';
 import { projectsDataAccessor } from './projects.data-accessor';
+import type { FindProjectParams, FindProjectUniqueIdentifier } from './types';
 
 class ProjectsService {
 	async getProjects({ limit, skip }: PaginationInput) {
@@ -14,6 +15,16 @@ class ProjectsService {
 		});
 	}
 
+	async findProject(params: FindProjectParams) {
+		const keys = Object.keys(params);
+		if (keys.length === 0) {
+			return null;
+		}
+
+		const searchKey = keys[0] as FindProjectUniqueIdentifier;
+		return projectsDataAccessor.findProjectByUniqueIdentifier(searchKey, params[searchKey] as string);
+	}
+
 	generateProjectSlug(name: string) {
 		const slug = name
 			.toLowerCase()
@@ -22,6 +33,7 @@ class ProjectsService {
 
 		return `${slug}-${nanoid(10)}`;
 	}
+
 }
 
 export const projectsService = new ProjectsService();

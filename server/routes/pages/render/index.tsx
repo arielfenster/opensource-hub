@@ -43,10 +43,11 @@ export async function renderServerPageWithUser(
 	const user = await usersHandler.getSafeCurrentUser(c);
 
 	if (user) {
-		serverPageProps.prefetchedState = {
+		serverPageProps.prefetchedState = serverPageProps.prefetchedState || [];
+		serverPageProps.prefetchedState.push({
 			key: PREFETCHED_USER_QUERY_KEY,
 			data: user,
-		};
+		});
 	}
 
 	return renderServerPage(component, serverPageProps);

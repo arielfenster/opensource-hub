@@ -11,7 +11,7 @@ export type BodyProps = PropsWithChildren<{
 	prefetchedState?: {
 		key: QueryKey;
 		data: Record<string, any>;
-	};
+	}[];
 }>;
 
 export function Body({ pageScripts, prefetchedState, children }: BodyProps) {
@@ -21,7 +21,9 @@ export function Body({ pageScripts, prefetchedState, children }: BodyProps) {
 		}
 
 		const queryClient = new QueryClient();
-		queryClient.setQueryData(prefetchedState.key, prefetchedState.data);
+		prefetchedState?.forEach(({ key, data }) => {
+			queryClient.setQueryData(key, data);
+		});
 		const dehydratedState = dehydrate(queryClient);
 
 		return {
