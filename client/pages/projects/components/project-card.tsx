@@ -17,7 +17,7 @@ export function ProjectCard({ project }: Props) {
 				<Card.Title>{project.name}</Card.Title>
 			</Card.Header>
 			<Card.Body className='flex flex-col gap-6'>
-				<Card.Description>{project.longDescription}</Card.Description>
+				<Card.Description>{project.shortDescription}</Card.Description>
 				<div className='flex flex-wrap items-center gap-2'>
 					{project.technologies.slice(0, 5).map((tech) => (
 						<TechnologyChip
@@ -47,19 +47,21 @@ export function ProjectCard({ project }: Props) {
 					<InfoIcon height={20} width={20} />
 					More info
 				</LinkButton>
-				{project.links.sourceControlLink && (
+				{project.links?.sourceControlLink && (
 					<LinkButton href={project.links.sourceControlLink}>
 						<CodeIcon height={20} width={20} />
 						Code
 					</LinkButton>
 				)}
-				<LinkButton
-					href={project.links.projectLink}
-					className='bg-celestial-blue hover:bg-celestial-blue-hover text-ghost-white'
-				>
-					<ExternalLinkIcon height={20} width={20} />
-					Live demo
-				</LinkButton>
+				{project.links?.projectLink && (
+					<LinkButton
+						href={project.links.projectLink}
+						className='bg-celestial-blue hover:bg-celestial-blue-hover text-ghost-white'
+					>
+						<ExternalLinkIcon height={20} width={20} />
+						Live demo
+					</LinkButton>
+				)}
 			</Card.Footer>
 		</Card>
 	);
