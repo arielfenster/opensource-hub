@@ -1,18 +1,18 @@
 import type { PaginationInput } from '$/shared/schemas/common/pagination.schema';
+import type { ProjectDetails } from '$/shared/types/projects';
 import { nanoid } from 'nanoid';
 import { projectsDataAccessor } from './projects.data-accessor';
 import type { FindProjectParams, FindProjectUniqueIdentifier } from './types';
+
+type FindProjectReturnValue = NonNullable<
+	Awaited<ReturnType<typeof projectsDataAccessor.findProjectByUniqueIdentifier>>
+>;
 
 class ProjectsService {
 	async getProjects({ limit, skip }: PaginationInput) {
 		const projects = await projectsDataAccessor.findProjects(limit, skip);
 
-		return projects.flatMap((project) => {
-			return {
-				...project,
-				technologies: project.technologies.map((tech) => tech.technology),
-			};
-		});
+		return projects.flatMap(this.processProject);
 	}
 
 	async findProject(params: FindProjectParams) {
@@ -22,7 +22,12 @@ class ProjectsService {
 		}
 
 		const searchKey = keys[0] as FindProjectUniqueIdentifier;
-		return projectsDataAccessor.findProjectByUniqueIdentifier(searchKey, params[searchKey] as string);
+		const project = await projectsDataAccessor.findProjectByUniqueIdentifier(
+			searchKey,
+			params[searchKey] as string,
+		);
+
+		return project ? this.processProject(project) : null;
 	}
 
 	generateProjectSlug(name: string) {
@@ -34,6 +39,12 @@ class ProjectsService {
 		return `${slug}-${nanoid(10)}`;
 	}
 
+	private processProject(project: FindProjectReturnValue): ProjectDetails {
+		return {
+			...project,
+			technologies: project.technologies.map((tech) => tech.technology),
+		};
+	}
 }
 
 export const projectsService = new ProjectsService();

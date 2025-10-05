@@ -1,3 +1,4 @@
+import { superjsonResponse } from '$/server/lib/superjson';
 import { projectsHandler } from '$/server/modules/projects/projects.handler';
 import { paginationSchema } from '$/shared/schemas/common/pagination.schema';
 import { zValidator } from '@hono/zod-validator';
@@ -9,7 +10,7 @@ export const projectsRouter = new Hono().get(
 	async (c) => {
 		try {
 			const projects = await projectsHandler.listProjects(c);
-			return c.json(projects);
+			return superjsonResponse(c, projects);
 		} catch (error) {
 			console.error('Error fetching projects:', error);
 			throw error;
