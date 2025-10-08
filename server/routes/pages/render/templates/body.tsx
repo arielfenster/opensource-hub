@@ -3,6 +3,7 @@ import { Layout } from '$/client/components/layout';
 import { AppProviders } from '$/client/providers/app-providers';
 import { PREFETCHED_STATE_NAME } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';
+import { superjsonStringify } from '$/shared/superjson';
 import { QueryClient, dehydrate, type DehydratedState, type QueryKey } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
 
@@ -10,8 +11,8 @@ export type BodyProps = PropsWithChildren<{
 	pageScripts: PageScripts;
 	prefetchedState?: {
 		key: QueryKey;
-		data: Record<string, any>;
-	};
+		data: any;
+	}[];
 }>;
 
 export function Body({ pageScripts, prefetchedState, children }: BodyProps) {
@@ -21,7 +22,9 @@ export function Body({ pageScripts, prefetchedState, children }: BodyProps) {
 		}
 
 		const queryClient = new QueryClient();
-		queryClient.setQueryData(prefetchedState.key, prefetchedState.data);
+		prefetchedState?.forEach(({ key, data }) => {
+			queryClient.setQueryData(key, data);
+		});
 		const dehydratedState = dehydrate(queryClient);
 
 		return {
@@ -38,7 +41,7 @@ export function Body({ pageScripts, prefetchedState, children }: BodyProps) {
 		return (
 			<script
 				dangerouslySetInnerHTML={{
-					__html: `${PREFETCHED_STATE_NAME} = ${JSON.stringify(dehydratedState)};`,
+					__html: `${PREFETCHED_STATE_NAME} = ${superjsonStringify(dehydratedState)};`,
 				}}
 			/>
 		);
@@ -54,7 +57,7 @@ export function Body({ pageScripts, prefetchedState, children }: BodyProps) {
 				</AppProviders>
 			</div>
 			{injectPrefetchedState(serverQueryContext?.dehydratedState)}
-			{!IS_PROD && <script type='module' src={pageScripts.js[0]}></script>}
+			{!IS_PROD && <script type='module' src={`/${pageScripts.js[0]}`}></script>}
 		</body>
 	);
 }

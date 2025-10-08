@@ -2,7 +2,7 @@ import { teamPositionEnum, type Project, type ProjectLinks } from '$/server/data
 import type { TechnologyData } from './technologies';
 
 export type ProjectDetails = Project & {
-	links: ProjectLinks;
+	links: ProjectLinks | null;
 	technologies: TechnologyData[];
 };
 

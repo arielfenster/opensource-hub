@@ -9,7 +9,7 @@ export const projectManagementTypeEnum = pgEnum('projectManagementTypeEnum', ['J
 
 export const projectLinks = pgTable('projectLinks', {
 	id: id,
-	projectLink: varchar('projectLink').notNull(),
+	projectLink: varchar('projectLink'),
 	sourceControlType: sourceControlTypeEnum('sourceControlType'),
 	sourceControlLink: varchar('sourceControlLink'),
 	chatType: chatTypeEnum('chatType'),

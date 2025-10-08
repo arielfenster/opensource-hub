@@ -2,5 +2,8 @@ export const STATIC_DIR = 'static';
 export const STATIC_OUTPUT_DIR_PATH = `${STATIC_DIR}/output`;
 export const STATIC_IMAGE_DIR_PATH = `${STATIC_DIR}/images`;
 
-export const CLIENT_DATA_NAME = '__CLIENT_DATA__';
+// export const CLIENT_DATA_NAME = '__CLIENT_DATA__';
 export const PREFETCHED_STATE_NAME = '__PREFETCHED_STATE__';
+
+export const PREFETCHED_USER_QUERY_KEY = ['user'];
+export const PREFETCHED_PROJECT_DETAILS_QUERY_KEY = ['project-details'];

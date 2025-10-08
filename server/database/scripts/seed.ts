@@ -189,7 +189,6 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'A full-featured project management tool that allows teams to collaborate, track progress, and manage tasks efficiently.',
 				status: 'In Progress',
-				teamPositions: ['Fullstack'],
 				ownerId: owner.id,
 			},
 			{
@@ -199,16 +198,25 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'An e-commerce platform that supports product listings, shopping carts, payment processing, and order management.',
 				status: 'Created',
-				teamPositions: ['Product Manager'],
+				teamPositions: [],
 				ownerId: owner.id,
 			},
 			{
 				name: 'TaskFlow - Team Productivity App',
 				slug: projectsService.generateProjectSlug('TaskFlow - Team Productivity App'),
-				shortDescription: 'A web app for managing tasks and tracking productivity.',
+				shortDescription:
+					'A collaborative productivity platform for modern teams.\nManage tasks, assign responsibilities, and track progress in real time.\nStay organized with smart notifications and integrations.\nIdeal for startups and remote teams.',
 				longDescription:
-					'TaskFlow helps distributed teams organize projects, assign tasks, and track progress in real time. The app includes integrations with Slack and GitHub.',
+					'TaskFlow is a complete task and project management platform built to help distributed teams stay aligned. It allows users to create projects, assign tasks, track deadlines, and monitor team performance with visual dashboards.\n\nThe app integrates with Slack, GitHub, and Google Calendar, ensuring that updates flow naturally into your team’s daily tools. Managers can monitor workloads while developers and designers stay focused on their priorities.\n\nBuilt with React and Node.js, TaskFlow is optimized for real-time collaboration and designed to scale with growing teams.',
 				status: 'In Progress',
+				keyFeatures: [
+					'Modern React patterns and hooks',
+					'Type-safe APIs with TypeScript and Drizzle ORM',
+					'Implementing role-based access control (RBAC)',
+					'Responsive UI design and dashboard layout techniques',
+					'Creating gamified user experiences',
+					'Integrating third-party APIs for product data',
+				],
 				teamPositions: [
 					'Frontend',
 					'Backend',
@@ -222,59 +230,93 @@ async function insertProjects(owner: User) {
 			{
 				name: 'CodeCollab - Online IDE',
 				slug: projectsService.generateProjectSlug('CodeCollab - Online IDE'),
-				shortDescription: 'Browser-based collaborative coding environment.',
+				shortDescription:
+					'Collaborative web IDE for coding together in real time.\nSupports multiple languages and Docker-based sandboxes.\nBuilt for code reviews, education, and remote pairing.\nFast, responsive, and secure.',
 				longDescription:
-					'CodeCollab allows developers to work together in real time, share terminals, and run code in isolated Docker containers.',
+					'CodeCollab is a browser-based development environment that lets teams write and run code together in real time. Each session spins up an isolated container using Docker, allowing developers to safely experiment and share progress instantly.\n\nUsers can open terminals, view file diffs, and even chat inline while editing. The platform supports syntax highlighting for 20+ languages and has built-in GitHub integration.\n\nWith TypeScript on the frontend and a containerized Node.js backend, CodeCollab brings the convenience of VS Code to the browser—without sacrificing performance or security.',
 				status: 'Created',
+				keyFeatures: [
+					'State management in Vue 3 with Composition API',
+					'Building clean and accessible UI systems',
+				],
 				teamPositions: ['Frontend', 'Backend', 'Devops', 'QA'],
 				ownerId: owner.id,
 			},
 			{
 				name: 'MediTrack - Healthcare Management',
 				slug: projectsService.generateProjectSlug('MediTrack - Healthcare Management'),
-				shortDescription: 'A platform for tracking patient health records securely.',
+				shortDescription:
+					'A secure platform for clinics and hospitals.\nManage patient data, appointments, and prescriptions.\nDesigned for compliance and accessibility.\nReliable, encrypted, and easy to use.',
 				longDescription:
-					'MediTrack provides doctors and patients with an encrypted platform to manage appointments, prescriptions, and test results, with role-based access control.',
+					'MediTrack is an end-to-end healthcare management platform designed to simplify how clinics manage patient data. From appointment scheduling to medical record storage, everything is handled securely and efficiently.\n\nBuilt with C# and .NET, MediTrack emphasizes compliance with HIPAA and GDPR standards. Doctors can update prescriptions, nurses can monitor vital stats, and patients can view test results through an intuitive dashboard.\n\nThe system is scalable and deployable both on-premise and in the cloud. React provides a clean interface for users, while the backend ensures high performance and reliability for busy medical environments.',
 				status: 'Finished',
+				keyFeatures: [
+					'Using GraphQL for efficient mobile APIs',
+					'Offline data synchronization in React Native',
+					'Testing mobile apps with Jest and Detox',
+					'Data visualization and charting libraries',
+				],
 				teamPositions: ['Fullstack', 'QA', 'Product Manager', 'UI Developer'],
 				ownerId: owner.id,
 			},
 			{
 				name: 'EduStream - Online Learning Platform',
 				slug: projectsService.generateProjectSlug('EduStream - Online Learning Platform'),
-				shortDescription: 'Stream and host interactive educational courses.',
+				shortDescription:
+					'Interactive learning system for video-based courses.\nTeachers can create, stream, and grade in one place.\nBuilt for education at scale.\nSmooth, modern, and community-driven.',
 				longDescription:
-					'EduStream enables instructors to create video courses, add interactive quizzes, and track learner progress. Includes live video sessions.',
+					'EduStream is a full-featured online learning system that enables educators to create and share video-based courses. It provides tools for quizzes, assignments, and progress tracking, helping students stay engaged throughout their learning journey.\n\nThe platform supports both on-demand and live streaming sessions, allowing real-time interaction between instructors and learners. With an adaptive recommendation engine, students discover new courses based on their interests.\n\nPowered by Vue.js, Node.js, and AWS, EduStream delivers smooth performance even under high traffic, making it ideal for universities, training companies, and online schools.',
 				status: 'In Progress',
+				keyFeatures: [
+					'Server-side rendering and static generation with Next.js',
+					'Building reusable and themeable UI components',
+					'Integrating OAuth providers (GitHub, Google)',
+					'Creating user-customizable design templates',
+				],
 				teamPositions: ['Frontend', 'Backend', 'Devops', 'QA', 'UX Developer'],
 				ownerId: owner.id,
 			},
 			{
 				name: 'FitTrack - Fitness Tracking App',
 				slug: projectsService.generateProjectSlug('FitTrack - Fitness Tracking App'),
-				shortDescription: 'Mobile-first fitness and nutrition tracker.',
+				shortDescription:
+					'Personalized fitness and nutrition tracker.\nPlan workouts, log meals, and monitor progress.\nIntegrates with wearables and community challenges.\nSmart, simple, and motivating.',
 				longDescription:
-					'FitTrack helps users set workout plans, track nutrition, and monitor progress with wearables. Includes a community leaderboard.',
+					'FitTrack is a modern fitness companion built for individuals who want to track their workouts and nutrition in one place. It lets users set goals, follow custom workout plans, and visualize progress with detailed analytics.\n\nThe app syncs with popular wearables to automatically log steps, calories, and heart rate data. A social leaderboard encourages friendly competition among users.\n\nDeveloped with React Native and FastAPI, FitTrack is designed to deliver smooth performance across iOS and Android while maintaining accurate data synchronization with cloud-based storage.',
 				status: 'Created',
+				keyFeatures: [
+					'Streaming data visualization with D3.js',
+					'Containerization and deployment with Docker',
+				],
 				teamPositions: ['Frontend', 'Backend', 'UI Developer'],
 				ownerId: owner.id,
 			},
 			{
 				name: 'ShopSmart - E-commerce Platform',
 				slug: projectsService.generateProjectSlug('ShopSmart - E-commerce Platform'),
-				shortDescription: 'A scalable platform for online shops.',
+				shortDescription:
+					'Powerful platform for building online stores.\nSupports custom themes, analytics, and integrated payments.\nFlexible for startups or enterprises.\nBuilt for growth.',
 				longDescription:
-					'ShopSmart allows small businesses to quickly set up online stores with customizable themes, integrated payments, and analytics dashboards.',
+					'ShopSmart is an enterprise-ready e-commerce solution that allows businesses to launch and manage their own online stores quickly. It features customizable storefronts, inventory management, and seamless integrations with Stripe and PayPal.\n\nMerchants can analyze performance with built-in dashboards that track sales, conversion rates, and customer behavior. The platform also includes multi-language and multi-currency support for global audiences.\n\nBuilt with Next.js and NestJS, ShopSmart leverages modern web architecture to deliver fast loading times and excellent scalability using Docker and Redis.',
 				status: 'In Progress',
+				keyFeatures: [
+					'Using WebSockets for real-time communication',
+					'Designing scalable monitoring architectures',
+					'Creating reactive frontends with SvelteKit',
+					'Optimizing REST APIs with Fastify',
+					'Collaborative content moderation workflows',
+					'Building learning communities and gamification systems',
+				],
 				teamPositions: ['Frontend', 'Backend', 'Devops', 'Product Manager', 'UX Developer'],
 				ownerId: owner.id,
 			},
 			{
 				name: 'FinGuard - Personal Finance Tracker',
 				slug: projectsService.generateProjectSlug('FinGuard - Personal Finance Tracker'),
-				shortDescription: 'A finance app for budgeting and expense tracking.',
+				shortDescription:
+					'Smart budgeting and expense management app.\nAutomatically categorizes your spending.\nHelps you save with AI-driven insights.\nBeautiful, private, and intuitive.',
 				longDescription:
-					'FinGuard offers AI-powered budgeting, automatic expense categorization, and personalized saving tips.',
+					'FinGuard helps users take control of their finances by offering a complete view of income, expenses, and savings. The app uses AI to detect spending patterns and generate personalized budgeting tips.\n\nWith bank integration, FinGuard automatically categorizes transactions and provides weekly summaries that help users stay on top of their goals. Data privacy is guaranteed through end-to-end encryption.\n\nThe system combines an Angular frontend with a robust Java Spring Boot backend, running on MySQL for reliable data management.',
 				status: 'Created',
 				teamPositions: ['Fullstack', 'QA', 'UI Developer'],
 				ownerId: owner.id,
@@ -282,30 +324,51 @@ async function insertProjects(owner: User) {
 			{
 				name: 'GreenFleet - Logistics Optimization',
 				slug: projectsService.generateProjectSlug('GreenFleet - Logistics Optimization'),
-				shortDescription: 'Optimize delivery routes for logistics companies.',
+				shortDescription:
+					'AI-based route optimization for delivery fleets.\nReduce fuel consumption and delivery times.\nReal-time tracking and analytics.\nBuilt for logistics and sustainability.',
 				longDescription:
-					'GreenFleet reduces fuel consumption and delivery times using AI route optimization, traffic prediction, and live fleet monitoring.',
+					'GreenFleet is a logistics optimization system that helps companies manage and monitor their delivery operations efficiently. Using advanced machine learning models, it predicts traffic and suggests optimal routes to minimize fuel usage.\n\nFleet managers can track every vehicle in real time and generate performance reports based on route history and driver behavior. The platform also includes an environmental dashboard that measures carbon footprint reduction.\n\nGreenFleet runs on a Django backend with a React frontend, powered by Kubernetes for scaling and AWS for cloud deployment.',
 				status: 'In Progress',
+				keyFeatures: [
+					'Integrating IoT devices with web services',
+					'Real-time event handling with MQTT',
+					'Securing APIs and IoT communication channels',
+					'Building dashboards for sensor data visualization',
+				],
 				teamPositions: ['Backend', 'Devops', 'Product Manager', 'QA'],
 				ownerId: owner.id,
 			},
 			{
 				name: 'Artify - AI Image Generator',
 				slug: projectsService.generateProjectSlug('Artify - AI Image Generator'),
-				shortDescription: 'Create AI-generated artwork in seconds.',
+				shortDescription:
+					'Generate stunning artwork with artificial intelligence.\nChoose styles, subjects, and refine results.\nExport images instantly.\nCreative, fast, and limitless.',
 				longDescription:
-					'Artify lets users generate unique digital art with AI, fine-tune styles, and share on social media. Supports NFT minting.',
+					'Artify brings AI creativity to everyone. Users can generate unique digital art pieces by entering prompts, selecting artistic styles, and refining outputs through iterative feedback.\n\nThe platform leverages TensorFlow for neural style transfer and stable diffusion models. Artists and designers can export their creations for print, social media, or NFT minting directly from the dashboard.\n\nWith React and Node.js, Artify delivers smooth performance and real-time rendering feedback, making it both a tool for professionals and an inspiration playground for beginners.',
 				status: 'Created',
+				keyFeatures: [
+					'Implementing video upload and transcoding with FFmpeg',
+					'Streaming media securely with HLS',
+					'Building comment systems and threaded discussions',
+					'Managing scalable file storage with object storage APIs',
+					'Data preprocessing and visualization with Pandas',
+					'Building AI dashboards with React',
+				],
 				teamPositions: ['Frontend', 'Backend', 'UI Developer', 'UX Developer'],
 				ownerId: owner.id,
 			},
 			{
 				name: 'StreamPulse - Music Streaming Service',
 				slug: projectsService.generateProjectSlug('StreamPulse - Music Streaming Service'),
-				shortDescription: 'Personalized music streaming app.',
+				shortDescription:
+					'Personalized streaming with AI-powered playlists.\nCollaborate on shared mixes and listen offline.\nSeamless and high-fidelity music experience.\nBuilt for audiophiles.',
 				longDescription:
-					'StreamPulse offers high-quality streaming, playlist collaboration, and AI-generated recommendations. Offline mode supported.',
+					'StreamPulse redefines music streaming with personalization at its core. It learns user preferences through listening behavior and creates dynamic playlists that adapt in real time.\n\nUsers can collaborate with friends to build shared playlists, explore trending artists, and enjoy lossless audio quality even on mobile. Offline mode ensures music is always available, regardless of connection.\n\nThe platform runs on Go and PostgreSQL, with React Native powering the mobile experience. Redis caching ensures low-latency streaming and smooth playback transitions.',
 				status: 'Aborted',
+				keyFeatures: [
+					'Deploying ML models via REST APIs',
+					'Experimenting with recommendation algorithms',
+				],
 				teamPositions: ['Frontend', 'Backend', 'Devops', 'QA'],
 				ownerId: owner.id,
 			},
@@ -568,7 +631,6 @@ async function addProjectLinks(projects: Project[]) {
 		},
 		{
 			projectId: projects[2].id,
-			projectLink: 'https://project-management.example.com',
 			sourceControlType: 'Gitlab',
 			sourceControlLink: 'https://www.gitlab.com',
 			chatType: 'Discord',
@@ -578,7 +640,6 @@ async function addProjectLinks(projects: Project[]) {
 		},
 		{
 			projectId: projects[3].id,
-			projectLink: 'https://project-management.example.com',
 			sourceControlType: 'Gitlab',
 			sourceControlLink: 'https://www.gitlab.com',
 			chatType: 'Discord',
@@ -588,7 +649,6 @@ async function addProjectLinks(projects: Project[]) {
 		},
 		{
 			projectId: projects[4].id,
-			projectLink: 'https://project-management.example.com',
 			sourceControlType: 'Gitlab',
 			sourceControlLink: 'https://www.gitlab.com',
 			chatType: 'Discord',
@@ -598,7 +658,6 @@ async function addProjectLinks(projects: Project[]) {
 		},
 		{
 			projectId: projects[5].id,
-			projectLink: 'https://project-management.example.com',
 			sourceControlType: 'Gitlab',
 			sourceControlLink: 'https://www.gitlab.com',
 			chatType: 'Discord',
@@ -663,7 +722,9 @@ async function addProjectLinks(projects: Project[]) {
 seed()
 	.then(() => {
 		console.log('Database is seeded');
+		process.exit(0);
 	})
 	.catch((error) => {
 		console.error('Failed to seed database: ', error);
+		process.exit(1);
 	});

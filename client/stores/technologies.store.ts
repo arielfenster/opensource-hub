@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { TechnologyOption } from '../technologies-autocomplete/types';
+import type { TechnologyOption } from '../components/technologies-autocomplete/types';
 
 type State = {
 	selectedTechnologies: TechnologyOption[];

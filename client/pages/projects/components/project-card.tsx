@@ -17,7 +17,7 @@ export function ProjectCard({ project }: Props) {
 				<Card.Title>{project.name}</Card.Title>
 			</Card.Header>
 			<Card.Body className='flex flex-col gap-6'>
-				<Card.Description>{project.longDescription}</Card.Description>
+				<Card.Description>{project.shortDescription}</Card.Description>
 				<div className='flex flex-wrap items-center gap-2'>
 					{project.technologies.slice(0, 5).map((tech) => (
 						<TechnologyChip
@@ -29,37 +29,41 @@ export function ProjectCard({ project }: Props) {
 						<span>+{project.technologies.length - 5} more</span>
 					)}
 				</div>
-				<div className='flex flex-wrap items-center gap-2'>
-					<span>Looking for:</span>
-					{project.teamPositions.map((position) => (
-						<Chip
-							key={position}
-							outlined
-							className='text-eerie-black flex h-6 items-center rounded py-0 text-sm font-light'
-						>
-							{position}
-						</Chip>
-					))}
-				</div>
+				{project.teamPositions.length > 0 && (
+					<div className='flex flex-wrap items-center gap-2'>
+						<span>Looking for:</span>
+						{project.teamPositions.map((position) => (
+							<Chip
+								key={position}
+								outlined
+								className='text-eerie-black flex h-6 items-center rounded py-0 text-sm font-light'
+							>
+								{position}
+							</Chip>
+						))}
+					</div>
+				)}
 			</Card.Body>
-			<Card.Footer separator>
+			<Card.Footer className='flex justify-between' separator>
 				<LinkButton href={`/projects/${project.slug}`}>
 					<InfoIcon height={20} width={20} />
 					More info
 				</LinkButton>
-				{project.links.sourceControlLink && (
+				{project.links?.sourceControlLink && (
 					<LinkButton href={project.links.sourceControlLink}>
 						<CodeIcon height={20} width={20} />
 						Code
 					</LinkButton>
 				)}
-				<LinkButton
-					href={project.links.projectLink}
-					className='bg-celestial-blue hover:bg-celestial-blue-hover text-ghost-white'
-				>
-					<ExternalLinkIcon height={20} width={20} />
-					Live demo
-				</LinkButton>
+				{project.links?.projectLink && (
+					<LinkButton
+						href={project.links.projectLink}
+						className='bg-celestial-blue hover:bg-celestial-blue-hover text-ghost-white'
+					>
+						<ExternalLinkIcon height={20} width={20} />
+						Live demo
+					</LinkButton>
+				)}
 			</Card.Footer>
 		</Card>
 	);

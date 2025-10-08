@@ -29,6 +29,10 @@ export const projects = pgTable('projects', {
 	shortDescription: varchar('shortDescription').notNull(),
 	longDescription: varchar('longDescription').notNull(),
 	status: projectStatusEnum('status').notNull().default('Created'),
+	keyFeatures: varchar('keyFeatures')
+		.array()
+		.notNull()
+		.default(sql`ARRAY[]::varchar[]`),
 	teamPositions: teamPositionEnum('teamPositions')
 		.array()
 		.notNull()

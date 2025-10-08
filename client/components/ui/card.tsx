@@ -18,16 +18,20 @@ function Card({ className, children }: CommonProps) {
 	);
 }
 
-function CardHeader({ children }: CommonProps) {
-	return <div className='flex flex-col gap-2'>{children}</div>;
+function CardHeader({ className, children }: CommonProps) {
+	return <div className={cn('flex flex-col gap-2', className)}>{children}</div>;
 }
 
-function CardTitle({ children }: CommonProps) {
-	return <span className='text-eerie-black text-xl font-semibold'>{children}</span>;
+function CardTitle({ className, children }: CommonProps) {
+	return (
+		<span className={cn('text-royal-blue text-xl font-semibold', className)}>{children}</span>
+	);
 }
 
-function CardDescription({ children }: CommonProps) {
-	return <span className='text-md text-eerie-black line-clamp-4'>{children}</span>;
+function CardDescription({ className, children }: CommonProps) {
+	return (
+		<span className={cn('text-md text-eerie-black line-clamp-4', className)}>{children}</span>
+	);
 }
 
 function CardBody({ className, children }: CommonProps) {
@@ -36,13 +40,7 @@ function CardBody({ className, children }: CommonProps) {
 
 function CardFooter({ separator, className, children }: CommonProps & { separator?: boolean }) {
 	return (
-		<div
-			className={cn(
-				'mt-auto flex w-full justify-between',
-				separator && 'w-full border-t border-black pt-4',
-				className,
-			)}
-		>
+		<div className={cn('mt-auto', separator && 'w-full border-t border-black pt-4', className)}>
 			{children}
 		</div>
 	);

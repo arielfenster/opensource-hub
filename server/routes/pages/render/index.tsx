@@ -1,5 +1,6 @@
 import { getScriptsFromManifest, type PageScripts } from '$/build-utils/manifest';
 import { buildEntryInputName, type AppPage } from '$/build-utils/paths';
+import { PREFETCHED_USER_QUERY_KEY } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';
 import type { Context } from 'hono';
 import type { ReactNode } from 'react';
@@ -42,10 +43,11 @@ export async function renderServerPageWithUser(
 	const user = await usersHandler.getSafeCurrentUser(c);
 
 	if (user) {
-		serverPageProps.prefetchedState = {
-			key: ['user'],
+		serverPageProps.prefetchedState = serverPageProps.prefetchedState || [];
+		serverPageProps.prefetchedState.push({
+			key: PREFETCHED_USER_QUERY_KEY,
 			data: user,
-		};
+		});
 	}
 
 	return renderServerPage(component, serverPageProps);

@@ -7,7 +7,7 @@ export function useTechnologies() {
 	return useQuery({
 		queryKey: ['technologies'],
 		queryFn: async () => {
-			const response = await rpcClient.technologies.list.$get();
+			const response = await rpcClient.technologies.$get();
 			return response.json();
 		},
 		initialData: [],
