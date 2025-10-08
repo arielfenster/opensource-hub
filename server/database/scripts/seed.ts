@@ -189,7 +189,6 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'A full-featured project management tool that allows teams to collaborate, track progress, and manage tasks efficiently.',
 				status: 'In Progress',
-				teamPositions: ['Fullstack'],
 				ownerId: owner.id,
 			},
 			{
@@ -199,7 +198,7 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'An e-commerce platform that supports product listings, shopping carts, payment processing, and order management.',
 				status: 'Created',
-				teamPositions: ['Product Manager'],
+				teamPositions: [],
 				ownerId: owner.id,
 			},
 			{
@@ -210,6 +209,14 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'TaskFlow is a complete task and project management platform built to help distributed teams stay aligned. It allows users to create projects, assign tasks, track deadlines, and monitor team performance with visual dashboards.\n\nThe app integrates with Slack, GitHub, and Google Calendar, ensuring that updates flow naturally into your team’s daily tools. Managers can monitor workloads while developers and designers stay focused on their priorities.\n\nBuilt with React and Node.js, TaskFlow is optimized for real-time collaboration and designed to scale with growing teams.',
 				status: 'In Progress',
+				keyFeatures: [
+					'Modern React patterns and hooks',
+					'Type-safe APIs with TypeScript and Drizzle ORM',
+					'Implementing role-based access control (RBAC)',
+					'Responsive UI design and dashboard layout techniques',
+					'Creating gamified user experiences',
+					'Integrating third-party APIs for product data',
+				],
 				teamPositions: [
 					'Frontend',
 					'Backend',
@@ -228,6 +235,10 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'CodeCollab is a browser-based development environment that lets teams write and run code together in real time. Each session spins up an isolated container using Docker, allowing developers to safely experiment and share progress instantly.\n\nUsers can open terminals, view file diffs, and even chat inline while editing. The platform supports syntax highlighting for 20+ languages and has built-in GitHub integration.\n\nWith TypeScript on the frontend and a containerized Node.js backend, CodeCollab brings the convenience of VS Code to the browser—without sacrificing performance or security.',
 				status: 'Created',
+				keyFeatures: [
+					'State management in Vue 3 with Composition API',
+					'Building clean and accessible UI systems',
+				],
 				teamPositions: ['Frontend', 'Backend', 'Devops', 'QA'],
 				ownerId: owner.id,
 			},
@@ -239,6 +250,12 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'MediTrack is an end-to-end healthcare management platform designed to simplify how clinics manage patient data. From appointment scheduling to medical record storage, everything is handled securely and efficiently.\n\nBuilt with C# and .NET, MediTrack emphasizes compliance with HIPAA and GDPR standards. Doctors can update prescriptions, nurses can monitor vital stats, and patients can view test results through an intuitive dashboard.\n\nThe system is scalable and deployable both on-premise and in the cloud. React provides a clean interface for users, while the backend ensures high performance and reliability for busy medical environments.',
 				status: 'Finished',
+				keyFeatures: [
+					'Using GraphQL for efficient mobile APIs',
+					'Offline data synchronization in React Native',
+					'Testing mobile apps with Jest and Detox',
+					'Data visualization and charting libraries',
+				],
 				teamPositions: ['Fullstack', 'QA', 'Product Manager', 'UI Developer'],
 				ownerId: owner.id,
 			},
@@ -250,6 +267,12 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'EduStream is a full-featured online learning system that enables educators to create and share video-based courses. It provides tools for quizzes, assignments, and progress tracking, helping students stay engaged throughout their learning journey.\n\nThe platform supports both on-demand and live streaming sessions, allowing real-time interaction between instructors and learners. With an adaptive recommendation engine, students discover new courses based on their interests.\n\nPowered by Vue.js, Node.js, and AWS, EduStream delivers smooth performance even under high traffic, making it ideal for universities, training companies, and online schools.',
 				status: 'In Progress',
+				keyFeatures: [
+					'Server-side rendering and static generation with Next.js',
+					'Building reusable and themeable UI components',
+					'Integrating OAuth providers (GitHub, Google)',
+					'Creating user-customizable design templates',
+				],
 				teamPositions: ['Frontend', 'Backend', 'Devops', 'QA', 'UX Developer'],
 				ownerId: owner.id,
 			},
@@ -261,6 +284,10 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'FitTrack is a modern fitness companion built for individuals who want to track their workouts and nutrition in one place. It lets users set goals, follow custom workout plans, and visualize progress with detailed analytics.\n\nThe app syncs with popular wearables to automatically log steps, calories, and heart rate data. A social leaderboard encourages friendly competition among users.\n\nDeveloped with React Native and FastAPI, FitTrack is designed to deliver smooth performance across iOS and Android while maintaining accurate data synchronization with cloud-based storage.',
 				status: 'Created',
+				keyFeatures: [
+					'Streaming data visualization with D3.js',
+					'Containerization and deployment with Docker',
+				],
 				teamPositions: ['Frontend', 'Backend', 'UI Developer'],
 				ownerId: owner.id,
 			},
@@ -272,6 +299,14 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'ShopSmart is an enterprise-ready e-commerce solution that allows businesses to launch and manage their own online stores quickly. It features customizable storefronts, inventory management, and seamless integrations with Stripe and PayPal.\n\nMerchants can analyze performance with built-in dashboards that track sales, conversion rates, and customer behavior. The platform also includes multi-language and multi-currency support for global audiences.\n\nBuilt with Next.js and NestJS, ShopSmart leverages modern web architecture to deliver fast loading times and excellent scalability using Docker and Redis.',
 				status: 'In Progress',
+				keyFeatures: [
+					'Using WebSockets for real-time communication',
+					'Designing scalable monitoring architectures',
+					'Creating reactive frontends with SvelteKit',
+					'Optimizing REST APIs with Fastify',
+					'Collaborative content moderation workflows',
+					'Building learning communities and gamification systems',
+				],
 				teamPositions: ['Frontend', 'Backend', 'Devops', 'Product Manager', 'UX Developer'],
 				ownerId: owner.id,
 			},
@@ -294,6 +329,12 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'GreenFleet is a logistics optimization system that helps companies manage and monitor their delivery operations efficiently. Using advanced machine learning models, it predicts traffic and suggests optimal routes to minimize fuel usage.\n\nFleet managers can track every vehicle in real time and generate performance reports based on route history and driver behavior. The platform also includes an environmental dashboard that measures carbon footprint reduction.\n\nGreenFleet runs on a Django backend with a React frontend, powered by Kubernetes for scaling and AWS for cloud deployment.',
 				status: 'In Progress',
+				keyFeatures: [
+					'Integrating IoT devices with web services',
+					'Real-time event handling with MQTT',
+					'Securing APIs and IoT communication channels',
+					'Building dashboards for sensor data visualization',
+				],
 				teamPositions: ['Backend', 'Devops', 'Product Manager', 'QA'],
 				ownerId: owner.id,
 			},
@@ -305,6 +346,14 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'Artify brings AI creativity to everyone. Users can generate unique digital art pieces by entering prompts, selecting artistic styles, and refining outputs through iterative feedback.\n\nThe platform leverages TensorFlow for neural style transfer and stable diffusion models. Artists and designers can export their creations for print, social media, or NFT minting directly from the dashboard.\n\nWith React and Node.js, Artify delivers smooth performance and real-time rendering feedback, making it both a tool for professionals and an inspiration playground for beginners.',
 				status: 'Created',
+				keyFeatures: [
+					'Implementing video upload and transcoding with FFmpeg',
+					'Streaming media securely with HLS',
+					'Building comment systems and threaded discussions',
+					'Managing scalable file storage with object storage APIs',
+					'Data preprocessing and visualization with Pandas',
+					'Building AI dashboards with React',
+				],
 				teamPositions: ['Frontend', 'Backend', 'UI Developer', 'UX Developer'],
 				ownerId: owner.id,
 			},
@@ -316,6 +365,10 @@ async function insertProjects(owner: User) {
 				longDescription:
 					'StreamPulse redefines music streaming with personalization at its core. It learns user preferences through listening behavior and creates dynamic playlists that adapt in real time.\n\nUsers can collaborate with friends to build shared playlists, explore trending artists, and enjoy lossless audio quality even on mobile. Offline mode ensures music is always available, regardless of connection.\n\nThe platform runs on Go and PostgreSQL, with React Native powering the mobile experience. Redis caching ensures low-latency streaming and smooth playback transitions.',
 				status: 'Aborted',
+				keyFeatures: [
+					'Deploying ML models via REST APIs',
+					'Experimenting with recommendation algorithms',
+				],
 				teamPositions: ['Frontend', 'Backend', 'Devops', 'QA'],
 				ownerId: owner.id,
 			},
@@ -578,7 +631,6 @@ async function addProjectLinks(projects: Project[]) {
 		},
 		{
 			projectId: projects[2].id,
-			projectLink: 'https://project-management.example.com',
 			sourceControlType: 'Gitlab',
 			sourceControlLink: 'https://www.gitlab.com',
 			chatType: 'Discord',
@@ -588,7 +640,6 @@ async function addProjectLinks(projects: Project[]) {
 		},
 		{
 			projectId: projects[3].id,
-			projectLink: 'https://project-management.example.com',
 			sourceControlType: 'Gitlab',
 			sourceControlLink: 'https://www.gitlab.com',
 			chatType: 'Discord',
@@ -598,7 +649,6 @@ async function addProjectLinks(projects: Project[]) {
 		},
 		{
 			projectId: projects[4].id,
-			projectLink: 'https://project-management.example.com',
 			sourceControlType: 'Gitlab',
 			sourceControlLink: 'https://www.gitlab.com',
 			chatType: 'Discord',
@@ -608,7 +658,6 @@ async function addProjectLinks(projects: Project[]) {
 		},
 		{
 			projectId: projects[5].id,
-			projectLink: 'https://project-management.example.com',
 			sourceControlType: 'Gitlab',
 			sourceControlLink: 'https://www.gitlab.com',
 			chatType: 'Discord',

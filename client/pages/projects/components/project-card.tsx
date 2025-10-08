@@ -29,20 +29,22 @@ export function ProjectCard({ project }: Props) {
 						<span>+{project.technologies.length - 5} more</span>
 					)}
 				</div>
-				<div className='flex flex-wrap items-center gap-2'>
-					<span>Looking for:</span>
-					{project.teamPositions.map((position) => (
-						<Chip
-							key={position}
-							outlined
-							className='text-eerie-black flex h-6 items-center rounded py-0 text-sm font-light'
-						>
-							{position}
-						</Chip>
-					))}
-				</div>
+				{project.teamPositions.length > 0 && (
+					<div className='flex flex-wrap items-center gap-2'>
+						<span>Looking for:</span>
+						{project.teamPositions.map((position) => (
+							<Chip
+								key={position}
+								outlined
+								className='text-eerie-black flex h-6 items-center rounded py-0 text-sm font-light'
+							>
+								{position}
+							</Chip>
+						))}
+					</div>
+				)}
 			</Card.Body>
-			<Card.Footer separator>
+			<Card.Footer className='flex justify-between' separator>
 				<LinkButton href={`/projects/${project.slug}`}>
 					<InfoIcon height={20} width={20} />
 					More info
