@@ -14,3 +14,7 @@ export function objectValues<TObj extends Record<string, string>>(
 export function objectValues2<TObj extends Record<string, string>>(obj: TObj): (keyof TObj)[] {
 	return Object.values(obj) as any;
 }
+
+export function parseDate(date: Date) {
+	return date.toLocaleDateString().split('/').reverse().join('/');
+}

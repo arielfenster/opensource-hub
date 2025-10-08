@@ -31,3 +31,5 @@ i need to create an admin dashboard in the navbar where i can see all the reques
 
 5. add class-variance-authority. use it for buttons - regular, link. look at compoundVariants
 6. create reuseable Dropdown/Menu component - for the user profile icon and for the select
+7. create hydratePage function that takes in the page component (<ProjectsPage />, <AboutPage />, etc.) and does all the hydration, including parsing the dehydratedState using superjson
+8. figure out if CardHeader/CardTitle is actually necessary, or i can just combine them into a single component

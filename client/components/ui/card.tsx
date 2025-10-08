@@ -24,7 +24,7 @@ function CardHeader({ className, children }: CommonProps) {
 
 function CardTitle({ className, children }: CommonProps) {
 	return (
-		<span className={cn('text-eerie-black text-xl font-semibold', className)}>{children}</span>
+		<span className={cn('text-royal-blue text-xl font-semibold', className)}>{children}</span>
 	);
 }
 
@@ -40,13 +40,7 @@ function CardBody({ className, children }: CommonProps) {
 
 function CardFooter({ separator, className, children }: CommonProps & { separator?: boolean }) {
 	return (
-		<div
-			className={cn(
-				'mt-auto flex w-full justify-between',
-				separator && 'w-full border-t border-black pt-4',
-				className,
-			)}
-		>
+		<div className={cn('mt-auto', separator && 'w-full border-t border-black pt-4', className)}>
 			{children}
 		</div>
 	);

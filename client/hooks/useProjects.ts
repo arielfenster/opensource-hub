@@ -1,6 +1,8 @@
+import { paginationSchema, type PaginationInput } from '$/shared/schemas/common/pagination.schema';
+import { superjsonDeserialize, type AppSuperJsonResult } from '$/shared/superjson';
+import type { ProjectDetails } from '$/shared/types/projects';
 import { useQuery } from '@tanstack/react-query';
 import { useRpcQueryClient } from '../providers/rpc-query-provider';
-import { paginationSchema, type PaginationInput } from '$/shared/schemas/common/pagination.schema';
 
 type Props = Partial<PaginationInput>;
 
@@ -17,7 +19,8 @@ export function useProjects(pagination: Props = {}) {
 					skip: String(filters.skip),
 				},
 			});
-			return response.json();
+			const data = (await response.json()) as AppSuperJsonResult<ProjectDetails[]>;
+			return superjsonDeserialize(data);
 		},
 		initialData: [],
 		refetchOnWindowFocus: false,

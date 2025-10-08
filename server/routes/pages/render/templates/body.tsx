@@ -3,6 +3,7 @@ import { Layout } from '$/client/components/layout';
 import { AppProviders } from '$/client/providers/app-providers';
 import { PREFETCHED_STATE_NAME } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';
+import { superjsonStringify } from '$/shared/superjson';
 import { QueryClient, dehydrate, type DehydratedState, type QueryKey } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
 
@@ -10,7 +11,7 @@ export type BodyProps = PropsWithChildren<{
 	pageScripts: PageScripts;
 	prefetchedState?: {
 		key: QueryKey;
-		data: Record<string, any>;
+		data: any;
 	}[];
 }>;
 
@@ -40,7 +41,7 @@ export function Body({ pageScripts, prefetchedState, children }: BodyProps) {
 		return (
 			<script
 				dangerouslySetInnerHTML={{
-					__html: `${PREFETCHED_STATE_NAME} = ${JSON.stringify(dehydratedState)};`,
+					__html: `${PREFETCHED_STATE_NAME} = ${superjsonStringify(dehydratedState)};`,
 				}}
 			/>
 		);
