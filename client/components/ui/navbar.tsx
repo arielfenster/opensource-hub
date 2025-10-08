@@ -17,7 +17,7 @@ export function Navbar({ user }: NavbarProps) {
 			</a>
 			{user ? (
 				<LinkButton
-					href='/create-project'
+					href='/projects/create'
 					className='bg-cerise text-ghost-white hover:bg-red-500'
 				>
 					Create project
