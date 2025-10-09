@@ -1,5 +1,5 @@
 import type { AuthenticatedUser } from '$/shared/types/users';
-import { LinkButton } from './link-button';
+import { LinkButton } from '../ui/link-button';
 
 type NavbarProps = { user?: AuthenticatedUser };
 

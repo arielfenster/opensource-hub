@@ -1,8 +1,8 @@
 import { UserCircleIcon, LogOutIcon } from 'lucide-react';
-import { useAuth } from '../providers/auth-provider';
-import { Button } from './ui/button';
-import { DropdownMenu } from './ui/dropdown-menu';
-import { Navbar } from './ui/navbar';
+import { useAuth } from '../../providers/auth-provider';
+import { Button } from '../ui/button';
+import { DropdownMenu } from '../ui/dropdown-menu';
+import { Navbar } from './navbar';
 
 export function Header() {
 	const { user, logout } = useAuth();
