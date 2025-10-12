@@ -1,4 +1,9 @@
-import { teamPositionEnum, type Project, type ProjectLinks } from '$/server/database/schemas';
+import {
+	teamPositionEnum,
+	type Project,
+	type ProjectLinks,
+	projectStatusEnum,
+} from '$/server/database/schemas';
 import type { TechnologyData } from './technologies';
 
 export type ProjectDetails = Project & {
@@ -13,3 +18,6 @@ export type RecentProject = Pick<
 
 export const projectTeamPositions = [...teamPositionEnum.enumValues] as const;
 export type ProjectTeamPosition = Project['teamPositions'][number];
+
+export const projectStatus = [...projectStatusEnum.enumValues] as const;
+export type ProjectStatus = (typeof projectStatus)[number];
