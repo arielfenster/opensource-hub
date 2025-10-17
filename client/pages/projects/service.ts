@@ -1,11 +1,11 @@
-import type { TechnologyOption } from '$/client/components/technologies-autocomplete/types';
-import type { ProjectTeamPosition, ProjectDetails } from '$/shared/types/projects';
+import type { ProjectDetails, ProjectTeamPosition } from '$/shared/types/projects';
+import type { TechnologyData } from '$/shared/types/technologies';
 
 export type SearchFilterType = 'tech' | 'position';
 export type SearchFilter =
 	| {
 			type: 'tech';
-			value: TechnologyOption;
+			value: TechnologyData;
 	  }
 	| {
 			type: 'position';

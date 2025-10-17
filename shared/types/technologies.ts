@@ -8,3 +8,4 @@ export type TechnologyGroupData = TechnologyGroup & { technologies: Technology[]
 export type TechnologyData = Technology & { group: TechnologyGroup };
 
 export const technologyGroupNames = [...technologyGroupNameEnum.enumValues] as const;
+export type TechnologyName = (typeof technologyGroupNames)[number];

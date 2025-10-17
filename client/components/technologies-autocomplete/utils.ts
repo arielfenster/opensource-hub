@@ -1,24 +1,16 @@
-import type { TechnologyData, TechnologyGroupData } from '$/shared/types/technologies';
-import type { TechnologyOption } from './types';
+import type { TechnologyData } from '$/shared/types/technologies';
 
-export function convertTechnologyGroupsToOptionsArray(
-	data: TechnologyGroupData[],
-): TechnologyOption[] {
-	return data
-		.map((techGroup) => {
-			return techGroup.technologies.map((tech) => ({
-				id: tech.id,
-				value: tech.name,
-				groupName: techGroup.name,
-			}));
-		})
-		.flat();
+export type TechnologyOption = TechnologyData & { value: string };
+
+// TODO: remove?
+export function convertTechnologyGroupsToOptionsArray(data: TechnologyData[]): TechnologyOption[] {
+	return data.map(convertTechnologyDataToOptionItem);
 }
 
+// TODO: remove?
 export function convertTechnologyDataToOptionItem(technology: TechnologyData): TechnologyOption {
 	return {
-		id: technology.id,
+		...technology,
 		value: technology.name,
-		groupName: technology.group.name,
 	};
 }
