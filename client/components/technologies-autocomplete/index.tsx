@@ -1,20 +1,50 @@
-import { useMemo, useState } from 'react';
-import { config } from './config';
-import { AutoComplete } from '../form/autocomplete';
-import { SearchIcon } from 'lucide-react';
+import { useFetchTechnologies } from '$/client/hooks/useFetchTechnologies';
 import { cn } from '$/client/lib/utils';
-import type { TechnologyGroupData } from '$/shared/types/technologies';
-import type { TechnologyName, TechnologyOption } from './types';
-import { convertTechnologyGroupsToOptionsArray } from './utils';
+import type { TechnologyData } from '$/shared/types/technologies';
+import { SearchIcon } from 'lucide-react';
+import { useMemo } from 'react';
+import { AutoComplete } from '../form/autocomplete';
+import { config } from './config';
 import { TechnologyChip } from './technology-chip';
+import { convertTechnologyGroupsToOptionsArray } from './utils';
+import { useTechnologies } from '$/client/hooks/useTechnologies';
+
+type TechnologiesAutocompleteContainerProps = Omit<TechnologiesAutocompleteProps, 'data'>;
+
+export function TechnologiesAutocompleteContainer({
+	onSelect,
+	onRemove,
+	className,
+}: TechnologiesAutocompleteContainerProps) {
+	const { data: technologies } = useFetchTechnologies();
+
+	return (
+		<TechnologiesAutocomplete
+			data={technologies}
+			onSelect={onSelect}
+			onRemove={onRemove}
+			className={className}
+		/>
+	);
+}
 
 export type TechnologiesAutocompleteProps = {
-	data: TechnologyGroupData[];
-	onSelect?: (item: TechnologyOption) => void;
+	data: TechnologyData[];
+	onSelect?: (item: TechnologyData) => void;
+	onRemove?: (item: TechnologyData) => void;
+	className?: string;
 };
 
-export function TechnologiesAutocomplete({ data, onSelect }: TechnologiesAutocompleteProps) {
-	const [selectedTechnologies, setSelectedTechnologies] = useState<TechnologyOption[]>([]);
+function TechnologiesAutocomplete({
+	data,
+	onSelect,
+	onRemove,
+	className,
+}: TechnologiesAutocompleteProps) {
+	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologies({
+		onSelect,
+		onRemove,
+	});
 
 	const technologyOptions = useMemo(() => convertTechnologyGroupsToOptionsArray(data), [data]);
 
@@ -32,49 +62,29 @@ export function TechnologiesAutocomplete({ data, onSelect }: TechnologiesAutocom
 		);
 	}
 
-	function renderOption(option: TechnologyOption) {
-		const Icon = config[option.groupName as TechnologyName].icon;
+	function renderOption(option: TechnologyData) {
+		const Icon = config[option.group.name].icon;
 
 		return (
 			<div className='flex cursor-pointer justify-between p-2'>
-				<span className='text-lg'>{option.value}</span>
+				<span className='text-lg'>{option.name}</span>
 				<div
 					className={cn(
 						'flex items-center gap-2 rounded-lg border bg-gray-100 px-2 py-1',
-						config[option.groupName as TechnologyName].className,
+						config[option.group.name].className,
 					)}
 				>
 					<Icon className='h-4 w-4' />
-					{config[option.groupName as TechnologyName].label}
+					{config[option.group.name].label}
 				</div>
 			</div>
 		);
 	}
 
-	function addTechItem(technology: TechnologyOption) {
-		setSelectedTechnologies((prev) => {
-			if (prev.includes(technology)) {
-				return prev;
-			}
-
-			if (onSelect) {
-				onSelect(technology);
-			}
-			return [...prev, technology];
-		});
-	}
-
-	function removeTechItem(technology: TechnologyOption) {
-		setSelectedTechnologies((prev) => prev.filter((tech) => tech !== technology));
-		if (onSelect) {
-			onSelect(technology);
-		}
-	}
-
 	return (
-		<div className='relative flex w-1/2 flex-col gap-3'>
+		<div className={cn('relative flex w-1/2 flex-col gap-3', className)}>
 			<AutoComplete
-				onSelect={addTechItem}
+				onSelect={addTechnology}
 				options={technologyOptions}
 				renderOption={renderOption}
 				name='technologies'
@@ -91,7 +101,7 @@ export function TechnologiesAutocomplete({ data, onSelect }: TechnologiesAutocom
 							key={technology.id}
 							technology={technology}
 							removable
-							onClick={() => removeTechItem(technology)}
+							onClick={() => removeTechnology(technology)}
 						/>
 					))}
 				</div>
