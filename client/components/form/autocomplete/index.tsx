@@ -5,6 +5,7 @@ import type { Option, OptionData, RenderOptionFn } from './types';
 
 import './index.css';
 
+// TODO: consider removing the OptionData type and instead add a 'labelKey' and 'valueKey' properties to access the relevant info
 type Props<TData extends OptionData = OptionData> = Omit<InputProps, 'onSelect'> & {
 	options: Option<TData>[];
 	onSelect: (option: Option<TData>) => void;
@@ -41,7 +42,7 @@ export function AutoComplete<TData extends OptionData = OptionData>({
 				onKeyDown={handleKeyDown}
 			/>
 			{showDropdown && (
-				<div className='absolute z-10 flex max-h-[20rem] w-full flex-col gap-1 overflow-y-scroll bg-ghost-white shadow-2xl'>
+				<div className='bg-ghost-white absolute z-10 flex max-h-[20rem] w-full flex-col gap-1 overflow-y-scroll shadow-2xl'>
 					{filteredOptions.length > 0
 						? filteredOptions.map((option, index) => (
 								<div
