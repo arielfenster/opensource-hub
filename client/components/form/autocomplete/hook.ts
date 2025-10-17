@@ -60,6 +60,11 @@ export function useAutoComplete<TData extends OptionData>({ options, onSelect }:
 	}, []);
 
 	function handleKeyDown(event: React.KeyboardEvent) {
+		// this is to prevent form submissions where this component is used inside a form
+		if (event.key === Keys.ENTER) {
+			event.preventDefault();
+		}
+
 		if (!showDropdown || filteredOptions.length === 0) {
 			return;
 		}
