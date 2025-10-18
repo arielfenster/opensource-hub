@@ -1,5 +1,4 @@
 import { TechnologyChip } from '$/client/components/technologies-autocomplete/technology-chip';
-import { convertTechnologyDataToOptionItem } from '$/client/components/technologies-autocomplete/utils';
 import { Card } from '$/client/components/ui/card';
 import { parseDate } from '$/client/lib/utils';
 import type { ProjectDetails } from '$/shared/types/projects';
@@ -21,10 +20,7 @@ export function ProjectReviewCard({ project }: ProjectReviewCardProps) {
 			{project.technologies && (
 				<Card.Body className='flex flex-wrap items-center gap-2'>
 					{project.technologies.map((tech) => (
-						<TechnologyChip
-							key={tech.id}
-							technology={convertTechnologyDataToOptionItem(tech)}
-						/>
+						<TechnologyChip key={tech.id} technology={tech} />
 					))}
 				</Card.Body>
 			)}

@@ -1,25 +1,26 @@
 import { cn } from '$/client/lib/utils';
+import type { ReactNode } from 'react';
 import { Input, type InputProps } from '../input';
 import { useAutoComplete } from './hook';
-import type { Option, OptionData, RenderOptionFn } from './types';
 
 import './index.css';
 
-// TODO: consider removing the OptionData type and instead add a 'labelKey' and 'valueKey' properties to access the relevant info
-type Props<TData extends OptionData = OptionData> = Omit<InputProps, 'onSelect'> & {
-	options: Option<TData>[];
-	onSelect: (option: Option<TData>) => void;
-	renderOption?: RenderOptionFn<TData>;
+export type AutoCompleteProps<T> = Omit<InputProps, 'onSelect'> & {
+	options: T[];
+	valueKey: keyof T;
+	onSelect: (option: T) => void;
+	renderOption: (option: T) => ReactNode;
 	renderEmptyState?: () => React.ReactNode;
 };
 
-export function AutoComplete<TData extends OptionData = OptionData>({
+export function AutoComplete<T>({
 	options,
+	valueKey,
 	onSelect,
-	renderOption = DefaultRenderOption,
+	renderOption,
 	renderEmptyState = DefaultEmptyState,
 	...rest
-}: Props<TData>) {
+}: AutoCompleteProps<T>) {
 	const {
 		filteredOptions,
 		showDropdown,
@@ -29,7 +30,7 @@ export function AutoComplete<TData extends OptionData = OptionData>({
 		handleChange,
 		handleSelect,
 		handleKeyDown,
-	} = useAutoComplete({ options, onSelect });
+	} = useAutoComplete({ options, valueKey, onSelect });
 
 	return (
 		<div className='relative' ref={dropdownRef}>
@@ -46,7 +47,7 @@ export function AutoComplete<TData extends OptionData = OptionData>({
 					{filteredOptions.length > 0
 						? filteredOptions.map((option, index) => (
 								<div
-									key={option.value}
+									key={option[valueKey] as string}
 									className={cn(
 										'cursor-pointer items-center rounded px-4 py-1 hover:bg-gray-100',
 										index === selectedOptionIndex && 'bg-gray-200',
@@ -63,9 +64,9 @@ export function AutoComplete<TData extends OptionData = OptionData>({
 	);
 }
 
-function DefaultRenderOption(option: Option) {
-	return <span>{option.value}</span>;
-}
+// function DefaultRenderOption<T>(option: T) {
+// 	return <span>{option.value}</span>;
+// }
 
 function DefaultEmptyState() {
 	return <div className='h-12 rounded px-4 py-2 text-lg'>No options found</div>;

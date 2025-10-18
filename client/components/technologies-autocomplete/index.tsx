@@ -1,13 +1,11 @@
 import { useFetchTechnologies } from '$/client/hooks/useFetchTechnologies';
+import { useTechnologies } from '$/client/hooks/useTechnologies';
 import { cn } from '$/client/lib/utils';
 import type { TechnologyData } from '$/shared/types/technologies';
 import { SearchIcon } from 'lucide-react';
-import { useMemo } from 'react';
 import { AutoComplete } from '../form/autocomplete';
 import { config } from './config';
 import { TechnologyChip } from './technology-chip';
-import { convertTechnologyGroupsToOptionsArray } from './utils';
-import { useTechnologies } from '$/client/hooks/useTechnologies';
 
 type TechnologiesAutocompleteContainerProps = Omit<TechnologiesAutocompleteProps, 'data'>;
 
@@ -46,8 +44,6 @@ function TechnologiesAutocomplete({
 		onRemove,
 	});
 
-	const technologyOptions = useMemo(() => convertTechnologyGroupsToOptionsArray(data), [data]);
-
 	function renderEmptyState() {
 		return (
 			<div className='p-3 text-sm text-gray-600'>
@@ -85,8 +81,9 @@ function TechnologiesAutocomplete({
 		<div className={cn('relative flex w-1/2 flex-col gap-3', className)}>
 			<AutoComplete
 				onSelect={addTechnology}
-				options={technologyOptions}
+				options={data}
 				renderOption={renderOption}
+				valueKey='name'
 				name='technologies'
 				className='bg-ghost-white border border-gray-500 py-3 text-lg'
 				startIcon={<SearchIcon className='text-gray-300' />}
