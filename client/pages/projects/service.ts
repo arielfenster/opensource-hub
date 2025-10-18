@@ -14,7 +14,7 @@ export type SearchFilter =
 
 export function getFilteredProjects(
 	projects: ProjectDetails[],
-	filterTechnologies: string[],
+	filterTechnologies: TechnologyData[],
 	filterPositions: ProjectTeamPosition[],
 ): ProjectDetails[] {
 	return filterByTechStack(filterByPosition(projects, filterPositions), filterTechnologies);
@@ -22,11 +22,11 @@ export function getFilteredProjects(
 
 function filterByTechStack(
 	projects: ProjectDetails[],
-	filterTechnologies: string[],
+	filterTechnologies: TechnologyData[],
 ): ProjectDetails[] {
 	return projects.filter((project) =>
 		filterTechnologies.every((filterTech) =>
-			project.technologies.find((tech) => tech.name === filterTech),
+			project.technologies.find((tech) => tech.name === filterTech.name),
 		),
 	);
 }

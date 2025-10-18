@@ -6,24 +6,23 @@ import { ResultsSection } from './components/results-section';
 import { SearchSection } from './components/search-section';
 import { getFilteredProjects, type SearchFilter } from './service';
 
+// TODO: fix this mess
+// maybe bring back container components?
 export function ProjectsPage() {
-	const { data: technologies } = useTechnologies();
 	const { data: projects } = useProjects();
 
-	const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
+	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologies();
 	const [selectedPositions, setSelectedPositions] = useState<ProjectTeamPosition[]>([]);
 
 	function handleApplyFilter(filter: SearchFilter) {
 		if (filter.type === 'tech') {
 			const isTechnologyAlreadySelected = selectedTechnologies.some(
-				(tech) => tech === filter.value.value,
+				(tech) => tech.id === filter.value.id,
 			);
 			if (isTechnologyAlreadySelected) {
-				setSelectedTechnologies((prev) =>
-					prev.filter((tech) => tech !== filter.value.value),
-				);
+				removeTechnology(filter.value);
 			} else {
-				setSelectedTechnologies((prev) => [...prev, filter.value.value]);
+				addTechnology(filter.value);
 			}
 			return;
 		}
@@ -38,17 +37,13 @@ export function ProjectsPage() {
 		}
 	}
 
-	const filteredProjects = getFilteredProjects(
-		projects as any,
-		selectedTechnologies,
-		selectedPositions,
-	);
+	const filteredProjects = getFilteredProjects(projects, selectedTechnologies, selectedPositions);
 
 	return (
 		<div className='flex flex-col gap-6 px-4 py-8'>
 			<h1 className='text-royal-blue text-4xl font-semibold'>Discover Projects</h1>
 			<div className='flex flex-col gap-12'>
-				<SearchSection technologies={technologies} onFilter={handleApplyFilter} />
+				<SearchSection onFilter={handleApplyFilter} />
 				<ResultsSection projects={filteredProjects} />
 			</div>
 		</div>

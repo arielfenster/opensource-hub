@@ -1,16 +1,14 @@
 import { Select } from '$/client/components/form/select';
-import { TechnologiesAutocomplete } from '$/client/components/technologies-autocomplete';
+import { TechnologiesAutocompleteContainer } from '$/client/components/technologies-autocomplete';
 import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/projects';
-import type { TechnologyGroupData } from '$/shared/types/technologies';
 import { useMemo } from 'react';
 import type { SearchFilter } from '../service';
 
 type SearchSectionProps = {
-	technologies: TechnologyGroupData[];
 	onFilter: (filter: SearchFilter) => void;
 };
 
-export function SearchSection({ onFilter, technologies }: SearchSectionProps) {
+export function SearchSection({ onFilter }: SearchSectionProps) {
 	const selectPositionItems = useMemo(
 		() =>
 			projectTeamPositions.map((position) => ({
@@ -22,9 +20,10 @@ export function SearchSection({ onFilter, technologies }: SearchSectionProps) {
 
 	return (
 		<section className='flex gap-2'>
-			<TechnologiesAutocomplete
-				data={technologies}
+			<TechnologiesAutocompleteContainer
+				className='w-1/2'
 				onSelect={(technology) => onFilter({ type: 'tech', value: technology })}
+				onRemove={(technology) => onFilter({ type: 'tech', value: technology })}
 			/>
 			<Select
 				items={selectPositionItems}
