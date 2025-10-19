@@ -62,11 +62,6 @@ export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
 			event.preventDefault();
 		}
 
-		// prevent handling key events when no option is selected
-		if (selectedOptionIndex === UNINITIALIZED_OPTION_INDEX) {
-			return;
-		}
-
 		if (!showDropdown || filteredOptions.length === 0) {
 			return;
 		}
@@ -83,8 +78,11 @@ export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
 				break;
 			}
 			case Keys.ENTER: {
-				handleSelect(filteredOptions[selectedOptionIndex]);
-				setSelectedOptionIndex(UNINITIALIZED_OPTION_INDEX);
+				// prevent handling key events when no option is selected
+				if (selectedOptionIndex !== UNINITIALIZED_OPTION_INDEX) {
+					handleSelect(filteredOptions[selectedOptionIndex]);
+					setSelectedOptionIndex(UNINITIALIZED_OPTION_INDEX);
+				}
 				break;
 			}
 			case Keys.ESCAPE: {
