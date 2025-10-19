@@ -1,8 +1,11 @@
-import { Select } from '$/client/components/form/select';
+import { ErrorControl } from '$/client/components/form/controls/error-control';
+import { FieldControl } from '$/client/components/form/controls/field-control';
+import { Input } from '$/client/components/form/input';
 import { Textarea } from '$/client/components/form/textarea';
 import { TextField } from '$/client/components/form/textfield';
 import { Button } from '$/client/components/ui/button';
 import { Card } from '$/client/components/ui/card';
+import { cn } from '$/client/lib/utils';
 import {
 	projectGeneralInfoSchema,
 	type ProjectGeneralInfoInput,
@@ -11,7 +14,7 @@ import { projectTeamPositions } from '$/shared/types/projects';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronRightIcon } from 'lucide-react';
 import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { useController, useFieldArray, useForm, type UseFormReturn } from 'react-hook-form';
 import { useCreateProjectContext } from '../context';
 
 export function GeneralInfoStep() {
@@ -19,11 +22,17 @@ export function GeneralInfoStep() {
 		register,
 		handleSubmit,
 		formState: { errors },
+		control,
+		getValues,
 	} = useForm<ProjectGeneralInfoInput>({
 		resolver: zodResolver(projectGeneralInfoSchema),
-		defaultValues: {},
+		defaultValues: {
+			keyFeatures: [{ feature: '' }],
+		},
 	});
 	const { onStepSubmit } = useCreateProjectContext();
+
+	console.log(getValues());
 
 	const selectPositionItems = useMemo(
 		() =>
@@ -70,11 +79,8 @@ export function GeneralInfoStep() {
 						required
 						placeholder="A detailed description of your project, its goals, and what makes it unique. This will be displayed in the project's page"
 					/>
-					<TextField
-						label='Key Features'
-						{...register('keyFeatures')}
-						error={errors.keyFeatures?.message}
-					/>
+					<KeyFeaturesSection control={control} register={register} />
+
 					{/* <Select
 						name='teamPositions'
 						items={selectPositionItems}
@@ -96,3 +102,57 @@ export function GeneralInfoStep() {
 		</Card>
 	);
 }
+
+function KeyFeaturesSection({
+	register,
+	control,
+}: Pick<UseFormReturn<ProjectGeneralInfoInput>, 'control' | 'register'>) {
+	const { fields, append, remove } = useFieldArray({ control, name: 'keyFeatures' });
+	const {
+		formState: { errors },
+	} = useController({ name: 'keyFeatures', control });
+
+	return (
+		<div className='flex flex-col'>
+			{fields.map((field, index) => (
+				<div key={field.id} className='flex items-end justify-between gap-4'>
+					{index === 0 ? (
+						<TextField
+							label='Key Features'
+							{...register(`keyFeatures.${index}.feature`)}
+							error={errors.keyFeatures?.[index]?.message}
+						/>
+					) : (
+						<FieldControl>
+							<ErrorControl error={errors.keyFeatures?.[index]?.message}>
+								<Input
+									className={cn(
+										errors.keyFeatures?.[index]?.message &&
+											'border-red-600 outline-1 outline-red-600',
+									)}
+									{...register(`keyFeatures.${index}.feature`)}
+								/>
+							</ErrorControl>
+						</FieldControl>
+					)}
+					<Button
+						type='button'
+						className='text-eerie-black mb-5 flex h-5 w-5 justify-center bg-gray-200 p-0 text-sm hover:bg-gray-300'
+						onClick={() => remove(index)}
+					>
+						X
+					</Button>
+				</div>
+			))}
+			<Button
+				type='button'
+				className='text-celestial-blue hover:text-celestial-blue-hover m-0 self-start bg-transparent p-0 font-medium hover:bg-transparent'
+				onClick={() => append({ feature: '' })}
+			>
+				+ Add feature
+			</Button>
+		</div>
+	);
+}
+
+function TeamPositionsSection() {}
