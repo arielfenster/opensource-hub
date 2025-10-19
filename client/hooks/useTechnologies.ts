@@ -1,12 +1,12 @@
 import type { TechnologyData } from '$/shared/types/technologies';
 import { useState } from 'react';
-import type { TechnologiesAutocompleteProps } from '../components/technologies-autocomplete';
+import type { TechnologiesAutoCompleteProps } from '../components/technologies-autocomplete';
 
 // TODO: should the selectedTechnologies state be in a global store?
 
 // TODO: maybe rename this to useTechnologiesState?
 
-type Props = Pick<TechnologiesAutocompleteProps, 'onSelect' | 'onRemove'>;
+type Props = Pick<TechnologiesAutoCompleteProps, 'onSelect' | 'onRemove'>;
 
 export function useTechnologies({ onSelect, onRemove }: Props = {}) {
 	const [selectedTechnologies, setSelectedTechnologies] = useState<TechnologyData[]>([]);

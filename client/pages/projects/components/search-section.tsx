@@ -1,5 +1,5 @@
 import { Select } from '$/client/components/form/select';
-import { TechnologiesAutocompleteContainer } from '$/client/components/technologies-autocomplete';
+import { TechnologiesAutoCompleteContainer } from '$/client/components/technologies-autocomplete';
 import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/projects';
 import { useMemo } from 'react';
 import type { SearchFilter } from '../service';
@@ -20,7 +20,7 @@ export function SearchSection({ onFilter }: SearchSectionProps) {
 
 	return (
 		<section className='flex gap-2'>
-			<TechnologiesAutocompleteContainer
+			<TechnologiesAutoCompleteContainer
 				className='w-1/2'
 				onSelect={(technology) => onFilter({ type: 'tech', value: technology })}
 				onRemove={(technology) => onFilter({ type: 'tech', value: technology })}

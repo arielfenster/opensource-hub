@@ -7,17 +7,17 @@ import { AutoComplete } from '../form/autocomplete';
 import { config } from './config';
 import { TechnologyChip } from './technology-chip';
 
-type TechnologiesAutocompleteContainerProps = Omit<TechnologiesAutocompleteProps, 'data'>;
+type TechnologiesAutoCompleteContainerProps = Omit<TechnologiesAutoCompleteProps, 'data'>;
 
-export function TechnologiesAutocompleteContainer({
+export function TechnologiesAutoCompleteContainer({
 	onSelect,
 	onRemove,
 	className,
-}: TechnologiesAutocompleteContainerProps) {
+}: TechnologiesAutoCompleteContainerProps) {
 	const { data: technologies } = useFetchTechnologies();
 
 	return (
-		<TechnologiesAutocomplete
+		<TechnologiesAutoComplete
 			data={technologies}
 			onSelect={onSelect}
 			onRemove={onRemove}
@@ -26,19 +26,19 @@ export function TechnologiesAutocompleteContainer({
 	);
 }
 
-export type TechnologiesAutocompleteProps = {
+export type TechnologiesAutoCompleteProps = {
 	data: TechnologyData[];
 	onSelect?: (item: TechnologyData) => void;
 	onRemove?: (item: TechnologyData) => void;
 	className?: string;
 };
 
-function TechnologiesAutocomplete({
+function TechnologiesAutoComplete({
 	data,
 	onSelect,
 	onRemove,
 	className,
-}: TechnologiesAutocompleteProps) {
+}: TechnologiesAutoCompleteProps) {
 	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologies({
 		onSelect,
 		onRemove,
