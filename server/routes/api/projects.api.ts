@@ -1,3 +1,4 @@
+import { loggedInMiddleware } from '$/server/modules/auth/logged-in.middleware';
 import { projectsHandler } from '$/server/modules/projects/projects.handler';
 import { paginationSchema } from '$/shared/schemas/common/pagination.schema';
 import { createProjectSchema } from '$/shared/schemas/project/create-project.schema';
@@ -15,7 +16,7 @@ export const projectsRouter = new Hono()
 			throw error;
 		}
 	})
-	.post('/create', zValidator('json', createProjectSchema), async (c) => {
+	.post('/create', loggedInMiddleware, zValidator('json', createProjectSchema), async (c) => {
 		try {
 			const project = await projectsHandler.createProject(c);
 			return c.redirect(`/projects/${project.slug}`);

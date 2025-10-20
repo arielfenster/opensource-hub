@@ -2,6 +2,7 @@ import type { PaginationInput } from '$/shared/schemas/common/pagination.schema'
 import type { Context } from 'hono';
 import { projectsService } from './projects.service';
 import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
+import { sessionService } from '../session/session.service';
 
 type ListProjectsContext = Context<{}, any, { out: { query: PaginationInput } }>;
 
@@ -15,12 +16,10 @@ class ProjectsHandler {
 	}
 
 	async createProject(c: CreateProjectContext) {
-		const payload = c.req.valid('json');
+		const input = c.req.valid('json');
+		const ownerId = (await sessionService.getCurrentUserId(c))!;
 
-		console.log({ payload });
-		return {
-			slug: projectsService.generateProjectSlug(payload.name),
-		};
+		return projectsService.createProject(input, ownerId);
 	}
 }
 

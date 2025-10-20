@@ -10,9 +10,8 @@ export function useCreateProject() {
 		mutationFn: async (data: CreateProjectInput) =>
 			rpcClient.projects.create.$post({ json: data }),
 		async onSuccess(response) {
-			console.log(response);
 			if (response.redirected) {
-				// window.location.href = response.url;
+				window.location.href = response.url;
 			} else {
 				const data = await response.text();
 				throw new Error(data);
