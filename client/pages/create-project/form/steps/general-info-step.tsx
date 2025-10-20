@@ -1,6 +1,8 @@
 import { ErrorControl } from '$/client/components/form/controls/error-control';
 import { FieldControl } from '$/client/components/form/controls/field-control';
+import { LabelControl } from '$/client/components/form/controls/label-control';
 import { Input } from '$/client/components/form/input';
+import { Select } from '$/client/components/form/select';
 import { Textarea } from '$/client/components/form/textarea';
 import { TextField } from '$/client/components/form/textfield';
 import { Button } from '$/client/components/ui/button';
@@ -14,31 +16,24 @@ import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/p
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronRightIcon } from 'lucide-react';
 import { useMemo } from 'react';
-import { useController, useFieldArray, useForm, type UseFormReturn } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm, useFormContext } from 'react-hook-form';
 import { useCreateProjectContext } from '../context';
-import { Select } from '$/client/components/form/select';
-import { LabelControl } from '$/client/components/form/controls/label-control';
 
 export function GeneralInfoStep() {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		control,
-		getValues,
-		setValue,
-		watch,
-	} = useForm<ProjectGeneralInfoInput>({
+	const formMethods = useForm<ProjectGeneralInfoInput>({
 		resolver: zodResolver(projectGeneralInfoSchema),
 		defaultValues: {
-			keyFeatures: [],
+			keyFeatures: [{ feature: '' }],
 			teamPositions: [],
 		},
 	});
 	const { onStepSubmit } = useCreateProjectContext();
 
-	// console.log(getValues());
-	// console.log(watch());
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = formMethods;
 
 	return (
 		<Card className='w-2/3'>
@@ -46,44 +41,41 @@ export function GeneralInfoStep() {
 				<Card.Title className='text-3xl'>General Info</Card.Title>
 			</Card.Header>
 			<Card.Body>
-				<form
-					className='flex flex-col gap-4'
-					id='general-info-step'
-					onSubmit={(event) => {
-						handleSubmit((data) => {
-							onStepSubmit(data);
-						})(event);
-					}}
-				>
-					<TextField
-						label='Project Name'
-						{...register('name')}
-						error={errors.name?.message}
-						required
-						placeholder='My Awesome Project'
-					/>
-					<TextField
-						label='Short Description'
-						{...register('shortDescription')}
-						error={errors.shortDescription?.message}
-						required
-						placeholder='A short description of your project. This will be displayed in the projects filter page'
-					/>
-					<Textarea
-						label='Long Description'
-						{...register('longDescription')}
-						error={errors.longDescription?.message}
-						required
-						placeholder="A detailed description of your project, its goals, and what makes it unique. This will be displayed in the project's page"
-					/>
-					{/* TODO: consider using FormProvider instead of passing these manually */}
-					<KeyFeaturesSection control={control} register={register} />
-					<TeamPositionsSection
-						register={register}
-						getValues={getValues}
-						setValue={setValue}
-					/>
-				</form>
+				<FormProvider {...formMethods}>
+					<form
+						className='flex flex-col gap-4'
+						id='general-info-step'
+						onSubmit={(event) => {
+							handleSubmit((data) => {
+								onStepSubmit(data);
+							})(event);
+						}}
+					>
+						<TextField
+							label='Project Name'
+							{...register('name')}
+							error={errors.name?.message}
+							required
+							placeholder='My Awesome Project'
+						/>
+						<TextField
+							label='Short Description'
+							{...register('shortDescription')}
+							error={errors.shortDescription?.message}
+							required
+							placeholder='A short description of your project. This will be displayed in the projects filter page'
+						/>
+						<Textarea
+							label='Long Description'
+							{...register('longDescription')}
+							error={errors.longDescription?.message}
+							required
+							placeholder="A detailed description of your project, its goals, and what makes it unique. This will be displayed in the project's page"
+						/>
+						<KeyFeaturesSection />
+						<TeamPositionsSection />
+					</form>
+				</FormProvider>
 			</Card.Body>
 			<Card.Footer className='flex justify-between'>
 				<Button
@@ -99,14 +91,13 @@ export function GeneralInfoStep() {
 	);
 }
 
-function KeyFeaturesSection({
-	register,
-	control,
-}: Pick<UseFormReturn<ProjectGeneralInfoInput>, 'control' | 'register'>) {
-	const { fields, append, remove } = useFieldArray({ control, name: 'keyFeatures' });
+function KeyFeaturesSection() {
 	const {
+		control,
+		register,
 		formState: { errors },
-	} = useController({ name: 'keyFeatures', control });
+	} = useFormContext<ProjectGeneralInfoInput>();
+	const { fields, append, remove } = useFieldArray({ control, name: 'keyFeatures' });
 
 	return (
 		<div className='flex flex-col'>
@@ -151,11 +142,9 @@ function KeyFeaturesSection({
 	);
 }
 
-function TeamPositionsSection({
-	register,
-	getValues,
-	setValue,
-}: Pick<UseFormReturn<ProjectGeneralInfoInput>, 'register' | 'getValues' | 'setValue'>) {
+function TeamPositionsSection() {
+	const { register, getValues, setValue } = useFormContext<ProjectGeneralInfoInput>();
+
 	const selectPositionItems = useMemo(
 		() =>
 			projectTeamPositions.map((position) => ({
