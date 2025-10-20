@@ -8,7 +8,7 @@ import { useCreateProjectContext } from '../context';
 
 export function ProjectTechnologiesStep() {
 	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologies();
-	const { goBack, onStepSubmit } = useCreateProjectContext();
+	const { goBack, onStepSubmit, loading } = useCreateProjectContext();
 
 	return (
 		<Card className='w-2/3'>
@@ -44,7 +44,8 @@ export function ProjectTechnologiesStep() {
 				<Button
 					type='submit'
 					form='project-technologies-step'
-					className='text-ghost-white flex gap-1 self-end rounded-lg font-normal'
+					className='text-ghost-white flex self-end rounded-lg font-normal'
+					loading={loading}
 				>
 					<span className='text-lg'>Submit</span>
 				</Button>

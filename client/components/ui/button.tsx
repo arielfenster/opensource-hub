@@ -17,8 +17,8 @@ export function Button({ className, loading, children, ...props }: ButtonProps) 
 		>
 			{loading ? (
 				<>
-					<Spinner />
 					{children}
+					<Spinner />
 				</>
 			) : (
 				children

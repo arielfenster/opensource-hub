@@ -4,6 +4,8 @@ import { createContext, useContext } from 'react';
 type CreateProjectContextValue = {
 	goBack: () => void;
 	onStepSubmit: (data: Partial<CreateProjectInput>) => void;
+	loading: boolean;
+	error?: string;
 };
 export const CreateProjectContext = createContext<CreateProjectContextValue | null>(null);
 

@@ -7,7 +7,7 @@ import { CreateProjectContext } from './context';
 
 type CreateProjectFormProps = {
 	onSubmit: (input: CreateProjectInput) => void;
-	loading?: boolean;
+	loading: boolean;
 	error?: string;
 };
 
@@ -66,7 +66,9 @@ export function CreateProjectForm({ onSubmit, loading, error }: CreateProjectFor
 					/>
 				))}
 			</div>
-			<CreateProjectContext.Provider value={{ goBack, onStepSubmit: handleStepSubmit }}>
+			<CreateProjectContext.Provider
+				value={{ goBack, onStepSubmit: handleStepSubmit, loading, error }}
+			>
 				<StepComponent />
 			</CreateProjectContext.Provider>
 		</div>
