@@ -10,12 +10,14 @@ import {
 	projectGeneralInfoSchema,
 	type ProjectGeneralInfoInput,
 } from '$/shared/schemas/project/project-general-info.schema';
-import { projectTeamPositions } from '$/shared/types/projects';
+import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/projects';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronRightIcon } from 'lucide-react';
 import { useMemo } from 'react';
 import { useController, useFieldArray, useForm, type UseFormReturn } from 'react-hook-form';
 import { useCreateProjectContext } from '../context';
+import { Select } from '$/client/components/form/select';
+import { LabelControl } from '$/client/components/form/controls/label-control';
 
 export function GeneralInfoStep() {
 	const {
@@ -24,24 +26,19 @@ export function GeneralInfoStep() {
 		formState: { errors },
 		control,
 		getValues,
+		setValue,
+		watch,
 	} = useForm<ProjectGeneralInfoInput>({
 		resolver: zodResolver(projectGeneralInfoSchema),
 		defaultValues: {
-			keyFeatures: [{ feature: '' }],
+			keyFeatures: [],
+			teamPositions: [],
 		},
 	});
 	const { onStepSubmit } = useCreateProjectContext();
 
-	console.log(getValues());
-
-	const selectPositionItems = useMemo(
-		() =>
-			projectTeamPositions.map((position) => ({
-				label: position,
-				value: position,
-			})),
-		[],
-	);
+	// console.log(getValues());
+	// console.log(watch());
 
 	return (
 		<Card className='w-2/3'>
@@ -79,14 +76,13 @@ export function GeneralInfoStep() {
 						required
 						placeholder="A detailed description of your project, its goals, and what makes it unique. This will be displayed in the project's page"
 					/>
+					{/* TODO: consider using FormProvider instead of passing these manually */}
 					<KeyFeaturesSection control={control} register={register} />
-
-					{/* <Select
-						name='teamPositions'
-						items={selectPositionItems}
-						multiple
-						onSelect={console.log}
-					/> */}
+					<TeamPositionsSection
+						register={register}
+						getValues={getValues}
+						setValue={setValue}
+					/>
 				</form>
 			</Card.Body>
 			<Card.Footer className='flex justify-between'>
@@ -155,4 +151,45 @@ function KeyFeaturesSection({
 	);
 }
 
-function TeamPositionsSection() {}
+function TeamPositionsSection({
+	register,
+	getValues,
+	setValue,
+}: Pick<UseFormReturn<ProjectGeneralInfoInput>, 'register' | 'getValues' | 'setValue'>) {
+	const selectPositionItems = useMemo(
+		() =>
+			projectTeamPositions.map((position) => ({
+				label: position,
+				value: position,
+			})),
+		[],
+	);
+
+	return (
+		<FieldControl className='w-full'>
+			<LabelControl label='Team Positions' name='teamPositions'>
+				<Select
+					items={selectPositionItems}
+					multiple
+					onSelect={(position) => {
+						const currentPositions = getValues('teamPositions') || [];
+						if (currentPositions.includes(position as ProjectTeamPosition)) {
+							setValue(
+								'teamPositions',
+								currentPositions.filter(
+									(pos) => pos !== (position as ProjectTeamPosition),
+								),
+							);
+							return;
+						}
+						setValue(
+							'teamPositions',
+							currentPositions.concat(position as ProjectTeamPosition),
+						);
+					}}
+					{...register('teamPositions')}
+				/>
+			</LabelControl>
+		</FieldControl>
+	);
+}
