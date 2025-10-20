@@ -1,37 +1,44 @@
 import { cn } from '$/client/lib/utils';
-import { useMemo, type ComponentPropsWithoutRef, type ReactNode, useState } from 'react';
+import {
+	useMemo,
+	type ComponentPropsWithoutRef,
+	type ReactNode,
+	useState,
+	forwardRef,
+	type ForwardedRef,
+} from 'react';
 import type { Items, SelectItem } from './types';
 import { buildSelectItems, getMultiSelectTriggerText } from './utils';
 import { CheckIcon, ChevronDown } from 'lucide-react';
 
-type SelectProps = Omit<ComponentPropsWithoutRef<'select'>, 'onSelect'> & {
-	items: Items;
-	emptyItem?: ReactNode;
-	onSelect: (value: string) => void;
-};
+type SelectProps = Omit<ComponentPropsWithoutRef<'select'>, 'onSelect'> &
+	Omit<ComponentPropsWithoutRef<'input'>, 'onSelect'> & {
+		items: Items;
+		onSelect: (value: string) => void;
+		emptyItem?: ReactNode;
+	};
+
+export const Select = forwardRef<HTMLSelectElement | HTMLInputElement, SelectProps>(function Select(
+	{ items, multiple, ...rest },
+	ref,
+) {
+	const selectItems: SelectItem[] = useMemo(() => buildSelectItems(items), [items]);
+
+	return multiple ? (
+		<MultiSelect items={selectItems} ref={ref as ForwardedRef<HTMLInputElement>} {...rest} />
+	) : (
+		<SingleSelect items={selectItems} ref={ref as ForwardedRef<HTMLSelectElement>} {...rest} />
+	);
+});
 
 type SelectImplementationProps = Omit<SelectProps, 'items'> & {
 	items: SelectItem[];
 };
 
-export function Select({ items, multiple, ...rest }: SelectProps) {
-	const selectItems: SelectItem[] = useMemo(() => buildSelectItems(items), [items]);
-
-	return multiple ? (
-		<MultiSelect items={selectItems} {...rest} />
-	) : (
-		<SingleSelect items={selectItems} {...rest} />
-	);
-}
-
-function SingleSelect({
-	className,
-	emptyItem,
-	onSelect,
-	items,
-	name,
-	...rest
-}: SelectImplementationProps) {
+const SingleSelect = forwardRef<HTMLSelectElement, SelectImplementationProps>(function SingleSelect(
+	{ className, emptyItem, onSelect, items, name, ...rest },
+	ref,
+) {
 	return (
 		<select
 			className='text-md bg-ghost-white rounded-lg border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none'
@@ -42,6 +49,7 @@ function SingleSelect({
 					onSelect(e.target.value);
 				}
 			}}
+			ref={ref}
 			{...rest}
 		>
 			{emptyItem && (
@@ -56,9 +64,12 @@ function SingleSelect({
 			))}
 		</select>
 	);
-}
+});
 
-function MultiSelect({ emptyItem, onSelect, items }: SelectImplementationProps) {
+const MultiSelect = forwardRef<HTMLInputElement, SelectImplementationProps>(function MultiSelect(
+	{ emptyItem, onSelect, items, ...rest },
+	ref,
+) {
 	const [open, setOpen] = useState(false);
 	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -74,12 +85,14 @@ function MultiSelect({ emptyItem, onSelect, items }: SelectImplementationProps) 
 	return (
 		<div className='relative w-64'>
 			<button
+				type='button'
 				onClick={() => setOpen(!open)}
 				className='bg-ghost-white flex h-14 w-full items-center justify-between rounded-lg border border-gray-300 px-3 py-2 text-sm overflow-ellipsis text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none'
 			>
 				{triggerText}
 				<ChevronDown className='h-4 w-4 text-gray-700' />
 			</button>
+			<input type='hidden' className='hidden' ref={ref} {...rest} />
 
 			{open && (
 				<ul className='bg-ghost-white absolute z-10 mt-1 max-h-48 w-full overflow-y-auto rounded-lg shadow-lg'>
@@ -113,4 +126,4 @@ function MultiSelect({ emptyItem, onSelect, items }: SelectImplementationProps) 
 			)}
 		</div>
 	);
-}
+});
