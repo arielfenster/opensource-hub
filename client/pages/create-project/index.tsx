@@ -6,10 +6,8 @@ export function CreateProjectPage() {
 
 	return (
 		<div className='flex flex-col gap-8 px-4 py-8'>
-			<div className='flex flex-col gap-2'>
-				<h1 className='text-royal-blue text-4xl font-semibold'>Create New Project</h1>
-				<CreateProjectForm onSubmit={createProject} loading={loading} error={error} />
-			</div>
+			<h1 className='text-royal-blue text-4xl font-semibold'>Create New Project</h1>
+			<CreateProjectForm onSubmit={createProject} loading={loading} error={error} />
 		</div>
 	);
 }

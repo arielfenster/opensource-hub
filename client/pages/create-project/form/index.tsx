@@ -56,7 +56,7 @@ export function CreateProjectForm({ onSubmit, loading, error }: CreateProjectFor
 
 	return (
 		<div className='flex flex-col items-center gap-8'>
-			<ul className='flex w-full justify-between'>
+			<div className='flex w-2/3 justify-between'>
 				{formStepsConfig.map((step, index) => (
 					<StepIndicator
 						key={index}
@@ -65,10 +65,8 @@ export function CreateProjectForm({ onSubmit, loading, error }: CreateProjectFor
 						title={step.title}
 					/>
 				))}
-			</ul>
-			<CreateProjectContext.Provider
-				value={{ goBack, onStepSubmit: handleStepSubmit }}
-			>
+			</div>
+			<CreateProjectContext.Provider value={{ goBack, onStepSubmit: handleStepSubmit }}>
 				<StepComponent />
 			</CreateProjectContext.Provider>
 		</div>
@@ -84,18 +82,23 @@ function StepIndicator({
 	currentStep: number;
 	title: string;
 }) {
+	const isLastStepIndicator = index === formStepsConfig.length - 1;
+
 	return (
-		<li className='flex flex-col items-center gap-1'>
-			<span
-				className={cn(
-					'flex h-12 w-12 items-center justify-center rounded-full bg-gray-300 text-xl font-semibold',
-					currentStep === index && 'bg-celestial-blue text-ghost-white',
-					currentStep > index && 'text-ghost-white bg-green-500',
-				)}
-			>
-				{currentStep > index ? <CheckIcon /> : index + 1}
-			</span>
-			<span className='text-eerie-black text-base'>{title}</span>
-		</li>
+		<div className={cn('flex w-full items-center', isLastStepIndicator && 'w-1/2')}>
+			<div className='flex w-full flex-col items-center gap-1'>
+				<span
+					className={cn(
+						'flex h-12 w-12 items-center justify-center rounded-full bg-gray-300 text-xl font-semibold',
+						currentStep === index && 'bg-celestial-blue text-ghost-white',
+						currentStep > index && 'text-ghost-white bg-green-500',
+					)}
+				>
+					{currentStep > index ? <CheckIcon /> : index + 1}
+				</span>
+				<span className='text-eerie-black text-base'>{title}</span>
+			</div>
+			{!isLastStepIndicator && <div className='w-full border-2 border-gray-300' />}
+		</div>
 	);
 }
