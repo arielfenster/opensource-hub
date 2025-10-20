@@ -56,7 +56,7 @@ export function CreateProjectForm({ onSubmit, loading, error }: CreateProjectFor
 
 	return (
 		<div className='flex flex-col items-center gap-8'>
-			<div className='flex w-2/3 justify-between'>
+			<div className='flex w-2/3 justify-around gap-4'>
 				{formStepsConfig.map((step, index) => (
 					<StepIndicator
 						key={index}
@@ -85,8 +85,8 @@ function StepIndicator({
 	const isLastStepIndicator = index === formStepsConfig.length - 1;
 
 	return (
-		<div className={cn('flex w-full items-center', isLastStepIndicator && 'w-1/2')}>
-			<div className='flex w-full flex-col items-center gap-1'>
+		<div className={cn('flex items-center gap-4', !isLastStepIndicator && 'w-full')}>
+			<div className='flex flex-col items-center gap-1 text-center'>
 				<span
 					className={cn(
 						'flex h-12 w-12 items-center justify-center rounded-full bg-gray-300 text-xl font-semibold',
