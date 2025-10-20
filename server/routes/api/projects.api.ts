@@ -22,6 +22,6 @@ export const projectsRouter = new Hono()
 			return c.redirect(`/projects/${project.slug}`);
 		} catch (error) {
 			console.error('Error creating project:', error);
-			throw error;
+			return c.newResponse((error as Error).message, { status: 500 });
 		}
 	});
