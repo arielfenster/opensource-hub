@@ -67,7 +67,7 @@ export function CreateProjectForm({ onSubmit, loading, error }: CreateProjectFor
 				))}
 			</div>
 			<CreateProjectContext.Provider
-				value={{ goBack, onStepSubmit: handleStepSubmit, loading, error }}
+				value={{ data: formData, goBack, onStepSubmit: handleStepSubmit, loading, error }}
 			>
 				<StepComponent />
 			</CreateProjectContext.Provider>

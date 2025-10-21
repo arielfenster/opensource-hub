@@ -19,23 +19,33 @@ type SelectProps = Omit<ComponentPropsWithoutRef<'select'>, 'onSelect'> &
 	};
 
 export const Select = forwardRef<HTMLSelectElement | HTMLInputElement, SelectProps>(function Select(
-	{ items, multiple, ...rest },
+	{ items, multiple, value, ...rest },
 	ref,
 ) {
 	const selectItems: SelectItem[] = useMemo(() => buildSelectItems(items), [items]);
 
 	return multiple ? (
-		<MultiSelect items={selectItems} ref={ref as ForwardedRef<HTMLInputElement>} {...rest} />
+		<MultiSelect
+			items={selectItems}
+			ref={ref as ForwardedRef<HTMLInputElement>}
+			value={value as MultiSelectProps['value']}
+			{...rest}
+		/>
 	) : (
-		<SingleSelect items={selectItems} ref={ref as ForwardedRef<HTMLSelectElement>} {...rest} />
+		<SingleSelect
+			items={selectItems}
+			ref={ref as ForwardedRef<HTMLSelectElement>}
+			value={value}
+			{...rest}
+		/>
 	);
 });
 
-type SelectImplementationProps = Omit<SelectProps, 'items'> & {
+type SingleSelectProps = Omit<SelectProps, 'items'> & {
 	items: SelectItem[];
 };
 
-const SingleSelect = forwardRef<HTMLSelectElement, SelectImplementationProps>(function SingleSelect(
+const SingleSelect = forwardRef<HTMLSelectElement, SingleSelectProps>(function SingleSelect(
 	{ className, emptyItem, onSelect, items, name, ...rest },
 	ref,
 ) {
@@ -66,12 +76,16 @@ const SingleSelect = forwardRef<HTMLSelectElement, SelectImplementationProps>(fu
 	);
 });
 
-const MultiSelect = forwardRef<HTMLInputElement, SelectImplementationProps>(function MultiSelect(
-	{ emptyItem, onSelect, items, ...rest },
+type MultiSelectProps = Omit<SingleSelectProps, 'value'> & {
+	value?: string[];
+};
+
+const MultiSelect = forwardRef<HTMLInputElement, MultiSelectProps>(function MultiSelect(
+	{ emptyItem, onSelect, items, value, ...rest },
 	ref,
 ) {
 	const [open, setOpen] = useState(false);
-	const [selectedItems, setSelectedItems] = useState<string[]>([]);
+	const [selectedItems, setSelectedItems] = useState<string[]>(value ?? []);
 
 	function handleSelectItem(item: string) {
 		setSelectedItems((prev) =>

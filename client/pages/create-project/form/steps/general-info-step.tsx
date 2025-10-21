@@ -20,14 +20,16 @@ import { FormProvider, useFieldArray, useForm, useFormContext } from 'react-hook
 import { useCreateProjectContext } from '../context';
 
 export function GeneralInfoStep() {
+	const { data, onStepSubmit } = useCreateProjectContext();
+
 	const formMethods = useForm<ProjectGeneralInfoInput>({
 		resolver: zodResolver(projectGeneralInfoSchema),
 		defaultValues: {
-			keyFeatures: [{ feature: '' }],
-			teamPositions: [],
+			...data,
+			keyFeatures: data.keyFeatures ?? [{ feature: '' }],
+			teamPositions: data.teamPositions ?? [],
 		},
 	});
-	const { onStepSubmit } = useCreateProjectContext();
 
 	const {
 		register,
@@ -176,6 +178,7 @@ function TeamPositionsSection() {
 							currentPositions.concat(position as ProjectTeamPosition),
 						);
 					}}
+					value={getValues('teamPositions') || []}
 					{...register('teamPositions')}
 				/>
 			</LabelControl>

@@ -2,6 +2,7 @@ import type { CreateProjectInput } from '$/shared/schemas/project/create-project
 import { createContext, useContext } from 'react';
 
 type CreateProjectContextValue = {
+	data: Partial<CreateProjectInput>;
 	goBack: () => void;
 	onStepSubmit: (data: Partial<CreateProjectInput>) => void;
 	loading: boolean;
