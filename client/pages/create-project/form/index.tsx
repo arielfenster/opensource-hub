@@ -19,11 +19,6 @@ type CreateProjectFormProps = {
 // MultiStepForm.StepIndicator (and container)
 // MultiStepForm.Step
 //
-
-// TODO:
-// add default values (so when going back, the data is still there)
-// add function to set proper default values (if value is optional and is string, set it as undefined, not empty string)
-//
 export function CreateProjectForm({ onSubmit, loading, error }: CreateProjectFormProps) {
 	const [currentStep, setCurrentStep] = useState(0);
 	const [formData, dispatch] = useReducer(
@@ -46,12 +41,16 @@ export function CreateProjectForm({ onSubmit, loading, error }: CreateProjectFor
 	function handleStepSubmit(data: Partial<CreateProjectInput>) {
 		const isLastStep = currentStep === formStepsConfig.length - 1;
 		if (!isLastStep) {
-			dispatch(data);
+			updateFormData(data);
 			goNext();
 			return;
 		}
 
 		onSubmit({ ...formData, ...data });
+	}
+
+	function updateFormData(data: Partial<CreateProjectInput>) {
+		dispatch(data);
 	}
 
 	return (
@@ -67,7 +66,14 @@ export function CreateProjectForm({ onSubmit, loading, error }: CreateProjectFor
 				))}
 			</div>
 			<CreateProjectContext.Provider
-				value={{ data: formData, goBack, onStepSubmit: handleStepSubmit, loading, error }}
+				value={{
+					data: formData,
+					goBack,
+					onStepSubmit: handleStepSubmit,
+					updateFormData,
+					loading,
+					error,
+				}}
 			>
 				<StepComponent />
 			</CreateProjectContext.Provider>

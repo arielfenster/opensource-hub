@@ -12,15 +12,17 @@ import { useForm } from 'react-hook-form';
 import { useCreateProjectContext } from '../context';
 
 export function ProjectLinksStep() {
+	const { data, goBack, updateFormData, onStepSubmit } = useCreateProjectContext();
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		getValues,
 	} = useForm<ProjectLinksInput>({
 		resolver: zodResolver(projectLinksSchema),
-		defaultValues: {},
+		defaultValues: data.links ?? {},
 	});
-	const { goBack, onStepSubmit } = useCreateProjectContext();
 
 	return (
 		<Card className='w-2/3'>
@@ -68,7 +70,10 @@ export function ProjectLinksStep() {
 					className={cn(
 						'text-eerie-black hover:text-eerie-black/80 flex gap-1 bg-transparent px-0 font-normal hover:bg-transparent',
 					)}
-					onClick={goBack}
+					onClick={() => {
+						updateFormData({ links: getValues() });
+						goBack();
+					}}
 				>
 					<ChevronLeftIcon />
 					<span className='text-lg'>Previous</span>

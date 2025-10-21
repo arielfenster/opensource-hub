@@ -5,6 +5,7 @@ type CreateProjectContextValue = {
 	data: Partial<CreateProjectInput>;
 	goBack: () => void;
 	onStepSubmit: (data: Partial<CreateProjectInput>) => void;
+	updateFormData: (data: Partial<CreateProjectInput>) => void;
 	loading: boolean;
 	error?: string;
 };
