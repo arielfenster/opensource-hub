@@ -20,11 +20,7 @@ export function SearchSection({ onFilter }: SearchSectionProps) {
 
 	return (
 		<section className='flex gap-2'>
-			<TechnologiesAutoCompleteContainer
-				className='w-1/2'
-				onSelect={(technology) => onFilter({ type: 'tech', value: technology })}
-				onRemove={(technology) => onFilter({ type: 'tech', value: technology })}
-			/>
+			<TechnologiesAutoCompleteContainer className='w-1/2' />
 			<Select
 				items={selectPositionItems}
 				emptyItem={'Filter by position'}
