@@ -6,7 +6,6 @@ import { ResultsSection } from './components/results-section';
 import { SearchSection } from './components/search-section';
 import { getFilteredProjects, type SearchFilter } from './service';
 
-// TODO: fix this mess
 // maybe bring back container components?
 export function ProjectsPage() {
 	const { data: projects } = useProjects();
@@ -15,6 +14,11 @@ export function ProjectsPage() {
 	const [selectedPositions, setSelectedPositions] = useState<ProjectTeamPosition[]>([]);
 
 	function handleApplyFilter(filter: SearchFilter) {
+		// TODO: there's no need to check the type of the filter since the technologies
+		// are handled separately in the store. try to refactor/simplify this
+		// maybe use a context for the page that holds the positions?
+		// maybe create a separate store for the positions?
+
 		if (filter.type === 'position') {
 			const isPositionAlreadySelected = selectedPositions.some(
 				(position) => position === filter.value,
