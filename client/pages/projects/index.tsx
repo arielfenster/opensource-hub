@@ -1,5 +1,5 @@
 import { useProjects } from '$/client/hooks/useProjects';
-import { useTechnologies } from '$/client/hooks/useTechnologies';
+import { useTechnologiesStore } from '$/client/stores/technologies.store';
 import type { ProjectTeamPosition } from '$/shared/types/projects';
 import { useState } from 'react';
 import { ResultsSection } from './components/results-section';
@@ -11,29 +11,21 @@ import { getFilteredProjects, type SearchFilter } from './service';
 export function ProjectsPage() {
 	const { data: projects } = useProjects();
 
-	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologies();
+	const { selectedTechnologies } = useTechnologiesStore();
 	const [selectedPositions, setSelectedPositions] = useState<ProjectTeamPosition[]>([]);
 
 	function handleApplyFilter(filter: SearchFilter) {
-		if (filter.type === 'tech') {
-			const isTechnologyAlreadySelected = selectedTechnologies.some(
-				(tech) => tech.id === filter.value.id,
+		if (filter.type === 'position') {
+			const isPositionAlreadySelected = selectedPositions.some(
+				(position) => position === filter.value,
 			);
-			if (isTechnologyAlreadySelected) {
-				removeTechnology(filter.value);
+			if (isPositionAlreadySelected) {
+				setSelectedPositions((prev) =>
+					prev.filter((position) => position !== filter.value),
+				);
 			} else {
-				addTechnology(filter.value);
+				setSelectedPositions((prev) => [...prev, filter.value]);
 			}
-			return;
-		}
-
-		const isPositionAlreadySelected = selectedPositions.some(
-			(position) => position === filter.value,
-		);
-		if (isPositionAlreadySelected) {
-			setSelectedPositions((prev) => prev.filter((position) => position !== filter.value));
-		} else {
-			setSelectedPositions((prev) => [...prev, filter.value]);
 		}
 	}
 

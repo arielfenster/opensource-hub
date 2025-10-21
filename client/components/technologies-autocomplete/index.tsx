@@ -1,29 +1,18 @@
 import { useFetchTechnologies } from '$/client/hooks/useFetchTechnologies';
-import { useTechnologies } from '$/client/hooks/useTechnologies';
 import { cn } from '$/client/lib/utils';
+import { useTechnologiesStore } from '$/client/stores/technologies.store';
 import type { TechnologyData } from '$/shared/types/technologies';
 import { SearchIcon } from 'lucide-react';
 import { AutoComplete } from '../form/autocomplete';
 import { config } from './config';
 import { TechnologyChip } from './technology-chip';
 
-type TechnologiesAutoCompleteContainerProps = Omit<TechnologiesAutoCompleteProps, 'data'>;
-
-export function TechnologiesAutoCompleteContainer({
-	onSelect,
-	onRemove,
-	className,
-}: TechnologiesAutoCompleteContainerProps) {
+export function TechnologiesAutoCompleteContainer(
+	props: Omit<TechnologiesAutoCompleteProps, 'data'>,
+) {
 	const { data: technologies } = useFetchTechnologies();
 
-	return (
-		<TechnologiesAutoComplete
-			data={technologies}
-			onSelect={onSelect}
-			onRemove={onRemove}
-			className={className}
-		/>
-	);
+	return <TechnologiesAutoComplete data={technologies} {...props} />;
 }
 
 export type TechnologiesAutoCompleteProps = {
@@ -39,10 +28,7 @@ function TechnologiesAutoComplete({
 	onRemove,
 	className,
 }: TechnologiesAutoCompleteProps) {
-	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologies({
-		onSelect,
-		onRemove,
-	});
+	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologiesStore();
 
 	function renderEmptyState() {
 		return (

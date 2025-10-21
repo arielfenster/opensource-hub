@@ -1,14 +1,15 @@
 import { TechnologiesAutoCompleteContainer } from '$/client/components/technologies-autocomplete';
 import { Button } from '$/client/components/ui/button';
 import { Card } from '$/client/components/ui/card';
-import { useTechnologies } from '$/client/hooks/useTechnologies';
 import { cn } from '$/client/lib/utils';
+import { useTechnologiesStore } from '$/client/stores/technologies.store';
 import { ChevronLeftIcon } from 'lucide-react';
 import { useCreateProjectContext } from '../context';
 
 export function ProjectTechnologiesStep() {
-	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologies();
-	const { goBack, onStepSubmit, loading, error } = useCreateProjectContext();
+	const { selectedTechnologies } = useTechnologiesStore();
+	const { goBack, updateFormData, onStepSubmit, loading, error } =
+		useCreateProjectContext();
 
 	return (
 		<Card className='w-2/3'>
@@ -24,11 +25,7 @@ export function ProjectTechnologiesStep() {
 						onStepSubmit({ technologies: selectedTechnologies });
 					}}
 				>
-					<TechnologiesAutoCompleteContainer
-						className='w-full'
-						onSelect={addTechnology}
-						onRemove={removeTechnology}
-					/>
+					<TechnologiesAutoCompleteContainer className='w-full' />
 				</form>
 				{error && (
 					<div className='border-2 border-red-600 bg-red-100 p-4'>
@@ -51,7 +48,10 @@ export function ProjectTechnologiesStep() {
 					className={cn(
 						'text-eerie-black hover:text-eerie-black/80 flex gap-1 bg-transparent px-0 font-normal hover:bg-transparent',
 					)}
-					onClick={goBack}
+					onClick={() => {
+						updateFormData({ technologies: selectedTechnologies });
+						goBack();
+					}}
 				>
 					<ChevronLeftIcon />
 					<span className='text-lg'>Previous</span>
