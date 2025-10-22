@@ -23,7 +23,7 @@ export function AutoComplete<T>({
 }: AutoCompleteProps<T>) {
 	const {
 		filteredOptions,
-		showDropdown,
+		isDropdownOpen,
 		selectedOptionIndex,
 		inputRef,
 		dropdownRef,
@@ -42,7 +42,7 @@ export function AutoComplete<T>({
 				onChange={handleChange}
 				onKeyDown={handleKeyDown}
 			/>
-			{showDropdown && (
+			{isDropdownOpen && (
 				<div className='bg-ghost-white absolute z-10 flex max-h-[20rem] w-full flex-col gap-1 overflow-y-scroll shadow-2xl'>
 					{filteredOptions.length > 0
 						? filteredOptions.map((option, index) => (
@@ -63,10 +63,6 @@ export function AutoComplete<T>({
 		</div>
 	);
 }
-
-// function DefaultRenderOption<T>(option: T) {
-// 	return <span>{option.value}</span>;
-// }
 
 function DefaultEmptyState() {
 	return <div className='h-12 rounded px-4 py-2 text-lg'>No options found</div>;
