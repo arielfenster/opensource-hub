@@ -1,4 +1,3 @@
-[] create a function (config/build-config directory) that takes as input page name and outputs a unified string - this will be used in vite config and in the Html component in the server to get the correct page script file with the hash.
 [] create a .env.production for production values
 [] add an option for a page title (like in about/profile) instead of repeating the same styles. maybe in Layout?
 
@@ -26,12 +25,10 @@ also, need to create methods for approving and declining requests.
 each of them should update the request's status and send an email to the requester (if email exists).
 i need to create an admin dashboard in the navbar where i can see all the requests and click to approve/decline them. (NICE!)
 
-4. see if need to add props to tech-autocomplete or autocomplete regarding showing this option for form.
-		4.1. maybe a container for tech-auto is needed, to be able to render the component in different places with different behaviors
-		^^^
+4. see if need to add props to tech-autocomplete or autocomplete regarding showing this option for form ("didn't found what you were looking for? click _here_ to add/request an item")
 
 5. add class-variance-authority. use it for buttons - regular, link. look at compoundVariants
 6. create reuseable Dropdown/Menu component - for the user profile icon and for the select
-8. figure out if CardHeader/CardTitle is actually necessary, or i can just combine them into a single component
-9. create SelectField.
-9. create multi step form 
+7. figure out if CardHeader/CardTitle is actually necessary, or i can just combine them into a single component
+8. create SelectField.
+9. create multi step form
