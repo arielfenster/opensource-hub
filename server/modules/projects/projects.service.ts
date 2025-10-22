@@ -3,6 +3,7 @@ import type { ProjectDetails } from '$/shared/types/projects';
 import { nanoid } from 'nanoid';
 import { projectsDataAccessor } from './projects.data-accessor';
 import type { FindProjectParams, FindProjectUniqueIdentifier } from './types';
+import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
 
 type FindProjectReturnValue = NonNullable<
 	Awaited<ReturnType<typeof projectsDataAccessor.findProjectByUniqueIdentifier>>
@@ -44,6 +45,20 @@ class ProjectsService {
 			...project,
 			technologies: project.technologies.map((tech) => tech.technology),
 		};
+	}
+
+	async createProject(data: CreateProjectInput, ownerId: string) {
+		const slug = this.generateProjectSlug(data.name);
+		const keyFeatures = (data.keyFeatures ?? []).map((value) => value.feature);
+		const teamPositions = data.teamPositions ?? [];
+
+		return projectsDataAccessor.insertProject({
+			...data,
+			slug,
+			teamPositions,
+			keyFeatures,
+			ownerId,
+		});
 	}
 }
 

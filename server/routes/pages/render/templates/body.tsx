@@ -1,5 +1,5 @@
 import type { PageScripts } from '$/build-utils/manifest';
-import { Layout } from '$/client/components/layout';
+import { Layout } from '$/client/components/layout/layout';
 import { AppProviders } from '$/client/providers/app-providers';
 import { PREFETCHED_STATE_NAME } from '$/shared/constants';
 import { IS_PROD } from '$/shared/env';

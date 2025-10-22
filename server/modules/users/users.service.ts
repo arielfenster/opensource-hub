@@ -18,6 +18,7 @@ class UsersService {
 		return usersDataAccessor.findUserByUniqueIdentifier(searchKey, params[searchKey] as any);
 	}
 
+	// TODO: remove? just select the user with the socialLinks everytime instead
 	async findUserWithSocialLinks(params: FindUserParams) {
 		const user = await this.findUser(params);
 		if (!user) {

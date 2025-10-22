@@ -1,6 +1,6 @@
+import type { TechnologyName } from '$/shared/types/technologies';
 import { Cloud, Code, CreditCard, Database, Layers, Server, Settings } from 'lucide-react';
 import type { ElementType } from 'react';
-import type { TechnologyName } from './types';
 
 type TechnologyConfig = {
 	icon: ElementType;

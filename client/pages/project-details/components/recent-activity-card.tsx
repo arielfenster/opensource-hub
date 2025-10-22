@@ -2,6 +2,7 @@ import { Card } from '$/client/components/ui/card';
 
 type RecentActivityCardProps = {};
 
+// TODO: implement
 export function RecentActivityCard({}: RecentActivityCardProps) {
 	return (
 		<Card>

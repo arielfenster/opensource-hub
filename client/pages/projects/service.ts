@@ -1,11 +1,11 @@
-import type { TechnologyOption } from '$/client/components/technologies-autocomplete/types';
-import type { ProjectTeamPosition, ProjectDetails } from '$/shared/types/projects';
+import type { ProjectDetails, ProjectTeamPosition } from '$/shared/types/projects';
+import type { TechnologyData } from '$/shared/types/technologies';
 
 export type SearchFilterType = 'tech' | 'position';
 export type SearchFilter =
 	| {
 			type: 'tech';
-			value: TechnologyOption;
+			value: TechnologyData;
 	  }
 	| {
 			type: 'position';
@@ -14,7 +14,7 @@ export type SearchFilter =
 
 export function getFilteredProjects(
 	projects: ProjectDetails[],
-	filterTechnologies: string[],
+	filterTechnologies: TechnologyData[],
 	filterPositions: ProjectTeamPosition[],
 ): ProjectDetails[] {
 	return filterByTechStack(filterByPosition(projects, filterPositions), filterTechnologies);
@@ -22,11 +22,11 @@ export function getFilteredProjects(
 
 function filterByTechStack(
 	projects: ProjectDetails[],
-	filterTechnologies: string[],
+	filterTechnologies: TechnologyData[],
 ): ProjectDetails[] {
 	return projects.filter((project) =>
 		filterTechnologies.every((filterTech) =>
-			project.technologies.find((tech) => tech.name === filterTech),
+			project.technologies.find((tech) => tech.name === filterTech.name),
 		),
 	);
 }

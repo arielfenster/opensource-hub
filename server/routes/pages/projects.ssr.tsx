@@ -1,3 +1,4 @@
+import { CreateProjectPage } from '$/client/pages/create-project';
 import { ProjectDetailsPage } from '$/client/pages/project-details';
 import { ProjectsPage } from '$/client/pages/projects';
 import { projectsService } from '$/server/modules/projects/projects.service';
@@ -9,6 +10,15 @@ export async function renderProjectsPage(c: Context) {
 	const html = await renderServerPageWithUser(c, <ProjectsPage />, {
 		page: 'projects',
 		title: 'Projects',
+	});
+
+	return c.html(html);
+}
+
+export async function renderCreateProjectPage(c: Context) {
+	const html = await renderServerPageWithUser(c, <CreateProjectPage />, {
+		page: 'create-project',
+		title: 'Create new project',
 	});
 
 	return c.html(html);

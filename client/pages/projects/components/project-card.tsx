@@ -1,5 +1,4 @@
 import { TechnologyChip } from '$/client/components/technologies-autocomplete/technology-chip';
-import { convertTechnologyDataToOptionItem } from '$/client/components/technologies-autocomplete/utils';
 import { Card } from '$/client/components/ui/card';
 import { Chip } from '$/client/components/ui/chip';
 import { LinkButton } from '$/client/components/ui/link-button';
@@ -20,10 +19,7 @@ export function ProjectCard({ project }: Props) {
 				<Card.Description>{project.shortDescription}</Card.Description>
 				<div className='flex flex-wrap items-center gap-2'>
 					{project.technologies.slice(0, 5).map((tech) => (
-						<TechnologyChip
-							key={tech.id}
-							technology={convertTechnologyDataToOptionItem(tech)}
-						/>
+						<TechnologyChip key={tech.id} technology={tech} />
 					))}
 					{project.technologies.length > 5 && (
 						<span>+{project.technologies.length - 5} more</span>

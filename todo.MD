@@ -27,8 +27,11 @@ each of them should update the request's status and send an email to the request
 i need to create an admin dashboard in the navbar where i can see all the requests and click to approve/decline them. (NICE!)
 
 4. see if need to add props to tech-autocomplete or autocomplete regarding showing this option for form.
-   4.1. maybe a container for tech-auto is needed, to be able to render the component in different places with different behaviors
+		4.1. maybe a container for tech-auto is needed, to be able to render the component in different places with different behaviors
+		^^^
 
 5. add class-variance-authority. use it for buttons - regular, link. look at compoundVariants
 6. create reuseable Dropdown/Menu component - for the user profile icon and for the select
 8. figure out if CardHeader/CardTitle is actually necessary, or i can just combine them into a single component
+9. create SelectField.
+9. create multi step form 

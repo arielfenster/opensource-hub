@@ -1,13 +1,13 @@
+import type { TechnologyData } from '$/shared/types/technologies';
 import { create } from 'zustand';
-import type { TechnologyOption } from '../components/technologies-autocomplete/types';
 
 type State = {
-	selectedTechnologies: TechnologyOption[];
+	selectedTechnologies: TechnologyData[];
 };
 
 type Actions = {
-	addTechnology: (technology: TechnologyOption) => void;
-	removeTechnology: (technology: TechnologyOption) => void;
+	addTechnology: (technology: TechnologyData) => void;
+	removeTechnology: (technology: TechnologyData) => void;
 };
 
 export const useTechnologiesStore = create<State & Actions>((set, get) => ({

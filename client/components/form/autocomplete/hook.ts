@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect, type ChangeEvent, useCallback } from 'react';
-import type { Option, OptionData } from './types';
+import { useCallback, useEffect, useRef, useState, type ChangeEvent } from 'react';
+import type { AutoCompleteProps } from '.';
 
 const Keys = {
 	ARROW_UP: 'ArrowUp',
@@ -10,13 +10,10 @@ const Keys = {
 
 const UNINITIALIZED_OPTION_INDEX = -1;
 
-type Props<TData extends OptionData> = {
-	options: Option<TData>[];
-	onSelect: (option: Option<TData>) => void;
-};
+type Props<T> = Pick<AutoCompleteProps<T>, 'options' | 'valueKey' | 'onSelect'>;
 
-export function useAutoComplete<TData extends OptionData>({ options, onSelect }: Props<TData>) {
-	const [filteredOptions, setFilteredOptions] = useState<Option<TData>[]>(options);
+export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
+	const [filteredOptions, setFilteredOptions] = useState<T[]>(options);
 	const [showDropdown, setShowDropdown] = useState(false);
 	const [selectedOptionIndex, setSelectedOptionIndex] = useState(UNINITIALIZED_OPTION_INDEX);
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -39,14 +36,14 @@ export function useAutoComplete<TData extends OptionData>({ options, onSelect }:
 	function handleChange(event: ChangeEvent<HTMLInputElement>) {
 		const lowercasedInput = event.target.value.toLowerCase();
 		const filtered = options.filter((option) =>
-			option.value.toLowerCase().includes(lowercasedInput),
+			(option[valueKey] as string).toLowerCase().includes(lowercasedInput),
 		);
 
 		setFilteredOptions(filtered);
 		setShowDropdown(true);
 	}
 
-	const handleSelect = useCallback((option: Option<TData>) => {
+	const handleSelect = useCallback((option: T) => {
 		onSelect(option);
 		setFilteredOptions(options);
 		resetState();
@@ -60,6 +57,11 @@ export function useAutoComplete<TData extends OptionData>({ options, onSelect }:
 	}, []);
 
 	function handleKeyDown(event: React.KeyboardEvent) {
+		// this is to prevent form submissions where this component is used inside a form
+		if (event.key === Keys.ENTER) {
+			event.preventDefault();
+		}
+
 		if (!showDropdown || filteredOptions.length === 0) {
 			return;
 		}
@@ -76,8 +78,11 @@ export function useAutoComplete<TData extends OptionData>({ options, onSelect }:
 				break;
 			}
 			case Keys.ENTER: {
-				handleSelect(filteredOptions[selectedOptionIndex]);
-				setSelectedOptionIndex(UNINITIALIZED_OPTION_INDEX);
+				// prevent handling key events when no option is selected
+				if (selectedOptionIndex !== UNINITIALIZED_OPTION_INDEX) {
+					handleSelect(filteredOptions[selectedOptionIndex]);
+					setSelectedOptionIndex(UNINITIALIZED_OPTION_INDEX);
+				}
 				break;
 			}
 			case Keys.ESCAPE: {

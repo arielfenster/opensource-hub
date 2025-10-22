@@ -2,7 +2,7 @@ import { superjsonDeserialize } from '$/shared/superjson';
 import type { DehydratedState } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
-import { Layout } from '../components/layout';
+import { Layout } from '../components/layout/layout';
 import { AppProviders } from '../providers/app-providers';
 import { getWindow } from './window';
 

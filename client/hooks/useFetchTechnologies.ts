@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRpcQueryClient } from '../providers/rpc-query-provider';
 
-export function useTechnologies() {
+export function useFetchTechnologies() {
 	const rpcClient = useRpcQueryClient();
 
 	return useQuery({
