@@ -34,3 +34,4 @@ i need to create an admin dashboard in the navbar where i can see all the reques
 6. create reuseable Dropdown/Menu component - for the user profile icon and for the select
 8. figure out if CardHeader/CardTitle is actually necessary, or i can just combine them into a single component
 9. create SelectField.
+9. create multi step form 

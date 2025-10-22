@@ -14,7 +14,7 @@ const MAX_ITEMS_DISPLAYED = 4;
 export function getMultiSelectTriggerText(selectedItems: string[], emptyItem?: ReactNode) {
 	if (selectedItems.length > 0) {
 		if (selectedItems.length > MAX_ITEMS_DISPLAYED) {
-			return `${selectedItems.join(', ')} +${selectedItems.length - MAX_ITEMS_DISPLAYED} more`;
+			return `${selectedItems.slice(0, MAX_ITEMS_DISPLAYED).join(', ')} +${selectedItems.length - MAX_ITEMS_DISPLAYED} more`;
 		}
 
 		return `${selectedItems.join(', ')}`;
