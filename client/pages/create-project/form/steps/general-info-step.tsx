@@ -79,7 +79,7 @@ export function GeneralInfoStep() {
 					</form>
 				</FormProvider>
 			</Card.Body>
-			<Card.Footer className='flex justify-between'>
+			<Card.Footer className='flex w-full flex-col'>
 				<Button
 					type='submit'
 					className='text-ghost-white bg-celestial-blue hover:bg-celestial-blue-hover flex gap-1 self-end rounded-lg font-normal'
@@ -160,6 +160,7 @@ function TeamPositionsSection() {
 		<FieldControl className='w-full'>
 			<LabelControl label='Team Positions' name='teamPositions'>
 				<Select
+					className='w-full'
 					items={selectPositionItems}
 					multiple
 					onSelect={(position) => {

@@ -81,7 +81,7 @@ type MultiSelectProps = Omit<SingleSelectProps, 'value'> & {
 };
 
 const MultiSelect = forwardRef<HTMLInputElement, MultiSelectProps>(function MultiSelect(
-	{ emptyItem, onSelect, items, value, ...rest },
+	{ emptyItem, onSelect, items, value, className, ...rest },
 	ref,
 ) {
 	const [open, setOpen] = useState(false);
@@ -97,47 +97,49 @@ const MultiSelect = forwardRef<HTMLInputElement, MultiSelectProps>(function Mult
 	const triggerText = getMultiSelectTriggerText(selectedItems, emptyItem);
 
 	return (
-		<div className='relative w-64'>
-			<button
-				type='button'
-				onClick={() => setOpen(!open)}
-				className='bg-ghost-white flex h-14 w-full items-center justify-between rounded-lg border border-gray-300 px-3 py-2 text-sm overflow-ellipsis text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none'
-			>
-				{triggerText}
-				<ChevronDown className='h-4 w-4 text-gray-700' />
-			</button>
-			<input type='hidden' className='hidden' ref={ref} {...rest} />
+		<div className={cn('relative w-64', className)}>
+			<div className='w-full'>
+				<button
+					type='button'
+					onClick={() => setOpen(!open)}
+					className='bg-ghost-white text-md flex h-14 w-full items-center justify-between rounded-lg border border-gray-300 px-3 py-2 overflow-ellipsis text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none'
+				>
+					{triggerText}
+					<ChevronDown className='h-4 w-4 text-gray-700' />
+				</button>
+				<input type='hidden' className='hidden' ref={ref} {...rest} />
 
-			{open && (
-				<ul className='bg-ghost-white absolute z-10 mt-1 max-h-48 w-full overflow-y-auto rounded-lg shadow-lg'>
-					{items.map((item) => {
-						const isSelected = selectedItems.includes(item.value);
+				{open && (
+					<ul className='bg-ghost-white absolute z-10 mt-1 max-h-48 w-full overflow-y-auto rounded-lg shadow-lg'>
+						{items.map((item) => {
+							const isSelected = selectedItems.includes(item.value);
 
-						return (
-							<li
-								key={item.value}
-								onClick={() => handleSelectItem(item.value)}
-								className={cn(
-									'cursor-pointer px-3 py-2 text-sm text-gray-700 hover:bg-gray-100',
-								)}
-							>
-								<label className='flex cursor-pointer items-center gap-2 px-3'>
-									<span
-										className={cn(
-											'flex h-4 w-4 items-center justify-center rounded border border-gray-300',
-											isSelected &&
-												'text-ghost-white border-blue-500 bg-blue-500',
-										)}
-									>
-										{isSelected && <CheckIcon className='h-3 w-3' />}
-									</span>
-									{item.label}
-								</label>
-							</li>
-						);
-					})}
-				</ul>
-			)}
+							return (
+								<li
+									key={item.value}
+									onClick={() => handleSelectItem(item.value)}
+									className={cn(
+										'text-md cursor-pointer px-4 py-3 text-gray-700 hover:bg-gray-200',
+									)}
+								>
+									<label className='flex cursor-pointer items-center gap-2'>
+										<span
+											className={cn(
+												'flex h-5 w-5 items-center justify-center rounded border border-gray-300',
+												isSelected &&
+													'text-ghost-white border-blue-500 bg-blue-500',
+											)}
+										>
+											{isSelected && <CheckIcon className='h-3 w-3' />}
+										</span>
+										{item.label}
+									</label>
+								</li>
+							);
+						})}
+					</ul>
+				)}
+			</div>
 		</div>
 	);
 });
