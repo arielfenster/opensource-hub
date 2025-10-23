@@ -8,10 +8,10 @@ type DropdownContextValue = {
 };
 export const DropdownContext = createContext<DropdownContextValue | null>(null);
 
-export function useDropdownContext() {
+export function useDropdown() {
 	const context = useContext(DropdownContext);
 	if (!context) {
-		throw new Error('useDropdownContext must be used within a DropdownContextProvider');
+		throw new Error('useDropdownContext must be used within a DropdownContext');
 	}
 	return context;
 }

@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState, type ChangeEvent } from 'react';
 import type { AutoCompleteProps } from '.';
-import { useDropdownContext } from '../../ui/dropdown/context';
+import { useDropdown } from '../../ui/dropdown/context';
 
 const Keys = {
 	ARROW_UP: 'ArrowUp',
@@ -17,7 +17,7 @@ export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
 	const [filteredOptions, setFilteredOptions] = useState<T[]>(options);
 	const [selectedOptionIndex, setSelectedOptionIndex] = useState(UNINITIALIZED_OPTION_INDEX);
 	const inputRef = useRef<HTMLInputElement>(null);
-	const { open, setOpen } = useDropdownContext();
+	const { open, setOpen } = useDropdown();
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>) {
 		const lowercasedInput = event.target.value.toLowerCase();

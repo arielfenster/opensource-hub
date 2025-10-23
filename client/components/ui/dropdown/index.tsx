@@ -12,7 +12,7 @@ import {
 	type MouseEvent as ReactMouseEvent,
 	type RefObject,
 } from 'react';
-import { DropdownContext, useDropdownContext } from './context';
+import { DropdownContext, useDropdown } from './context';
 
 type CommonProps = PropsWithChildren<{
 	className?: string;
@@ -34,7 +34,7 @@ type DropdownTriggerProps = CommonProps & {
 	onClose?: () => void;
 };
 function DropdownTrigger({ onClose, children }: DropdownTriggerProps) {
-	const { open, setOpen, triggerRef, contentRef } = useDropdownContext();
+	const { open, setOpen, triggerRef, contentRef } = useDropdown();
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -76,13 +76,13 @@ function DropdownTrigger({ onClose, children }: DropdownTriggerProps) {
 }
 
 function DropdownAnchor({ children }: CommonProps) {
-	const { triggerRef } = useDropdownContext();
+	const { triggerRef } = useDropdown();
 
 	return <div ref={triggerRef as RefObject<HTMLDivElement>}>{children}</div>;
 }
 
 function DropdownContent({ className, children }: CommonProps) {
-	const { open, contentRef } = useDropdownContext();
+	const { open, contentRef } = useDropdown();
 
 	return (
 		<div
