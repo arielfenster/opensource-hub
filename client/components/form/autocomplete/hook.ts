@@ -1,6 +1,6 @@
-import { useDropdown } from '$/client/hooks/useDropdown';
 import { useCallback, useRef, useState, type ChangeEvent } from 'react';
 import type { AutoCompleteProps } from '.';
+import { useDropdownContext } from '../../ui/dropdown/context';
 
 const Keys = {
 	ARROW_UP: 'ArrowUp',
@@ -17,11 +17,7 @@ export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
 	const [filteredOptions, setFilteredOptions] = useState<T[]>(options);
 	const [selectedOptionIndex, setSelectedOptionIndex] = useState(UNINITIALIZED_OPTION_INDEX);
 	const inputRef = useRef<HTMLInputElement>(null);
-	const { isDropdownOpen, openDropdown, closeDropdown, dropdownRef } = useDropdown({
-		onClose: () => {
-			setSelectedOptionIndex(UNINITIALIZED_OPTION_INDEX);
-		},
-	});
+	const { open, setOpen } = useDropdownContext();
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>) {
 		const lowercasedInput = event.target.value.toLowerCase();
@@ -30,7 +26,7 @@ export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
 		);
 
 		setFilteredOptions(filtered);
-		openDropdown();
+		setOpen(true);
 	}
 
 	const handleSelect = useCallback((option: T) => {
@@ -40,7 +36,8 @@ export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
 	}, []);
 
 	const resetState = useCallback(() => {
-		closeDropdown();
+		setOpen(false);
+		setSelectedOptionIndex(UNINITIALIZED_OPTION_INDEX);
 		inputRef.current!.value = '';
 		inputRef.current!.focus();
 	}, []);
@@ -51,7 +48,7 @@ export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
 			event.preventDefault();
 		}
 
-		if (!isDropdownOpen || filteredOptions.length === 0) {
+		if (!open || filteredOptions.length === 0) {
 			return;
 		}
 
@@ -70,7 +67,6 @@ export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
 				// prevent handling key events when no option is selected
 				if (selectedOptionIndex !== UNINITIALIZED_OPTION_INDEX) {
 					handleSelect(filteredOptions[selectedOptionIndex]);
-					setSelectedOptionIndex(UNINITIALIZED_OPTION_INDEX);
 				}
 				break;
 			}
@@ -83,10 +79,8 @@ export function useAutoComplete<T>({ options, valueKey, onSelect }: Props<T>) {
 
 	return {
 		filteredOptions,
-		isDropdownOpen,
 		selectedOptionIndex,
 		inputRef,
-		dropdownRef,
 		handleChange,
 		handleSelect,
 		handleKeyDown,
