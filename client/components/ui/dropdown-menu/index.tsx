@@ -49,12 +49,12 @@ function DropdownMenuContent({ children }: PropsWithChildren) {
 	return (
 		<div
 			className={cn(
-				'absolute right-1 w-44 transition-all duration-300 ease-in-out',
+				'bg-ghost-white absolute right-1 rounded-lg shadow-xl transition-all duration-300 ease-in-out',
 				open && 'pointer-events-auto translate-y-2 opacity-100',
 				!open && 'pointer-events-none translate-y-[-8px] opacity-0',
 			)}
 		>
-			<ul className='bg-ghost-white flex flex-col rounded-lg shadow-xl'>{children}</ul>
+			<ul className='flex flex-col gap-2'>{children}</ul>
 		</div>
 	);
 }
@@ -82,7 +82,7 @@ function DropdownMenuItem({ text, image, onClick, href = '#' }: DropdownMenuItem
 	}
 
 	return (
-		<li className='hover:border-royal-blue border-4 pl-4 transition-all duration-300 ease-in-out first:pt-4 first:pb-2 last:pt-2 last:pb-4'>
+		<li className='p-3 transition-all duration-300 ease-in-out hover:rounded-lg hover:bg-gray-300'>
 			<a
 				href={href}
 				className='text-eerie-black flex items-center gap-4'
