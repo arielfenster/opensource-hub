@@ -87,7 +87,7 @@ function DropdownContent({ className, children }: CommonProps) {
 	return (
 		<div
 			className={cn(
-				'pointer-events-auto absolute z-10 rounded-lg opacity-100 shadow-xl',
+				'pointer-events-auto absolute z-10 rounded-lg opacity-100 shadow-xl bg-ghost-white',
 				!open && 'pointer-events-none opacity-0',
 				className,
 			)}
