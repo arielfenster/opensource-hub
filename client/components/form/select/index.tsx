@@ -10,6 +10,7 @@ import {
 import type { Items, SelectItem } from './types';
 import { buildSelectItems, getMultiSelectTriggerText } from './utils';
 import { CheckIcon, ChevronDown } from 'lucide-react';
+import { Dropdown } from '../../ui/dropdown';
 
 type SelectProps = Omit<ComponentPropsWithoutRef<'select'>, 'onSelect'> &
 	Omit<ComponentPropsWithoutRef<'input'>, 'onSelect'> & {
@@ -84,7 +85,6 @@ const MultiSelect = forwardRef<HTMLInputElement, MultiSelectProps>(function Mult
 	{ emptyItem, onSelect, items, value, className, ...rest },
 	ref,
 ) {
-	const [open, setOpen] = useState(false);
 	const [selectedItems, setSelectedItems] = useState<string[]>(value ?? []);
 
 	function handleSelectItem(item: string) {
@@ -97,49 +97,43 @@ const MultiSelect = forwardRef<HTMLInputElement, MultiSelectProps>(function Mult
 	const triggerText = getMultiSelectTriggerText(selectedItems, emptyItem);
 
 	return (
-		<div className={cn('relative w-64', className)}>
-			<div className='w-full'>
+		<Dropdown className={cn('w-64', className)}>
+			<Dropdown.Trigger>
 				<button
 					type='button'
-					onClick={() => setOpen(!open)}
 					className='bg-ghost-white text-md flex h-14 w-full items-center justify-between rounded-lg border border-gray-300 px-3 py-2 overflow-ellipsis text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none'
 				>
 					{triggerText}
 					<ChevronDown className='h-4 w-4 text-gray-700' />
 				</button>
-				<input type='hidden' className='hidden' ref={ref} {...rest} />
+			</Dropdown.Trigger>
+			<input type='hidden' className='hidden' ref={ref} {...rest} />
+			<Dropdown.Content className='bg-ghost-white mt-1 max-h-48 w-full overflow-y-auto rounded-lg shadow-lg'>
+				{items.map((item) => {
+					const isSelected = selectedItems.includes(item.value);
 
-				{open && (
-					<ul className='bg-ghost-white absolute z-10 mt-1 max-h-48 w-full overflow-y-auto rounded-lg shadow-lg'>
-						{items.map((item) => {
-							const isSelected = selectedItems.includes(item.value);
-
-							return (
-								<li
-									key={item.value}
-									onClick={() => handleSelectItem(item.value)}
+					return (
+						<Dropdown.Item
+							key={item.value}
+							onClick={() => handleSelectItem(item.value)}
+							className='text-md cursor-pointer px-4 py-3 text-gray-700 hover:bg-gray-200'
+						>
+							<label className='flex cursor-pointer items-center gap-2'>
+								<span
 									className={cn(
-										'text-md cursor-pointer px-4 py-3 text-gray-700 hover:bg-gray-200',
+										'flex h-5 w-5 items-center justify-center rounded border border-gray-300',
+										isSelected &&
+											'text-ghost-white border-blue-500 bg-blue-500',
 									)}
 								>
-									<label className='flex cursor-pointer items-center gap-2'>
-										<span
-											className={cn(
-												'flex h-5 w-5 items-center justify-center rounded border border-gray-300',
-												isSelected &&
-													'text-ghost-white border-blue-500 bg-blue-500',
-											)}
-										>
-											{isSelected && <CheckIcon className='h-3 w-3' />}
-										</span>
-										{item.label}
-									</label>
-								</li>
-							);
-						})}
-					</ul>
-				)}
-			</div>
-		</div>
+									{isSelected && <CheckIcon className='h-3 w-3' />}
+								</span>
+								{item.label}
+							</label>
+						</Dropdown.Item>
+					);
+				})}
+			</Dropdown.Content>
+		</Dropdown>
 	);
 });
