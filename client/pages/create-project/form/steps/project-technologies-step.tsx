@@ -41,28 +41,6 @@ export function ProjectTechnologiesStep() {
 					</div>
 				)}
 			</Card.Body>
-			{/* <Card.Footer className='flex justify-between'>
-				<Button
-					className={cn(
-						'text-eerie-black hover:text-eerie-black/80 flex gap-1 bg-transparent px-0 font-normal hover:bg-transparent',
-					)}
-					onClick={() => {
-						updateData({ technologies: selectedTechnologies });
-						goToPreviousStep();
-					}}
-				>
-					<ChevronLeftIcon />
-					<span className='text-lg'>Previous</span>
-				</Button>
-				<Button
-					type='submit'
-					form='project-technologies-step'
-					className='text-ghost-white flex self-end rounded-lg font-normal'
-					loading={loading}
-				>
-					<span className='text-lg'>Submit</span>
-				</Button>
-			</Card.Footer> */}
 		</Card>
 	);
 }

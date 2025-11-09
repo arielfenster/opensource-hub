@@ -68,31 +68,6 @@ export function ProjectLinksStep() {
 					/>
 				</form>
 			</Card.Body>
-			{/* <Card.Footer className='flex justify-between'>
-				<Button
-					className={cn(
-						'text-eerie-black hover:text-eerie-black/80 flex gap-1 bg-transparent px-0 font-normal hover:bg-transparent',
-					)}
-					onClick={() => {
-						const form = document.getElementById('multi-step-form-step-1') as HTMLFormElement;
-						const fd = new FormData(form);
-						fd.forEach(console.log)
-						// updateData({ links: getValues() });
-						// goToPreviousStep();
-					}}
-				>
-					<ChevronLeftIcon />
-					<span className='text-lg'>Previous</span>
-				</Button>
-				<Button
-					className='text-ghost-white bg-celestial-blue hover:bg-celestial-blue-hover flex gap-1 self-end rounded-lg font-normal'
-					type='submit'
-					form='project-links-step'
-				>
-					<span className='text-lg'>Next</span>
-					<ChevronRightIcon />
-				</Button>
-			</Card.Footer> */}
 		</Card>
 	);
 }

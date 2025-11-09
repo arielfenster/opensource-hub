@@ -99,14 +99,6 @@ function MultiStepForm<T>({
 	);
 }
 
-// type FormContainerProps = PropsWithChildren<{ className?: string }>;
-// function FormContainer({ className, children }: FormContainerProps) {
-// 	const {} = useMultiStepForm();
-// 	// const { stepId } = useStep();
-
-// 	return;
-// }
-
 type StepIndicatorsContainerProps = PropsWithChildren<ComponentPropsWithoutRef<'ul'>>;
 function StepIndicatorsContainer({ children }: StepIndicatorsContainerProps) {
 	return (
@@ -219,7 +211,6 @@ function NextButton({ children, onClick, ...rest }: NextButtonProps) {
 	);
 }
 
-// MultiStepForm.FormContainer = FormContainer;
 MultiStepForm.StepIndicatorsContainer = StepIndicatorsContainer;
 MultiStepForm.StepIndicator = StepIndicator;
 MultiStepForm.StepsContainer = StepsContainer;
