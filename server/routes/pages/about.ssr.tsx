@@ -1,9 +1,9 @@
 import { AboutPage } from '$/client/pages/about';
 import { type Context } from 'hono';
-import { renderServerPageWithUser } from './render';
+import { renderServerPage } from './render';
 
 export async function renderAboutPage(c: Context) {
-	const html = await renderServerPageWithUser(c, <AboutPage />, {
+	const html = await renderServerPage(c, <AboutPage />, {
 		page: 'about',
 		title: 'About',
 	});

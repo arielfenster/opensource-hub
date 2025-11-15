@@ -4,10 +4,10 @@ import { ProjectsPage } from '$/client/pages/projects';
 import { projectsService } from '$/server/modules/projects/projects.service';
 import { PREFETCHED_PROJECT_DETAILS_QUERY_KEY } from '$/shared/constants';
 import type { Context } from 'hono';
-import { renderServerPageWithUser } from './render';
+import { renderServerPage } from './render';
 
 export async function renderProjectsPage(c: Context) {
-	const html = await renderServerPageWithUser(c, <ProjectsPage />, {
+	const html = await renderServerPage(c, <ProjectsPage />, {
 		page: 'projects',
 		title: 'Projects',
 	});
@@ -16,7 +16,7 @@ export async function renderProjectsPage(c: Context) {
 }
 
 export async function renderCreateProjectPage(c: Context) {
-	const html = await renderServerPageWithUser(c, <CreateProjectPage />, {
+	const html = await renderServerPage(c, <CreateProjectPage />, {
 		page: 'create-project',
 		title: 'Create new project',
 	});
@@ -35,7 +35,7 @@ export async function renderProjectDetailsPage(c: Context) {
 		return c.html('Project not found', 404);
 	}
 
-	const html = await renderServerPageWithUser(c, <ProjectDetailsPage />, {
+	const html = await renderServerPage(c, <ProjectDetailsPage />, {
 		page: 'project-details',
 		title: project.name,
 		prefetchedState: [
