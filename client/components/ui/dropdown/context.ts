@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-type DropdownContextValue = {
+export type DropdownContextValue = {
 	open: boolean;
 	setOpen: (open: boolean) => void;
 	triggerRef: React.RefObject<HTMLElement | null>;

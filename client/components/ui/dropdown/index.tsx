@@ -2,7 +2,6 @@ import { cn } from '$/client/lib/utils';
 import {
 	Children,
 	cloneElement,
-	useEffect,
 	useRef,
 	useState,
 	type ComponentPropsWithoutRef,
@@ -13,6 +12,7 @@ import {
 	type RefObject,
 } from 'react';
 import { DropdownContext, useDropdown } from './context';
+import { useDropdownClickOutside } from './hook';
 
 type CommonProps = PropsWithChildren<{
 	className?: string;
@@ -35,27 +35,7 @@ type DropdownTriggerProps = CommonProps & {
 };
 function DropdownTrigger({ onClose, children }: DropdownTriggerProps) {
 	const { open, setOpen, triggerRef, contentRef } = useDropdown();
-
-	useEffect(() => {
-		function handleClickOutside(event: MouseEvent) {
-			if (
-				triggerRef.current &&
-				!triggerRef.current.contains(event.target as Node) &&
-				contentRef.current &&
-				!contentRef.current.contains(event.target as Node)
-			) {
-				setOpen(false);
-				if (onClose) {
-					onClose();
-				}
-			}
-		}
-
-		document.addEventListener('mousedown', handleClickOutside);
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, []);
+	useDropdownClickOutside({ triggerRef, contentRef, setOpen, onClose });
 
 	function toggleDropdown() {
 		setOpen(!open);
@@ -76,7 +56,8 @@ function DropdownTrigger({ onClose, children }: DropdownTriggerProps) {
 }
 
 function DropdownAnchor({ children }: CommonProps) {
-	const { triggerRef } = useDropdown();
+	const { triggerRef, contentRef, setOpen } = useDropdown();
+	useDropdownClickOutside({ triggerRef, contentRef, setOpen });
 
 	return <div ref={triggerRef as RefObject<HTMLDivElement>}>{children}</div>;
 }
@@ -87,7 +68,7 @@ function DropdownContent({ className, children }: CommonProps) {
 	return (
 		<div
 			className={cn(
-				'pointer-events-auto absolute z-10 rounded-lg opacity-100 shadow-xl bg-ghost-white',
+				'bg-ghost-white pointer-events-auto absolute z-10 rounded-lg opacity-100 shadow-xl',
 				!open && 'pointer-events-none opacity-0',
 				className,
 			)}
