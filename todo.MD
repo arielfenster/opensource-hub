@@ -30,4 +30,3 @@ i need to create an admin dashboard in the navbar where i can see all the reques
 5. add class-variance-authority. use it for buttons - regular, link. look at compoundVariants
 7. figure out if CardHeader/CardTitle is actually necessary, or i can just combine them into a single component
 8. create SelectField.
-9. create multi step form

@@ -2,25 +2,26 @@ import { ErrorControl } from '$/client/components/form/controls/error-control';
 import { FieldControl } from '$/client/components/form/controls/field-control';
 import { LabelControl } from '$/client/components/form/controls/label-control';
 import { Input } from '$/client/components/form/input';
+import { useMultiStepForm, useStep } from '$/client/components/form/multi-step-form/context';
 import { Select } from '$/client/components/form/select';
 import { Textarea } from '$/client/components/form/textarea';
 import { TextField } from '$/client/components/form/textfield';
 import { Button } from '$/client/components/ui/button';
 import { Card } from '$/client/components/ui/card';
 import { cn } from '$/client/lib/utils';
+import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
 import {
 	projectGeneralInfoSchema,
 	type ProjectGeneralInfoInput,
 } from '$/shared/schemas/project/project-general-info.schema';
 import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/projects';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChevronRightIcon } from 'lucide-react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useFieldArray, useForm, useFormContext } from 'react-hook-form';
-import { useCreateProjectContext } from '../context';
 
 export function GeneralInfoStep() {
-	const { data, onStepSubmit } = useCreateProjectContext();
+	const { data, onStepSubmit, registerGetValues } = useMultiStepForm<CreateProjectInput>();
+	const { formId } = useStep();
 
 	const formMethods = useForm<ProjectGeneralInfoInput>({
 		resolver: zodResolver(projectGeneralInfoSchema),
@@ -35,10 +36,15 @@ export function GeneralInfoStep() {
 		register,
 		handleSubmit,
 		formState: { errors },
+		getValues,
 	} = formMethods;
 
+	useEffect(() => {
+		registerGetValues(() => getValues());
+	}, [registerGetValues, getValues]);
+
 	return (
-		<Card className='w-2/3'>
+		<Card>
 			<Card.Header>
 				<Card.Title className='text-3xl'>General Info</Card.Title>
 			</Card.Header>
@@ -46,7 +52,7 @@ export function GeneralInfoStep() {
 				<FormProvider {...formMethods}>
 					<form
 						className='flex flex-col gap-4'
-						id='general-info-step'
+						id={formId}
 						onSubmit={(event) => {
 							handleSubmit((data) => {
 								onStepSubmit(data);
@@ -79,16 +85,6 @@ export function GeneralInfoStep() {
 					</form>
 				</FormProvider>
 			</Card.Body>
-			<Card.Footer className='flex w-full flex-col'>
-				<Button
-					type='submit'
-					className='text-ghost-white bg-celestial-blue hover:bg-celestial-blue-hover flex gap-1 self-end rounded-lg font-normal'
-					form='general-info-step'
-				>
-					<span className='text-lg'>Next</span>
-					<ChevronRightIcon />
-				</Button>
-			</Card.Footer>
 		</Card>
 	);
 }

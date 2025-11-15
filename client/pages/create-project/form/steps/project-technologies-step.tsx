@@ -1,25 +1,23 @@
+import { useMultiStepForm, useStep } from '$/client/components/form/multi-step-form/context';
 import { TechnologiesAutoCompleteContainer } from '$/client/components/technologies-autocomplete';
-import { Button } from '$/client/components/ui/button';
 import { Card } from '$/client/components/ui/card';
-import { cn } from '$/client/lib/utils';
 import { useTechnologiesStore } from '$/client/stores/technologies.store';
-import { ChevronLeftIcon } from 'lucide-react';
-import { useCreateProjectContext } from '../context';
+import { type CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
 
 export function ProjectTechnologiesStep() {
 	const { selectedTechnologies } = useTechnologiesStore();
-	const { goBack, updateFormData, onStepSubmit, loading, error } =
-		useCreateProjectContext();
+	const { onStepSubmit, error } = useMultiStepForm<CreateProjectInput>();
+	const { formId } = useStep();
 
 	return (
-		<Card className='w-2/3'>
+		<Card>
 			<Card.Header>
 				<Card.Title className='text-3xl'>Technology Stack</Card.Title>
 			</Card.Header>
 			<Card.Body className='flex flex-col gap-4'>
 				<form
 					className='flex flex-col gap-4'
-					id='project-technologies-step'
+					id={formId}
 					onSubmit={(event) => {
 						event.preventDefault();
 						onStepSubmit({ technologies: selectedTechnologies });
@@ -43,28 +41,6 @@ export function ProjectTechnologiesStep() {
 					</div>
 				)}
 			</Card.Body>
-			<Card.Footer className='flex justify-between'>
-				<Button
-					className={cn(
-						'text-eerie-black hover:text-eerie-black/80 flex gap-1 bg-transparent px-0 font-normal hover:bg-transparent',
-					)}
-					onClick={() => {
-						updateFormData({ technologies: selectedTechnologies });
-						goBack();
-					}}
-				>
-					<ChevronLeftIcon />
-					<span className='text-lg'>Previous</span>
-				</Button>
-				<Button
-					type='submit'
-					form='project-technologies-step'
-					className='text-ghost-white flex self-end rounded-lg font-normal'
-					loading={loading}
-				>
-					<span className='text-lg'>Submit</span>
-				</Button>
-			</Card.Footer>
 		</Card>
 	);
 }

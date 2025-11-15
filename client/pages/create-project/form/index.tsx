@@ -1,9 +1,9 @@
-import { cn } from '$/client/lib/utils';
+import { MultiStepForm } from '$/client/components/form/multi-step-form';
 import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
-import { CheckIcon } from 'lucide-react';
-import { useReducer, useState } from 'react';
-import { formStepsConfig } from './config';
-import { CreateProjectContext } from './context';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { GeneralInfoStep } from './steps/general-info-step';
+import { ProjectLinksStep } from './steps/project-links-step';
+import { ProjectTechnologiesStep } from './steps/project-technologies-step';
 
 type CreateProjectFormProps = {
 	onSubmit: (input: CreateProjectInput) => void;
@@ -11,102 +11,42 @@ type CreateProjectFormProps = {
 	error?: string;
 };
 
-// TODO:
-// consider creating a MultiStepForm component that contains the step logic and can be reused in other parts of the app
-// use composition:
-// MultiStepForm.PreviousButton
-// MultiStepForm.NextButton
-// MultiStepForm.StepIndicator (and container)
-// MultiStepForm.Step
-//
 export function CreateProjectForm({ onSubmit, loading, error }: CreateProjectFormProps) {
-	const [currentStep, setCurrentStep] = useState(0);
-	const [formData, dispatch] = useReducer(
-		(state: CreateProjectInput, newState: Partial<CreateProjectInput>) => {
-			return { ...state, ...newState };
-		},
-		{} as CreateProjectInput,
-	);
-
-	const { component: StepComponent } = formStepsConfig[currentStep];
-
-	function goBack() {
-		setCurrentStep(currentStep - 1);
-	}
-
-	async function goNext() {
-		setCurrentStep(currentStep + 1);
-	}
-
-	function handleStepSubmit(data: Partial<CreateProjectInput>) {
-		const isLastStep = currentStep === formStepsConfig.length - 1;
-		if (!isLastStep) {
-			updateFormData(data);
-			goNext();
-			return;
-		}
-
-		onSubmit({ ...formData, ...data });
-	}
-
-	function updateFormData(data: Partial<CreateProjectInput>) {
-		dispatch(data);
-	}
-
 	return (
-		<div className='flex flex-col items-center gap-8'>
-			<div className='flex w-2/3 justify-around gap-4'>
-				{formStepsConfig.map((step, index) => (
-					<StepIndicator
-						key={index}
-						index={index}
-						currentStep={currentStep}
-						title={step.title}
-					/>
-				))}
-			</div>
-			<CreateProjectContext.Provider
-				value={{
-					data: formData,
-					goBack,
-					onStepSubmit: handleStepSubmit,
-					updateFormData,
-					loading,
-					error,
-				}}
-			>
-				<StepComponent />
-			</CreateProjectContext.Provider>
-		</div>
-	);
-}
+		<MultiStepForm<CreateProjectInput>
+			onSubmit={onSubmit}
+			loading={loading}
+			error={error}
+			className='mx-auto w-3/4'
+		>
+			<MultiStepForm.StepIndicatorsContainer>
+				<MultiStepForm.StepIndicator title='General Info' />
+				<MultiStepForm.StepIndicator title='Project Links' />
+				<MultiStepForm.StepIndicator title='Technology Stack' />
+			</MultiStepForm.StepIndicatorsContainer>
 
-function StepIndicator({
-	index,
-	currentStep,
-	title,
-}: {
-	index: number;
-	currentStep: number;
-	title: string;
-}) {
-	const isLastStepIndicator = index === formStepsConfig.length - 1;
+			<MultiStepForm.StepsContainer>
+				<MultiStepForm.Step>
+					<GeneralInfoStep />
+				</MultiStepForm.Step>
+				<MultiStepForm.Step>
+					<ProjectLinksStep />
+				</MultiStepForm.Step>
+				<MultiStepForm.Step>
+					<ProjectTechnologiesStep />
+				</MultiStepForm.Step>
+			</MultiStepForm.StepsContainer>
 
-	return (
-		<div className={cn('flex items-center gap-4', !isLastStepIndicator && 'w-full')}>
-			<div className='flex flex-col items-center gap-1 text-center'>
-				<span
-					className={cn(
-						'flex h-12 w-12 items-center justify-center rounded-full bg-gray-300 text-xl font-semibold',
-						currentStep === index && 'bg-celestial-blue text-ghost-white',
-						currentStep > index && 'text-ghost-white bg-green-500',
-					)}
-				>
-					{currentStep > index ? <CheckIcon /> : index + 1}
-				</span>
-				<span className='text-eerie-black text-base'>{title}</span>
-			</div>
-			{!isLastStepIndicator && <div className='w-full border-2 border-gray-300' />}
-		</div>
+			<MultiStepForm.Navigation>
+				<MultiStepForm.PreviousButton>
+					<ChevronLeftIcon />
+					<span className='text-lg'>Previous</span>
+				</MultiStepForm.PreviousButton>
+				<MultiStepForm.NextButton>
+					<span className='text-lg'>Next</span>
+					<ChevronRightIcon />
+				</MultiStepForm.NextButton>
+			</MultiStepForm.Navigation>
+		</MultiStepForm>
 	);
 }
