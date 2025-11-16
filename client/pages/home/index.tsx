@@ -1,11 +1,15 @@
 import { Button } from '$/client/components/ui/button';
-import { useProjects } from '$/client/hooks/useProjects';
 import { getImagePath } from '$/client/lib/images';
+import { PREFETCHED_RECENT_PROJECTS_KEY } from '$/shared/constants';
+import { type RecentProject } from '$/shared/types/projects';
+import { useQueryClient } from '@tanstack/react-query';
 import { PageSection } from './page-section';
 import { SummaryProjectCard } from './summary-project-card';
 
 export function HomePage() {
-	const { data: recentProjects } = useProjects({ limit: 4 });
+	const recentProjects = useQueryClient().getQueryData<RecentProject[]>(
+		PREFETCHED_RECENT_PROJECTS_KEY,
+	)!;
 
 	return (
 		<>
@@ -33,7 +37,7 @@ export function HomePage() {
 						image={getImagePath('bookshelf.svg')}
 					/>
 				</div>
-				{Number(recentProjects?.length) > 0 && (
+				{recentProjects.length > 0 && (
 					<div className='bg-celestial-blue flex w-full flex-col items-center gap-4 p-8'>
 						<h3 className='text-ghost-white text-3xl font-semibold'>
 							Recently Added Projects

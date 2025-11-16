@@ -6,3 +6,5 @@ export const PREFETCHED_STATE_NAME = '__PREFETCHED_STATE__';
 
 export const PREFETCHED_USER_QUERY_KEY = ['user'];
 export const PREFETCHED_PROJECT_DETAILS_QUERY_KEY = ['project-details'];
+
+export const PREFETCHED_RECENT_PROJECTS_KEY = ['recent-projects'];

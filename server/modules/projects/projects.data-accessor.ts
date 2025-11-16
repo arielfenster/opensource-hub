@@ -1,15 +1,17 @@
 import { db } from '$/server/database/db';
 import { projects, type Project } from '$/server/database/schemas';
 import { DataAccessor } from '../dal/data-accessor';
+import type { FindProjectsDTO } from './dto/find-projects.dto';
 import type { FindProjectUniqueIdentifier } from './types';
 
 type CreateProjectPayload = Omit<Project, 'id' | 'createdAt' | 'updatedAt' | 'status'>;
 
 export class ProjectsDataAccessor extends DataAccessor {
-	async findProjects(limit: number, skip: number) {
+	async findProjects(dto: FindProjectsDTO) {
 		return this.db.query.projects.findMany({
-			limit: limit,
-			offset: skip,
+			limit: dto.limit,
+			offset: dto.skip,
+			orderBy: dto.orderBy,
 			with: {
 				links: true,
 				technologies: {

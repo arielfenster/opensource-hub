@@ -1,17 +1,17 @@
-import type { PaginationInput } from '$/shared/schemas/common/pagination.schema';
+import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
 import type { ProjectDetails } from '$/shared/types/projects';
 import { nanoid } from 'nanoid';
+import type { FindProjectsDTO } from './dto/find-projects.dto';
 import { projectsDataAccessor } from './projects.data-accessor';
 import type { FindProjectParams, FindProjectUniqueIdentifier } from './types';
-import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
 
 type FindProjectReturnValue = NonNullable<
 	Awaited<ReturnType<typeof projectsDataAccessor.findProjectByUniqueIdentifier>>
 >;
 
 class ProjectsService {
-	async getProjects({ limit, skip }: PaginationInput) {
-		const projects = await projectsDataAccessor.findProjects(limit, skip);
+	async getProjects(dto: FindProjectsDTO) {
+		const projects = await projectsDataAccessor.findProjects(dto);
 
 		return projects.flatMap(this.processProject);
 	}
