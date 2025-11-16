@@ -3,6 +3,7 @@ import type { Context } from 'hono';
 import { projectsService } from './projects.service';
 import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
 import { sessionService } from '../session/session.service';
+import { FindProjectsDTO } from './dto/find-projects.dto';
 
 type ListProjectsContext = Context<{}, any, { out: { query: PaginationInput } }>;
 
@@ -12,7 +13,9 @@ class ProjectsHandler {
 	async listProjects(c: ListProjectsContext) {
 		const filters = c.req.valid('query');
 
-		return projectsService.getProjects(filters);
+		const findProjectsDto = FindProjectsDTO.create(filters);
+
+		return projectsService.getProjects(findProjectsDto);
 	}
 
 	async createProject(c: CreateProjectContext) {
