@@ -8,7 +8,8 @@ import { getFilteredProjects, type SearchFilter } from './service';
 
 // maybe bring back container components?
 export function ProjectsPage() {
-	const { data: projects } = useProjects();
+	const { data, hasNextPage, fetchNextPage, status, isFetchingNextPage, isFetching } =
+		useProjects();
 
 	const { selectedTechnologies } = useTechnologiesStore();
 	const [selectedPositions, setSelectedPositions] = useState<ProjectTeamPosition[]>([]);
@@ -33,7 +34,11 @@ export function ProjectsPage() {
 		}
 	}
 
-	const filteredProjects = getFilteredProjects(projects, selectedTechnologies, selectedPositions);
+	const filteredProjects = getFilteredProjects(
+		data.pages.flat(),
+		selectedTechnologies,
+		selectedPositions,
+	);
 
 	return (
 		<div className='flex flex-col gap-6 px-4 py-8'>
@@ -41,6 +46,7 @@ export function ProjectsPage() {
 			<div className='flex flex-col gap-12'>
 				<SearchSection onFilter={handleApplyFilter} />
 				<ResultsSection projects={filteredProjects} />
+				<button onClick={() => fetchNextPage()}>fetch more</button>
 			</div>
 		</div>
 	);
