@@ -74,7 +74,7 @@ export function ProjectsPage() {
 				<div className='self-center' ref={observationTargetRef}>
 					{isFetchingNextPage || isFetching ? (
 						<div className='flex flex-col items-center gap-2'>
-							Loading more projects...
+							Loading projects...
 							<Spinner />
 						</div>
 					) : !hasNextPage ? (

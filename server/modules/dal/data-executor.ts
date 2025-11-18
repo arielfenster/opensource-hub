@@ -21,6 +21,7 @@ export async function executeDataOperation<T>(operation: DataOperation<T>) {
 		} catch (error) {
 			console.error('Data operation failed:', error);
 			tx.rollback();
+			throw error;
 		}
 	});
 }
