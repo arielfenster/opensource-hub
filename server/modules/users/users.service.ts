@@ -39,15 +39,12 @@ class UsersService {
 		return !!user;
 	}
 
-	async updatePersonalInfo(
-		userId: string,
-		data: UpdatePersonalInfoInput,
-	): Promise<UserWithSocialLinks> {
+	async updatePersonalInfo(userId: string, data: UpdatePersonalInfoInput) {
 		const { socialLinks, ...userPayload } = data;
 
 		const socialLinksPayload = socialLinks?.filter((socialLink) => !!socialLink.id) || [];
 
-		return executeDataOperation(async ({ users, socialLinks }) => {
+		return executeDataOperation<UserWithSocialLinks>(async ({ users, socialLinks }) => {
 			const updatedSocialLinks = await socialLinks.updateSocialLinks(socialLinksPayload);
 			const updatedUser = await users.updateUser(userId, userPayload);
 

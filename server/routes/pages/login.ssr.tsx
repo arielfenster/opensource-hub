@@ -3,12 +3,12 @@ import { isUserLoggedIn } from '$/server/lib/auth';
 import { renderServerPage } from './render';
 import { type Context } from 'hono';
 
-export function renderLoginPage(c: Context) {
+export async function renderLoginPage(c: Context) {
 	if (isUserLoggedIn(c)) {
 		return c.redirect('/');
 	}
 
-	const html = renderServerPage(<LoginPage />, {
+	const html = await renderServerPage(c, <LoginPage />, {
 		page: 'auth/login',
 		title: 'Login',
 	});

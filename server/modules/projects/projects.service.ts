@@ -1,17 +1,19 @@
-import type { PaginationInput } from '$/shared/schemas/common/pagination.schema';
+import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
 import type { ProjectDetails } from '$/shared/types/projects';
 import { nanoid } from 'nanoid';
+import type { FindProjectsDTO } from './dto/find-projects.dto';
 import { projectsDataAccessor } from './projects.data-accessor';
 import type { FindProjectParams, FindProjectUniqueIdentifier } from './types';
-import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
+import { executeDataOperation } from '../dal/data-executor';
+import type { Project } from '$/server/database/schemas';
 
 type FindProjectReturnValue = NonNullable<
 	Awaited<ReturnType<typeof projectsDataAccessor.findProjectByUniqueIdentifier>>
 >;
 
 class ProjectsService {
-	async getProjects({ limit, skip }: PaginationInput) {
-		const projects = await projectsDataAccessor.findProjects(limit, skip);
+	async getProjects(dto: FindProjectsDTO) {
+		const projects = await projectsDataAccessor.findProjects(dto);
 
 		return projects.flatMap(this.processProject);
 	}
@@ -52,12 +54,21 @@ class ProjectsService {
 		const keyFeatures = (data.keyFeatures ?? []).map((value) => value.feature);
 		const teamPositions = data.teamPositions ?? [];
 
-		return projectsDataAccessor.insertProject({
-			...data,
-			slug,
-			teamPositions,
-			keyFeatures,
-			ownerId,
+		return executeDataOperation<Project>(async ({ projects, technologies }) => {
+			const project = await projects.insertProject({
+				...data,
+				slug,
+				teamPositions,
+				keyFeatures,
+				ownerId,
+			});
+
+			if (data.technologies?.length) {
+				const technologyIds = data.technologies.map((tech) => tech.id);
+				await technologies.linkTechnologiesToProject(project.id, technologyIds);
+			}
+
+			return project;
 		});
 	}
 }

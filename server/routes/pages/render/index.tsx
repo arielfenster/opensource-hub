@@ -12,8 +12,21 @@ export type RenderServerPageProps = Pick<ServerPageProps, 'title' | 'prefetchedS
 	page: AppPage;
 };
 
-export function renderServerPage(component: ReactNode, serverPageProps: RenderServerPageProps) {
-	const { title, page, prefetchedState } = serverPageProps;
+export async function renderServerPage(
+	c: Context,
+	component: ReactNode,
+	serverPageProps: RenderServerPageProps,
+) {
+	let { title, page, prefetchedState } = serverPageProps;
+	const user = await usersHandler.getSafeCurrentUser(c);
+
+	if (user) {
+		prefetchedState = prefetchedState || [];
+		prefetchedState.push({
+			key: PREFETCHED_USER_QUERY_KEY,
+			data: user,
+		});
+	}
 
 	const pageScripts = getPageScripts(page);
 
@@ -33,22 +46,4 @@ function getPageScripts(page: AppPage): PageScripts {
 			css: ['/client/index.css'],
 		};
 	}
-}
-
-export async function renderServerPageWithUser(
-	c: Context,
-	...args: Parameters<typeof renderServerPage>
-) {
-	const [component, serverPageProps] = args;
-	const user = await usersHandler.getSafeCurrentUser(c);
-
-	if (user) {
-		serverPageProps.prefetchedState = serverPageProps.prefetchedState || [];
-		serverPageProps.prefetchedState.push({
-			key: PREFETCHED_USER_QUERY_KEY,
-			data: user,
-		});
-	}
-
-	return renderServerPage(component, serverPageProps);
 }

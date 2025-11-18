@@ -7,8 +7,9 @@ export function useCreateProject() {
 
 	const mutation = useMutation({
 		mutationKey: ['create-project'],
-		mutationFn: async (data: CreateProjectInput) =>
-			rpcClient.projects.create.$post({ json: data }),
+		mutationFn: async (data: CreateProjectInput) => {
+			return rpcClient.projects.create.$post({ json: data });
+		},
 		async onSuccess(response) {
 			if (response.redirected) {
 				window.location.href = response.url;
