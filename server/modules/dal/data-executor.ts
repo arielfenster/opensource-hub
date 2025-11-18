@@ -11,9 +11,9 @@ function createScopedDataAccessors(tx: Transaction) {
 	return accessors as DataAccessors;
 }
 
-type DataOperation = (dataAccessors: DataAccessors) => Promise<any>;
+type DataOperation<T = any> = (dataAccessors: DataAccessors) => Promise<T>;
 
-export async function executeDataOperation(operation: DataOperation) {
+export async function executeDataOperation<T>(operation: DataOperation<T>) {
 	return db.transaction(async (tx) => {
 		try {
 			const scopedAccessors = createScopedDataAccessors(tx);

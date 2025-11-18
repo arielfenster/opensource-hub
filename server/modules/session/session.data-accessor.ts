@@ -6,12 +6,12 @@ type InsertSessionPayload = Pick<Session, 'id' | 'userId' | 'expiresAt'>;
 
 export class SessionDataAccessor extends DataAccessor {
 	async insertSession(data: InsertSessionPayload) {
-		const [session] = await db.insert(sessions).values(data).returning();
+		const [session] = await this.db.insert(sessions).values(data).returning();
 		return session;
 	}
 
 	async findSessionById(sessionId: string) {
-		return db.query.sessions.findFirst({
+		return this.db.query.sessions.findFirst({
 			where(fields, { eq }) {
 				return eq(fields.id, sessionId);
 			},

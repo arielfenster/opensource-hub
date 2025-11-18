@@ -7,28 +7,12 @@ import type { FindUserUniqueIdentifier } from './types';
 
 export class UsersDataAccessor extends DataAccessor {
 	async findUserByUniqueIdentifier(key: FindUserUniqueIdentifier, value: string) {
-		return db.query.users
+		return this.db.query.users
 			.findFirst({
 				where: (fields, { eq }) => eq(fields[key], value),
 			})
 			.execute();
 	}
-
-	// async findUserById(id: string) {
-	// 	return db.query.users
-	// 		.findFirst({
-	// 			where: (fields, { eq }) => eq(fields.id, id),
-	// 		})
-	// 		.execute();
-	// }
-
-	// async findUserByEmail(email: string) {
-	// 	return db.query.users
-	// 		.findFirst({
-	// 			where: (fields, { eq }) => eq(fields.email, email),
-	// 		})
-	// 		.execute();
-	// }
 
 	async insertUser(data: SignupInput) {
 		const [user] = await db.insert(users).values(data).returning();
