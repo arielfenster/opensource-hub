@@ -3,8 +3,8 @@ import { createContext, useContext } from 'react';
 export type DropdownContextValue = {
 	open: boolean;
 	setOpen: (open: boolean) => void;
-	triggerRef: React.RefObject<HTMLElement | null>;
-	contentRef: React.RefObject<HTMLElement | null>;
+	triggerRef: React.RefObject<HTMLDivElement | null>;
+	contentRef: React.RefObject<HTMLDivElement | null>;
 };
 export const DropdownContext = createContext<DropdownContextValue | null>(null);
 

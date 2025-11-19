@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import type { DropdownContextValue } from './context';
 
-export function useDropdownClickOutside({
-	triggerRef,
-	contentRef,
-	setOpen,
-	onClose,
-}: Pick<DropdownContextValue, 'triggerRef' | 'contentRef' | 'setOpen'> & { onClose?: () => void }) {
+type Props = Omit<DropdownContextValue, 'open'> & {
+	onClose?: () => void;
+};
+
+export function useDropdownClickOutside({ triggerRef, contentRef, setOpen, onClose }: Props) {
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
 			if (
