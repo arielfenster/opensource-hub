@@ -15,12 +15,12 @@ export class UsersDataAccessor extends DataAccessor {
 	}
 
 	async insertUser(data: SignupInput) {
-		const [user] = await db.insert(users).values(data).returning();
+		const [user] = await this.db.insert(users).values(data).returning();
 		return user;
 	}
 
 	async updateUser(id: string, data: Partial<Omit<User, 'id'>>) {
-		const [updatedUser] = await db.update(users).set(data).where(eq(users.id, id)).returning();
+		const [updatedUser] = await this.db.update(users).set(data).where(eq(users.id, id)).returning();
 		return updatedUser;
 	}
 }

@@ -2,13 +2,11 @@ import { Select } from '$/client/components/form/select';
 import { TechnologiesAutoCompleteContainer } from '$/client/components/technologies-autocomplete';
 import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/projects';
 import { useMemo } from 'react';
-import type { SearchFilter } from '../service';
+import { useTeamPositionsStore } from '../team-positions.store';
 
-type SearchSectionProps = {
-	onFilter: (filter: SearchFilter) => void;
-};
+export function SearchSection() {
+	const { togglePosition } = useTeamPositionsStore();
 
-export function SearchSection({ onFilter }: SearchSectionProps) {
 	const selectPositionItems = useMemo(
 		() =>
 			projectTeamPositions.map((position) => ({
@@ -25,9 +23,7 @@ export function SearchSection({ onFilter }: SearchSectionProps) {
 				items={selectPositionItems}
 				emptyItem={'Filter by position'}
 				multiple
-				onSelect={(position) =>
-					onFilter({ type: 'position', value: position as ProjectTeamPosition })
-				}
+				onSelect={(position) => togglePosition(position as ProjectTeamPosition)}
 			/>
 		</section>
 	);
