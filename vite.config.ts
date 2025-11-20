@@ -9,7 +9,7 @@ import { env } from './shared/env';
 
 export default defineConfig({
 	server: {
-		port: env.server.PORT,
+		port: env.PORT,
 	},
 	plugins: [
 		tailwindcss(),

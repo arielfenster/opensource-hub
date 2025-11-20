@@ -3,7 +3,7 @@ import type { Context } from 'hono';
 import { getCookie } from 'hono/cookie';
 
 export function getSessionCookie(c: Context) {
-	return getCookie(c, env.server.SESSION_COOKIE_NAME);
+	return getCookie(c, env.SESSION_COOKIE_NAME);
 }
 
 export function isUserLoggedIn(c: Context) {
