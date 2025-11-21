@@ -1,1 +1,1 @@
-export type SocialAuthProvider = 'Google' | 'Github' | 'Gitlab';
+export type SocialAuthProvider = 'google' | 'github' | 'gitlab';

@@ -1,16 +1,11 @@
 import type { SocialAuthProvider } from '$/shared/types/auth';
-
-const SOCIAL_AUTH_MAPPING: Record<SocialAuthProvider, string> = {
-	Google: import.meta.env.VITE_GOOGLE_AUTH_API_PATH,
-	Github: import.meta.env.VITE_GITHUB_AUTH_API_PATH,
-	Gitlab: import.meta.env.VITE_GITLAB_AUTH_API_PATH,
-};
+import { useRpcQueryClient } from '../providers/rpc-query-provider';
 
 export function useSocialAuth() {
-	function authenticate(provider: SocialAuthProvider) {
-		const authProviderUrl = SOCIAL_AUTH_MAPPING[provider];
+	const rpcQueryClient = useRpcQueryClient();
 
-		const url = `${import.meta.env.VITE_HOST_URL}${authProviderUrl}`;
+	function authenticate(provider: SocialAuthProvider) {
+		const url = rpcQueryClient['social-auth'][provider].$url().toString();
 
 		window.open(url, '_self');
 	}

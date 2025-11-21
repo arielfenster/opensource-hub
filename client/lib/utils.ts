@@ -8,3 +8,11 @@ export function cn(...inputs: ClassValue[]) {
 export function parseDate(date: Date) {
 	return date.toLocaleDateString().split('/').reverse().join('/');
 }
+
+export function startCase(str: string) {
+	if (!str) {
+		return '';
+	}
+
+	return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}

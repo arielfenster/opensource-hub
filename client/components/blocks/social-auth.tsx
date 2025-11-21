@@ -9,9 +9,9 @@ export function SocialAuthBlock() {
 				<span className='h-[1px] w-full border border-gray-300' />
 			</div>
 			<p className='text-center text-gray-500'>Continue with</p>
-			<SocialAuthButton provider='Google' />
-			<SocialAuthButton provider='Github' />
-			<SocialAuthButton provider='Gitlab' />
+			<SocialAuthButton provider='google' />
+			<SocialAuthButton provider='github' />
+			<SocialAuthButton provider='gitlab' />
 		</div>
 	);
 }
