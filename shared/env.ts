@@ -2,13 +2,14 @@ export const IS_PROD = Bun.env.NODE_ENV === 'production';
 
 function createEnv() {
 	return {
-		DATABASE: {
-			URL: Bun.env.DATABASE_URL!,
-		},
+		DATABASE_URL: Bun.env.DATABASE_URL!,
 		HOST_URL: Bun.env.VITE_HOST_URL!,
 		PORT: parseInt(Bun.env.PORT!, 10),
-		SESSION_COOKIE_NAME: Bun.env.SESSION_COOKIE_NAME!,
-
+		AUTH: {
+			SESSION_COOKIE_NAME: Bun.env.SESSION_COOKIE_NAME!,
+			ENCRYPTION_KEY: Bun.env.ENCRYPTION_KEY!,
+			ENCRYPTION_IV: Bun.env.ENCRYPTION_IV!,
+		},
 		SOCIAL_AUTH: {
 			GOOGLE_CLIENT_ID: Bun.env.GOOGLE_CLIENT_ID!,
 			GOOGLE_CLIENT_SECRET: Bun.env.GOOGLE_CLIENT_SECRET!,
