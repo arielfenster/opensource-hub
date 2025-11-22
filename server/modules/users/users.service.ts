@@ -4,7 +4,13 @@ import type { UpdateSecurityInfoInput } from '$/shared/schemas/user/update-secur
 import { passwordService } from '../auth/password.service';
 import { executeDataOperation } from '../dal/data-executor';
 import { socialLinksDataAccessor } from '../social-links/social-links.data-accessor';
-import type { FindUserParams, FindUserUniqueIdentifier, UserWithSocialLinks } from './types';
+import { CreateUserDTO } from './dto/create-user.dto';
+import type {
+	CreateSocialAuthUserPayload,
+	FindUserParams,
+	FindUserUniqueIdentifier,
+	UserWithSocialLinks,
+} from './types';
 import { usersDataAccessor } from './users.data-accessor';
 
 class UsersService {
@@ -31,7 +37,8 @@ class UsersService {
 	}
 
 	async createUser(data: SignupInput) {
-		return usersDataAccessor.insertUser(data);
+		const createUserDto = CreateUserDTO.create(data);
+		return usersDataAccessor.insertUser(createUserDto);
 	}
 
 	async checkIfEmailExists(email: string) {
@@ -59,6 +66,18 @@ class UsersService {
 		const hashedPassword = await passwordService.hashPassword(data.password);
 
 		return usersDataAccessor.updateUser(userId, { password: hashedPassword });
+	}
+
+	async updateSocialAuthInfo(
+		userId: string,
+		data: Partial<Pick<FindUserParams, 'googleId' | 'githubId'>>,
+	) {
+		return usersDataAccessor.updateUser(userId, data);
+	}
+
+	async createSocialAuthUser(data: CreateSocialAuthUserPayload) {
+		const createUserDto = CreateUserDTO.create({ ...data, password: '' });
+		return usersDataAccessor.insertUser(createUserDto);
 	}
 }
 

@@ -1,8 +1,8 @@
-import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
 import { eq } from 'drizzle-orm';
 import { db } from '../../database/db';
 import { users, type User } from '../../database/schemas';
 import { DataAccessor } from '../dal/data-accessor';
+import type { CreateUserDTO } from './dto/create-user.dto';
 import type { FindUserUniqueIdentifier } from './types';
 
 export class UsersDataAccessor extends DataAccessor {
@@ -14,13 +14,17 @@ export class UsersDataAccessor extends DataAccessor {
 			.execute();
 	}
 
-	async insertUser(data: SignupInput) {
-		const [user] = await this.db.insert(users).values(data).returning();
+	async insertUser(dto: CreateUserDTO) {
+		const [user] = await this.db.insert(users).values(dto).returning();
 		return user;
 	}
 
 	async updateUser(id: string, data: Partial<Omit<User, 'id'>>) {
-		const [updatedUser] = await this.db.update(users).set(data).where(eq(users.id, id)).returning();
+		const [updatedUser] = await this.db
+			.update(users)
+			.set(data)
+			.where(eq(users.id, id))
+			.returning();
 		return updatedUser;
 	}
 }

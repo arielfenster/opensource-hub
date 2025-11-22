@@ -9,19 +9,21 @@ export const socialAuthRouter = new Hono()
 		return c.redirect(authUrl);
 	})
 	.get('/google/callback', async (c) => {
-		return c.json({ message: `endpoint is  /google/callback` });
+		await socialAuthHandler.verifyGoogleCallback(c);
+		return c.redirect('/projects');
 	})
 	.get('/github', async (c) => {
 		const authUrl = await socialAuthHandler.connectWithGithub(c);
 		return c.redirect(authUrl);
 	})
 	.get('/github/callback', async (c) => {
-		return c.json({ message: `endpoint is  /github/callback` });
+		await socialAuthHandler.verifyGithubCallback(c);
+		return c.redirect('/projects');
 	})
-	.get('/gitlab', async (c) => {
-		const authUrl = await socialAuthHandler.connectWithGitlab(c);
-		return c.redirect(authUrl);
-	})
-	.get('/gitlab/callback', async (c) => {
-		return c.json({ message: `endpoint is  /gitlab/callback` });
-	});
+	// .get('/gitlab', async (c) => {
+	// 	const authUrl = await socialAuthHandler.connectWithGitlab(c);
+	// 	return c.redirect(authUrl);
+	// })
+	// .get('/gitlab/callback', async (c) => {
+	// 	return c.json({ message: `endpoint is  /gitlab/callback` });
+	// });
