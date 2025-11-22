@@ -2,6 +2,8 @@ import { env } from '$/shared/env';
 import type { SocialAuthProvider } from '$/shared/types/auth';
 import { GitHub, Google } from 'arctic';
 
+export const SOCIAL_AUTH_PROVIDERS: SocialAuthProvider[] = ['google', 'github'];
+
 export const google = new Google(
 	env.SOCIAL_AUTH.GOOGLE_CLIENT_ID,
 	env.SOCIAL_AUTH.GOOGLE_CLIENT_SECRET,

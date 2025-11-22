@@ -1,8 +1,13 @@
-import { createUserSession } from '$/server/lib/auth';
+import {
+	buildOauthCodeVerifierCookieName,
+	buildOauthStateCookieName,
+	createUserSession,
+} from '$/server/lib/auth';
 import type { LoginInput } from '$/shared/schemas/auth/login.schema';
 import type { Context } from 'hono';
 import { deleteCookie } from 'hono/cookie';
 import { SESSION_COOKIE_NAME } from '../session/types';
+import { SOCIAL_AUTH_PROVIDERS } from '../social-auth/social-auth.providers';
 import { usersService } from '../users/users.service';
 import { passwordService } from './password.service';
 
@@ -37,6 +42,11 @@ class LoginHandler {
 
 	async logoutUser(c: Context) {
 		deleteCookie(c, SESSION_COOKIE_NAME);
+
+		SOCIAL_AUTH_PROVIDERS.forEach((provider) => {
+			deleteCookie(c, buildOauthStateCookieName(provider));
+			deleteCookie(c, buildOauthCodeVerifierCookieName(provider));
+		});
 	}
 }
 
