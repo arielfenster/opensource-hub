@@ -1,11 +1,9 @@
-import { setCookie } from 'hono/cookie';
-import { sessionService } from '../session/session.service';
+import { createUserSession } from '$/server/lib/auth';
+import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
+import type { Context } from 'hono';
+import { HTTPException } from 'hono/http-exception';
 import { usersService } from '../users/users.service';
 import { passwordService } from './password.service';
-import type { Context } from 'hono';
-import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
-import { SESSION_COOKIE_NAME } from '../session/types';
-import { HTTPException } from 'hono/http-exception';
 
 type SignupContext = Context<{}, any, { out: { json: SignupInput } }>;
 
@@ -23,14 +21,7 @@ class SignupHandler {
 			password: hashedPassword,
 		});
 
-		const session = await sessionService.createSessionForUser(user.id);
-
-		setCookie(
-			c,
-			SESSION_COOKIE_NAME,
-			session.id,
-			sessionService.getSessionCookieOptions(session.expiresAt),
-		);
+		const session = await createUserSession(c, user.id);
 
 		return {
 			user,
