@@ -24,6 +24,8 @@ class GitlabProvider implements OauthProvider {
 	}
 
 	createAuthorizationURL(state: string): string {
+		// TODO: change scope
+		// it seems that this is the only acceptable scope - other scopes cause errors, even if changing in the app settings in gitlab
 		return this.client.createAuthorizationURL(state, ['api']).toString();
 	}
 

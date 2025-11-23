@@ -1,6 +1,7 @@
 import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
 import type { UpdatePersonalInfoInput } from '$/shared/schemas/user/update-personal-info.schema';
 import type { UpdateSecurityInfoInput } from '$/shared/schemas/user/update-security-info.schema';
+import type { SocialAuthProviderId } from '$/shared/types/auth';
 import { passwordService } from '../auth/password.service';
 import { executeDataOperation } from '../dal/data-executor';
 import { socialLinksDataAccessor } from '../social-links/social-links.data-accessor';
@@ -70,7 +71,7 @@ class UsersService {
 
 	async updateSocialAuthInfo(
 		userId: string,
-		data: Partial<Pick<FindUserParams, 'googleId' | 'githubId'>>,
+		data: Partial<Pick<FindUserParams, SocialAuthProviderId>>,
 	) {
 		return usersDataAccessor.updateUser(userId, data);
 	}
