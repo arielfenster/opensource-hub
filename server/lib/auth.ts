@@ -3,7 +3,6 @@ import type { Context } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
 import { sessionService } from '../modules/session/session.service';
 import { SESSION_COOKIE_NAME } from '../modules/session/types';
-import type { SocialAuthProvider } from '$/shared/types/auth';
 
 export function getSessionCookie(c: Context) {
 	return getCookie(c, env.AUTH.SESSION_COOKIE_NAME);
@@ -24,12 +23,4 @@ export async function createUserSession(c: Context, userId: string) {
 	);
 
 	return session;
-}
-
-export function buildOauthStateCookieName(provider: SocialAuthProvider) {
-	return `${provider}_oauth_state`;
-}
-
-export function buildOauthCodeVerifierCookieName(provider: SocialAuthProvider) {
-	return `${provider}_oauth_code_verifier`;
 }

@@ -1,51 +1,40 @@
 import type { SocialAuthProvider } from '$/shared/types/auth';
 import { encryptionService } from '../auth/encryption.service';
 import { usersService } from '../users/users.service';
-import type { JwtPayload } from './social-auth.handler';
-
-type ParsedJwtPayload = {
-	id: string;
-	firstName: string;
-	lastName: string;
-	email: string;
-	imageUrl?: string;
-};
+import type { UserProfile } from './types';
 
 class SocialAuthService {
-	async getSocialAccount(data: JwtPayload, provider: SocialAuthProvider) {
-		const parsedData = this.parseJwtPayload(data);
+	async getSocialAccount(profile: UserProfile, provider: SocialAuthProvider) {
+		const parsedProfile = this.parseProfile(profile);
 
-		let user = await this.findUserBySocialId(parsedData.id, provider);
+		let user = await this.findUserBySocialId(parsedProfile.id, provider);
 		if (user) {
 			console.debug(`Found existing ${provider} user by id: `, user.id);
 			return user;
 		}
 
-		user = await usersService.findUser({ email: parsedData.email });
+		user = await usersService.findUser({ email: parsedProfile.email });
 		if (user) {
 			console.debug(`Found existing ${provider} user by email: `, user.id);
 			const socialId = this.buildSocialAuthId(provider);
-			return usersService.updateSocialAuthInfo(user.id, { [socialId]: parsedData.id });
+			return usersService.updateSocialAuthInfo(user.id, { [socialId]: parsedProfile.id });
 		}
 
 		console.debug(`Social auth user was not found by provider id or email. Creating new user.`);
 
 		return usersService.createSocialAuthUser({
-			firstName: parsedData.firstName,
-			lastName: parsedData.lastName,
-			email: parsedData.email,
-			imageUrl: parsedData.imageUrl,
-			[this.buildSocialAuthId(provider)]: parsedData.id,
+			firstName: parsedProfile.firstName,
+			lastName: parsedProfile.lastName,
+			email: parsedProfile.email,
+			imageUrl: parsedProfile.imageUrl,
+			[this.buildSocialAuthId(provider)]: parsedProfile.id,
 		});
 	}
 
-	private parseJwtPayload(payload: JwtPayload): ParsedJwtPayload {
+	private parseProfile(profile: UserProfile): UserProfile {
 		return {
-			id: encryptionService.encrypt(payload.sub),
-			firstName: payload.given_name,
-			lastName: payload.family_name,
-			email: payload.email,
-			imageUrl: payload.picture,
+			...profile,
+			id: encryptionService.encrypt(profile.id),
 		};
 	}
 

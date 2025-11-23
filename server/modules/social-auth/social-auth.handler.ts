@@ -1,69 +1,38 @@
+import { createUserSession } from '$/server/lib/auth';
 import {
 	buildOauthCodeVerifierCookieName,
 	buildOauthStateCookieName,
-	createUserSession,
-} from '$/server/lib/auth';
+} from '$/server/lib/social-auth';
 import type { SocialAuthProvider } from '$/shared/types/auth';
-import { OAuth2RequestError, decodeIdToken, generateCodeVerifier, generateState } from 'arctic';
+import { OAuth2RequestError, generateCodeVerifier, generateState } from 'arctic';
 import type { Context } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
 import { HTTPException } from 'hono/http-exception';
 import type { CookieOptions } from 'hono/utils/cookie';
-import { github, google } from './social-auth.providers';
+import { githubProvider } from './providers/github.provider';
+import { googleProvider } from './providers/google.provider';
 import { socialAuthService } from './social-auth.service';
-
-export type JwtPayload = {
-	sub: string;
-	picture?: string;
-	given_name: string;
-	family_name: string;
-	email: string;
-};
-
-type CallbackParams = {
-	code: string | null;
-	state: string | null;
-	cookieState?: string;
-	cookieCodeVerifier?: string;
-};
-
-type VerifiedCallbackParams = {
-	[Key in keyof CallbackParams]-?: string;
-};
+import type { CallbackParams, VerifiedCallbackParams } from './types';
 
 class SocialAuthHandler {
 	async connectWithGoogle(c: Context) {
 		const state = generateState();
 		const codeVerifier = generateCodeVerifier();
+		const authUrl = googleProvider.createAuthorizationURL(state, codeVerifier);
+
 		this.setOauthCookies(c, 'google', state, codeVerifier);
 
-		return google
-			.createAuthorizationURL(state, codeVerifier, ['openid', 'profile', 'email'])
-			.toString();
+		return authUrl;
 	}
 
 	async connectWithGithub(c: Context) {
 		const state = generateState();
+		const authUrl = githubProvider.createAuthorizationURL(state);
+
 		this.setOauthCookies(c, 'github', state);
 
-		return github.createAuthorizationURL(state, ['user:email']).toString();
+		return authUrl;
 	}
-
-	// async connectWithGitlab(c: Context) {
-	// 	const callbackUrl = this.getCallbackUrl(c);
-
-	// 	const gitlab = new GitLab(
-	// 		'',
-	// 		env.SOCIAL_AUTH.GITLAB_CLIENT_ID,
-	// 		env.SOCIAL_AUTH.GITLAB_CLIENT_SECRET,
-	// 		callbackUrl,
-	// 	);
-
-	// 	const state = generateState();
-	// 	this.setOauthCookies(c, 'gitlab', state);
-
-	// 	return gitlab.createAuthorizationURL(state, ['read_user']).toString();
-	// }
 
 	private setOauthCookies(
 		c: Context,
@@ -91,12 +60,8 @@ class SocialAuthHandler {
 		this.verifyCallbackParams(params);
 
 		try {
-			const tokens = await google.validateAuthorizationCode(
-				params.code,
-				params.cookieCodeVerifier!,
-			);
-			const jwt = decodeIdToken(tokens.idToken()) as JwtPayload;
-			const user = await socialAuthService.getSocialAccount(jwt, 'google');
+			const userProfile = await googleProvider.extractUserProfile(params);
+			const user = await socialAuthService.getSocialAccount(userProfile, 'google');
 			await createUserSession(c, user.id);
 			return user;
 		} catch (error) {
@@ -110,13 +75,12 @@ class SocialAuthHandler {
 	}
 
 	async verifyGithubCallback(c: Context) {
-		const { code, state, cookieState } = this.extractCallbackParams(c, 'github');
-		this.verifyCallbackParams({ code, state, cookieState });
+		const { cookieCodeVerifier: _, ...params } = this.extractCallbackParams(c, 'github');
+		this.verifyCallbackParams(params);
 
 		try {
-			const tokens = await github.validateAuthorizationCode(code!);
-			const jwt = decodeIdToken(tokens.idToken()) as JwtPayload;
-			const user = await socialAuthService.getSocialAccount(jwt, 'github');
+			const userProfile = await githubProvider.extractUserProfile(params);
+			const user = await socialAuthService.getSocialAccount(userProfile, 'github');
 			await createUserSession(c, user.id);
 			return user;
 		} catch (error) {
