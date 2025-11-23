@@ -14,5 +14,5 @@ export function buildOauthCallbackUrl(provider: SocialAuthProvider) {
 }
 
 export function getSocialAuthProviders(): SocialAuthProvider[] {
-	return ['google', 'github'];
+	return ['google', 'github', 'gitlab'];
 }

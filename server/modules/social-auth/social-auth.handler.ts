@@ -10,6 +10,7 @@ import { getCookie, setCookie } from 'hono/cookie';
 import { HTTPException } from 'hono/http-exception';
 import type { CookieOptions } from 'hono/utils/cookie';
 import { githubProvider } from './providers/github.provider';
+import { gitlabProvider } from './providers/gitlab.provider';
 import { googleProvider } from './providers/google.provider';
 import { socialAuthService } from './social-auth.service';
 import type { CallbackParams, VerifiedCallbackParams } from './types';
@@ -30,6 +31,15 @@ class SocialAuthHandler {
 		const authUrl = githubProvider.createAuthorizationURL(state);
 
 		this.setOauthCookies(c, 'github', state);
+
+		return authUrl;
+	}
+
+	async connectWithGitlab(c: Context) {
+		const state = generateState();
+		const authUrl = gitlabProvider.createAuthorizationURL(state);
+
+		this.setOauthCookies(c, 'gitlab', state);
 
 		return authUrl;
 	}
@@ -81,6 +91,25 @@ class SocialAuthHandler {
 		try {
 			const userProfile = await githubProvider.extractUserProfile(params);
 			const user = await socialAuthService.getSocialAccount(userProfile, 'github');
+			await createUserSession(c, user.id);
+			return user;
+		} catch (error) {
+			if (error instanceof OAuth2RequestError) {
+				throw new HTTPException(400, { cause: error.cause, message: error.message });
+			}
+
+			const e = error as Error;
+			throw new HTTPException(500, { message: e.message });
+		}
+	}
+
+	async verifyGitlabCallback(c: Context) {
+		const { cookieCodeVerifier: _, ...params } = this.extractCallbackParams(c, 'gitlab');
+		this.verifyCallbackParams(params);
+
+		try {
+			const userProfile = await gitlabProvider.extractUserProfile(params);
+			const user = await socialAuthService.getSocialAccount(userProfile, 'gitlab');
 			await createUserSession(c, user.id);
 			return user;
 		} catch (error) {

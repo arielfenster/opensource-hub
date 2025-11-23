@@ -15,6 +15,7 @@ export class CreateUserDTO {
 		public readonly imageUrl?: string,
 		public readonly googleId?: string,
 		public readonly githubId?: string,
+		public readonly gitlabId?: string,
 	) {}
 
 	static create(data: CreateUserPayload): CreateUserDTO {
@@ -27,6 +28,7 @@ export class CreateUserDTO {
 			data.imageUrl ?? '',
 			data.googleId ?? '',
 			data.githubId ?? '',
+			data.gitlabId ?? '',
 		);
 	}
 }

@@ -17,6 +17,7 @@ export const users = pgTable(
 		imageUrl: varchar('imageUrl'),
 		googleId: varchar('googleId'),
 		githubId: varchar('githubId'),
+		gitlabId: varchar('gitlabId'),
 		role: userRoleEnum('role').notNull().default('User'),
 		createdAt: createdAt,
 		updatedAt: updatedAt,

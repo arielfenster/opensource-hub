@@ -20,10 +20,11 @@ export const socialAuthRouter = new Hono()
 		await socialAuthHandler.verifyGithubCallback(c);
 		return c.redirect('/projects');
 	})
-	// .get('/gitlab', async (c) => {
-	// 	const authUrl = await socialAuthHandler.connectWithGitlab(c);
-	// 	return c.redirect(authUrl);
-	// })
-	// .get('/gitlab/callback', async (c) => {
-	// 	return c.json({ message: `endpoint is  /gitlab/callback` });
-	// });
+	.get('/gitlab', async (c) => {
+		const authUrl = await socialAuthHandler.connectWithGitlab(c);
+		return c.redirect(authUrl);
+	})
+	.get('/gitlab/callback', async (c) => {
+		await socialAuthHandler.verifyGitlabCallback(c);
+		return c.redirect('/projects');
+	});
