@@ -38,7 +38,7 @@ class UsersHandler {
 	}
 
 	private stripPrivateData<TUser extends User>(user: TUser) {
-		const { password, role, ...rest } = user;
+		const { password, githubId, gitlabId, googleId, role, id, ...rest } = user;
 		return rest;
 	}
 
