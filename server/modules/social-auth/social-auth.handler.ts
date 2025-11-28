@@ -9,39 +9,45 @@ import type { Context } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
 import { HTTPException } from 'hono/http-exception';
 import type { CookieOptions } from 'hono/utils/cookie';
-import { githubProvider } from './providers/github.provider';
-import { gitlabProvider } from './providers/gitlab.provider';
-import { googleProvider } from './providers/google.provider';
+import { oauthProviderFactory } from './providers/provider-factory';
 import { socialAuthService } from './social-auth.service';
 import type { CallbackParams, VerifiedCallbackParams } from './types';
 
 class SocialAuthHandler {
-	async connectWithGoogle(c: Context) {
+	async connectWithSocialAuth(c: Context, provider: SocialAuthProvider) {
+		const authProvider = oauthProviderFactory.getProvider(provider);
+
 		const state = generateState();
 		const codeVerifier = generateCodeVerifier();
-		const authUrl = googleProvider.createAuthorizationURL(state, codeVerifier);
+		const authUrl = authProvider.createAuthorizationURL(state, codeVerifier);
 
-		this.setOauthCookies(c, 'google', state, codeVerifier);
-
-		return authUrl;
-	}
-
-	async connectWithGithub(c: Context) {
-		const state = generateState();
-		const authUrl = githubProvider.createAuthorizationURL(state);
-
-		this.setOauthCookies(c, 'github', state);
+		this.setOauthCookies(c, provider, state, codeVerifier);
 
 		return authUrl;
 	}
 
-	async connectWithGitlab(c: Context) {
-		const state = generateState();
-		const authUrl = gitlabProvider.createAuthorizationURL(state);
+	async verifySocialAuthCallback(c: Context, provider: SocialAuthProvider) {
+		const authProvider = oauthProviderFactory.getProvider(provider);
 
-		this.setOauthCookies(c, 'gitlab', state);
+		const params = this.extractCallbackParams(c, provider);
+		if (!authProvider.requiresCodeVerifier) {
+			delete params.cookieCodeVerifier;
+		}
+		this.verifyCallbackParams(params);
 
-		return authUrl;
+		try {
+			const userProfile = await authProvider.extractUserProfile(params);
+			const user = await socialAuthService.getSocialAccount(userProfile, provider);
+			await createUserSession(c, user.id);
+			return user;
+		} catch (error) {
+			if (error instanceof OAuth2RequestError) {
+				throw new HTTPException(400, { cause: error.cause, message: error.message });
+			}
+
+			const e = error as Error;
+			throw new HTTPException(500, { message: e.message });
+		}
 	}
 
 	private setOauthCookies(
@@ -62,63 +68,6 @@ class SocialAuthHandler {
 
 		if (codeVerifier) {
 			setCookie(c, buildOauthCodeVerifierCookieName(provider), codeVerifier, cookieOptions);
-		}
-	}
-
-	async verifyGoogleCallback(c: Context) {
-		const params = this.extractCallbackParams(c, 'google');
-		this.verifyCallbackParams(params);
-
-		try {
-			const userProfile = await googleProvider.extractUserProfile(params);
-			const user = await socialAuthService.getSocialAccount(userProfile, 'google');
-			await createUserSession(c, user.id);
-			return user;
-		} catch (error) {
-			if (error instanceof OAuth2RequestError) {
-				throw new HTTPException(400, { cause: error.cause, message: error.message });
-			}
-
-			const e = error as Error;
-			throw new HTTPException(500, { message: e.message });
-		}
-	}
-
-	async verifyGithubCallback(c: Context) {
-		const { cookieCodeVerifier: _, ...params } = this.extractCallbackParams(c, 'github');
-		this.verifyCallbackParams(params);
-
-		try {
-			const userProfile = await githubProvider.extractUserProfile(params);
-			const user = await socialAuthService.getSocialAccount(userProfile, 'github');
-			await createUserSession(c, user.id);
-			return user;
-		} catch (error) {
-			if (error instanceof OAuth2RequestError) {
-				throw new HTTPException(400, { cause: error.cause, message: error.message });
-			}
-
-			const e = error as Error;
-			throw new HTTPException(500, { message: e.message });
-		}
-	}
-
-	async verifyGitlabCallback(c: Context) {
-		const { cookieCodeVerifier: _, ...params } = this.extractCallbackParams(c, 'gitlab');
-		this.verifyCallbackParams(params);
-
-		try {
-			const userProfile = await gitlabProvider.extractUserProfile(params);
-			const user = await socialAuthService.getSocialAccount(userProfile, 'gitlab');
-			await createUserSession(c, user.id);
-			return user;
-		} catch (error) {
-			if (error instanceof OAuth2RequestError) {
-				throw new HTTPException(400, { cause: error.cause, message: error.message });
-			}
-
-			const e = error as Error;
-			throw new HTTPException(500, { message: e.message });
 		}
 	}
 

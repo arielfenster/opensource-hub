@@ -1,8 +1,6 @@
-import { buildOauthCallbackUrl } from '$/server/lib/social-auth';
-import { env } from '$/shared/env';
 import { GitHub } from 'arctic';
+import type { UserProfile, VerifiedCallbackParams } from '../types';
 import type { OauthProvider } from './oauth-provider';
-import type { VerifiedCallbackParams, UserProfile } from '../types';
 
 type UserProfileResponse = {
 	id: number;
@@ -16,15 +14,12 @@ type UserEmailResponse = Array<{
 	verified: boolean;
 }>;
 
-class GithubProvider implements OauthProvider {
+export class GithubProvider implements OauthProvider {
+	public readonly requiresCodeVerifier = false;
 	private client: GitHub;
 
-	constructor() {
-		this.client = new GitHub(
-			env.SOCIAL_AUTH.GITHUB_CLIENT_ID,
-			env.SOCIAL_AUTH.GITHUB_CLIENT_SECRET,
-			buildOauthCallbackUrl('github'),
-		);
+	constructor(clientId: string, clientSecret: string, callbackUrl: string) {
+		this.client = new GitHub(clientId, clientSecret, callbackUrl);
 	}
 
 	createAuthorizationURL(state: string): string {
@@ -71,5 +66,3 @@ class GithubProvider implements OauthProvider {
 		};
 	}
 }
-
-export const githubProvider = new GithubProvider();

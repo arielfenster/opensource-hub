@@ -1,5 +1,3 @@
-import { buildOauthCallbackUrl } from '$/server/lib/social-auth';
-import { env } from '$/shared/env';
 import { Google, decodeIdToken } from 'arctic';
 import type { UserProfile, VerifiedCallbackParams } from '../types';
 import type { OauthProvider } from './oauth-provider';
@@ -12,15 +10,12 @@ type JwtPayload = {
 	email: string;
 };
 
-class GoogleProvider implements OauthProvider {
+export class GoogleProvider implements OauthProvider {
+	public readonly requiresCodeVerifier = true;
 	private client: Google;
 
-	constructor() {
-		this.client = new Google(
-			env.SOCIAL_AUTH.GOOGLE_CLIENT_ID,
-			env.SOCIAL_AUTH.GOOGLE_CLIENT_SECRET,
-			buildOauthCallbackUrl('google'),
-		);
+	constructor(clientId: string, clientSecret: string, callbackUrl: string) {
+		this.client = new Google(clientId, clientSecret, callbackUrl);
 	}
 
 	createAuthorizationURL(state: string, codeVerifier: string) {
@@ -45,5 +40,3 @@ class GoogleProvider implements OauthProvider {
 		};
 	}
 }
-
-export const googleProvider = new GoogleProvider();

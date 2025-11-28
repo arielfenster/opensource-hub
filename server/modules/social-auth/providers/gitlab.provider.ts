@@ -1,8 +1,6 @@
 import { GitLab } from 'arctic';
+import type { UserProfile, VerifiedCallbackParams } from '../types';
 import type { OauthProvider } from './oauth-provider';
-import { env } from '$/shared/env';
-import { buildOauthCallbackUrl } from '$/server/lib/social-auth';
-import type { VerifiedCallbackParams, UserProfile } from '../types';
 
 type UserResponse = {
 	id: number;
@@ -11,16 +9,12 @@ type UserResponse = {
 	avatar_url: string;
 };
 
-class GitlabProvider implements OauthProvider {
+export class GitlabProvider implements OauthProvider {
+	public readonly requiresCodeVerifier = false;
 	private client: GitLab;
 
-	constructor() {
-		this.client = new GitLab(
-			'https://gitlab.com',
-			env.SOCIAL_AUTH.GITLAB_CLIENT_ID,
-			env.SOCIAL_AUTH.GITLAB_CLIENT_SECRET,
-			buildOauthCallbackUrl('gitlab'),
-		);
+	constructor(clientId: string, clientSecret: string, callbackUrl: string) {
+		this.client = new GitLab('https://gitlab.com', clientId, clientSecret, callbackUrl);
 	}
 
 	createAuthorizationURL(state: string): string {
@@ -57,5 +51,3 @@ class GitlabProvider implements OauthProvider {
 		};
 	}
 }
-
-export const gitlabProvider = new GitlabProvider();

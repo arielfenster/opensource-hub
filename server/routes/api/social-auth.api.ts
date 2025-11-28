@@ -1,30 +1,17 @@
 import { guestMiddleware } from '$/server/modules/auth/guest.middleware';
 import { socialAuthHandler } from '$/server/modules/social-auth/social-auth.handler';
+import type { SocialAuthProvider } from '$/shared/types/auth';
 import { Hono } from 'hono';
 
 export const socialAuthRouter = new Hono()
 	.use(guestMiddleware)
-	.get('/google', async (c) => {
-		const authUrl = await socialAuthHandler.connectWithGoogle(c);
+	.get('/:provider', async (c) => {
+		const provider = c.req.param('provider') as SocialAuthProvider;
+		const authUrl = await socialAuthHandler.connectWithSocialAuth(c, provider);
 		return c.redirect(authUrl);
 	})
-	.get('/google/callback', async (c) => {
-		await socialAuthHandler.verifyGoogleCallback(c);
-		return c.redirect('/projects');
-	})
-	.get('/github', async (c) => {
-		const authUrl = await socialAuthHandler.connectWithGithub(c);
-		return c.redirect(authUrl);
-	})
-	.get('/github/callback', async (c) => {
-		await socialAuthHandler.verifyGithubCallback(c);
-		return c.redirect('/projects');
-	})
-	.get('/gitlab', async (c) => {
-		const authUrl = await socialAuthHandler.connectWithGitlab(c);
-		return c.redirect(authUrl);
-	})
-	.get('/gitlab/callback', async (c) => {
-		await socialAuthHandler.verifyGitlabCallback(c);
+	.get('/:provider/callback', async (c) => {
+		const provider = c.req.param('provider') as SocialAuthProvider;
+		await socialAuthHandler.verifySocialAuthCallback(c, provider);
 		return c.redirect('/projects');
 	});
