@@ -3,7 +3,7 @@ import postgres from 'postgres';
 import { env } from '../../shared/env';
 import * as schemas from './schemas';
 
-const client = postgres(env.server.DATABASE.URL);
+const client = postgres(env.DATABASE_URL);
 const db = drizzle(client, { schema: schemas });
 
 export type Database = typeof db;

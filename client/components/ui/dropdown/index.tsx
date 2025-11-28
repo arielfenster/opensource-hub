@@ -20,8 +20,8 @@ type CommonProps = PropsWithChildren<{
 
 function Dropdown({ className, children }: CommonProps) {
 	const [open, setOpen] = useState(false);
-	const triggerRef = useRef<HTMLElement>(null);
-	const contentRef = useRef<HTMLElement>(null);
+	const triggerRef = useRef<HTMLDivElement>(null);
+	const contentRef = useRef<HTMLDivElement>(null);
 
 	return (
 		<DropdownContext.Provider value={{ open, setOpen, triggerRef, contentRef }}>

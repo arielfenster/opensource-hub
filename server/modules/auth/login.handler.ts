@@ -1,10 +1,15 @@
-import { deleteCookie, setCookie } from 'hono/cookie';
-import { sessionService } from '../session/session.service';
+import { createUserSession } from '$/server/lib/auth';
+import {
+	buildOauthCodeVerifierCookieName,
+	buildOauthStateCookieName,
+	getSocialAuthProviders,
+} from '$/server/lib/social-auth';
+import type { LoginInput } from '$/shared/schemas/auth/login.schema';
+import type { Context } from 'hono';
+import { deleteCookie } from 'hono/cookie';
+import { SESSION_COOKIE_NAME } from '../session/types';
 import { usersService } from '../users/users.service';
 import { passwordService } from './password.service';
-import type { Context } from 'hono';
-import type { LoginInput } from '$/shared/schemas/auth/login.schema';
-import { SESSION_COOKIE_NAME } from '../session/types';
 
 type LoginContext = Context<{}, any, { out: { json: LoginInput } }>;
 
@@ -13,13 +18,7 @@ class LoginHandler {
 		const { email, password } = c.req.valid('json');
 
 		const user = await this.validateLoginRequest(email, password);
-		const session = await sessionService.createSessionForUser(user.id);
-		setCookie(
-			c,
-			SESSION_COOKIE_NAME,
-			session.id,
-			sessionService.getSessionCookieOptions(session.expiresAt),
-		);
+		const session = await createUserSession(c, user.id);
 
 		return {
 			user,
@@ -43,6 +42,11 @@ class LoginHandler {
 
 	async logoutUser(c: Context) {
 		deleteCookie(c, SESSION_COOKIE_NAME);
+
+		getSocialAuthProviders().forEach((provider) => {
+			deleteCookie(c, buildOauthStateCookieName(provider));
+			deleteCookie(c, buildOauthCodeVerifierCookieName(provider));
+		});
 	}
 }
 
