@@ -11,9 +11,7 @@ export function ProjectTechnologiesStep() {
 
 	return (
 		<Card>
-			<Card.Header>
-				<Card.Title className='text-3xl'>Technology Stack</Card.Title>
-			</Card.Header>
+			<Card.Title className='text-3xl'>Technology Stack</Card.Title>
 			<Card.Body className='flex flex-col gap-4'>
 				<form
 					className='flex flex-col gap-4'

@@ -6,9 +6,7 @@ type RecentActivityCardProps = {};
 export function RecentActivityCard({}: RecentActivityCardProps) {
 	return (
 		<Card>
-			<Card.Header>
-				<Card.Title className='flex gap-2'>Recent Activity</Card.Title>
-			</Card.Header>
+			<Card.Title>Recent Activity</Card.Title>
 			<Card.Body>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit ipsa mollitia
 				suscipit sapiente quaerat possimus dolore id iste debitis sit vitae unde praesentium

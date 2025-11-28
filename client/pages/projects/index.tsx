@@ -8,6 +8,17 @@ import { getFilteredProjects } from './service';
 import { useTeamPositionsStore } from './team-positions.store';
 
 // maybe bring back container components?
+
+/**
+ * search projects:
+tech stack
+position
+keywords? Tags/keywords (beyond tech stack — e.g., "AI", "social impact", "climate").
+Category/domain (web, mobile, ML, DevOps, education, games, etc.).
+Last update
+
+post-MVP: Recommendations ("similar to projects you viewed" or "based on your skills").
+ */
 export function ProjectsPage() {
 	const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } = useProjects({
 		limit: 9,

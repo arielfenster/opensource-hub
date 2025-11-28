@@ -29,9 +29,7 @@ export function ProjectLinksStep() {
 
 	return (
 		<Card>
-			<Card.Header>
-				<Card.Title className='text-3xl'>Project Links</Card.Title>
-			</Card.Header>
+			<Card.Title className='text-3xl'>Project Links</Card.Title>
 			<Card.Body>
 				<form
 					className='flex flex-col gap-4'
