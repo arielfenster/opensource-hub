@@ -1,53 +1,39 @@
-import { getSessionCookie } from '$/server/lib/auth';
 import type { UpdatePersonalInfoInput } from '$/shared/schemas/user/update-personal-info.schema';
 import type { UpdateSecurityInfoInput } from '$/shared/schemas/user/update-security-info.schema';
-import type { AuthenticatedUser } from '$/shared/types/users';
 import type { Context } from 'hono';
 import { HTTPException } from 'hono/http-exception';
+import { passwordService } from '../auth/password.service';
 import { sessionService } from '../session/session.service';
 import { usersService } from './users.service';
-import type { User } from '$/server/database/schemas';
-import { passwordService } from '../auth/password.service';
 
 type UpdatePersonalInfoContext = Context<{}, any, { out: { json: UpdatePersonalInfoInput } }>;
 
 type UpdateSecurityInfoContext = Context<{}, any, { out: { json: UpdateSecurityInfoInput } }>;
 
 class UsersHandler {
-	async getCurrentUser(c: Context): Promise<User | null> {
-		const sessionCookie = getSessionCookie(c);
-		if (!sessionCookie) {
+	async getCurrentUser(c: Context) {
+		const userId = await sessionService.getCurrentUserId(c);
+		if (!userId) {
 			return null;
 		}
 
-		const session = await sessionService.getSessionById(sessionCookie);
-		if (!session) {
-			return null;
-		}
-
-		return usersService.findUserWithSocialLinks({ id: session.userId });
+		return usersService.findUser({ id: userId });
 	}
 
-	async getSafeCurrentUser(c: Context): Promise<AuthenticatedUser | null> {
-		const user = await this.getCurrentUser(c);
-		if (!user) {
+	async getSafeCurrentUser(c: Context) {
+		const userId = await sessionService.getCurrentUserId(c);
+		if (!userId) {
 			return null;
 		}
 
-		return this.stripPrivateData(user) as AuthenticatedUser;
-	}
-
-	private stripPrivateData<TUser extends User>(user: TUser) {
-		const { password, githubId, gitlabId, googleId, role, id, ...rest } = user;
-		return rest;
+		return usersService.findSafeUser({ id: userId });
 	}
 
 	async updatePersonalInfo(c: UpdatePersonalInfoContext) {
 		const user = await this.validateUpdatePersonalInfoRequest(c);
 		const payload = c.req.valid('json');
 
-		const updatedUser = await usersService.updatePersonalInfo(user.id, payload);
-		return this.stripPrivateData(updatedUser);
+		return usersService.updatePersonalInfo(user.id, payload);
 	}
 
 	private async validateUpdatePersonalInfoRequest(c: UpdatePersonalInfoContext) {
@@ -67,8 +53,7 @@ class UsersHandler {
 		const user = await this.validateUpdateSecurityInfoRequest(c);
 		const payload = c.req.valid('json');
 
-		const updatedUser = await usersService.updateSecurityInfo(user.id, payload);
-		return this.stripPrivateData(updatedUser);
+		return usersService.updateSecurityInfo(user.id, payload);
 	}
 
 	private async validateUpdateSecurityInfoRequest(c: UpdateSecurityInfoContext) {

@@ -1,22 +1,41 @@
+import type { PrivateUserInfo } from '$/shared/types/users';
 import { eq } from 'drizzle-orm';
 import { db } from '../../database/db';
 import { users, type User } from '../../database/schemas';
 import { DataAccessor } from '../dal/data-accessor';
 import type { CreateUserDTO } from './dto/create-user.dto';
-import type { FindUserUniqueIdentifier } from './types';
+import { FindUserDTO } from './dto/find-user.dto';
+import type { UserDetails } from './types';
 
 export class UsersDataAccessor extends DataAccessor {
-	async findUserByUniqueIdentifier(key: FindUserUniqueIdentifier, value: string) {
+	async getUser(dto: FindUserDTO) {
 		return this.db.query.users
 			.findFirst({
-				where: (fields, { eq }) => eq(fields[key], value),
+				where: (fields, { eq }) => eq(fields[dto.key], dto.value),
+				with: dto.withTables as any,
 			})
 			.execute();
 	}
 
+	async getSafeUser(dto: FindUserDTO) {
+		return this.db.query.users
+			.findFirst({
+				where: (fields, { eq }) => eq(fields[dto.key], dto.value),
+				with: dto.withTables as any,
+				columns: this.getPrivateColumnsToExclude(),
+			})
+			.execute() as Promise<UserDetails>;
+	}
+
 	async insertUser(dto: CreateUserDTO) {
 		const [user] = await this.db.insert(users).values(dto).returning();
-		return user;
+
+		const findUserDto = FindUserDTO.create(
+			{ id: user.id },
+			{ withTables: { socialLinks: true } },
+		);
+
+		return this.getSafeUser(findUserDto);
 	}
 
 	async updateUser(id: string, data: Partial<Omit<User, 'id'>>) {
@@ -25,7 +44,23 @@ export class UsersDataAccessor extends DataAccessor {
 			.set(data)
 			.where(eq(users.id, id))
 			.returning();
-		return updatedUser;
+
+		const findUserDto = FindUserDTO.create(
+			{ id: updatedUser.id },
+			{ withTables: { socialLinks: true } },
+		);
+
+		return this.getSafeUser(findUserDto);
+	}
+
+	private getPrivateColumnsToExclude(): Record<keyof PrivateUserInfo, boolean> {
+		return {
+			password: false,
+			role: false,
+			googleId: false,
+			githubId: false,
+			gitlabId: false,
+		};
 	}
 }
 
