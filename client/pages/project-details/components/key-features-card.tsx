@@ -10,9 +10,7 @@ export function KeyFeaturesCard({ project }: WhatYouWillLearnCardProps) {
 
 	return (
 		<Card>
-			<Card.Header>
-				<Card.Title>Key Features</Card.Title>
-			</Card.Header>
+			<Card.Title>Key Features</Card.Title>
 			<Card.Body>
 				<ul className='flex flex-col gap-4'>
 					{project.keyFeatures.map((value) => (

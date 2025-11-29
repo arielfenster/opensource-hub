@@ -45,9 +45,7 @@ export function GeneralInfoStep() {
 
 	return (
 		<Card>
-			<Card.Header>
-				<Card.Title className='text-3xl'>General Info</Card.Title>
-			</Card.Header>
+			<Card.Title className='text-3xl'>General Info</Card.Title>
 			<Card.Body>
 				<FormProvider {...formMethods}>
 					<form
