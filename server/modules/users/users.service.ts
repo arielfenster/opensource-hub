@@ -39,9 +39,9 @@ class UsersService {
 
 		const socialLinksPayload = socialLinks?.filter((socialLink) => !!socialLink.id) || [];
 
-		return executeDataOperation<UserDetails>(async ({ users, socialLinks }) => {
+		return executeDataOperation(async ({ users, socialLinks }) => {
 			await socialLinks.updateSocialLinks(socialLinksPayload);
-			return users.updateUser(userId, userPayload);
+			return users.updateUser(userId, userPayload) as Promise<UserDetails>;
 		});
 	}
 

@@ -5,14 +5,13 @@ import { users, type User } from '../../database/schemas';
 import { DataAccessor } from '../dal/data-accessor';
 import type { CreateUserDTO } from './dto/create-user.dto';
 import { FindUserDTO } from './dto/find-user.dto';
-import type { UserDetails } from './types';
 
 export class UsersDataAccessor extends DataAccessor {
 	async getUser(dto: FindUserDTO) {
 		return this.db.query.users
 			.findFirst({
 				where: (fields, { eq }) => eq(fields[dto.key], dto.value),
-				with: dto.withTables as any,
+				with: dto.withTables,
 			})
 			.execute();
 	}
@@ -21,10 +20,10 @@ export class UsersDataAccessor extends DataAccessor {
 		return this.db.query.users
 			.findFirst({
 				where: (fields, { eq }) => eq(fields[dto.key], dto.value),
-				with: dto.withTables as any,
+				with: dto.withTables,
 				columns: this.getPrivateColumnsToExclude(),
 			})
-			.execute() as Promise<UserDetails>;
+			.execute();
 	}
 
 	async insertUser(dto: CreateUserDTO) {

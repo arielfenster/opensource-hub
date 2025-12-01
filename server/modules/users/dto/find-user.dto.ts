@@ -1,12 +1,12 @@
 import type { FindUserParams, FindUserUniqueIdentifier } from '../types';
 
 type WithTablesConfig = Partial<{
-	socialLinks: boolean;
-	projects: boolean;
+	socialLinks: true;
+	projects: true;
 }>;
 
 type FindUserOptions = {
-	withTables?: WithTablesConfig;
+	withTables: WithTablesConfig;
 };
 
 export class FindUserDTO {
