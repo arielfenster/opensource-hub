@@ -1,10 +1,10 @@
 import { FieldError } from '$/client/components/form/field-error';
-import type { AuthenticatedUser } from '$/shared/types/users';
+import type { UserDetails } from '$/shared/types/users';
 import { PersonalInfoForm } from './form';
 import { usePersonalInfo } from './hook';
 
 type Props = {
-	user: AuthenticatedUser;
+	user: UserDetails;
 };
 
 export function PersonalInfoTab({ user }: Props) {

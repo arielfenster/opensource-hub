@@ -6,16 +6,20 @@ import {
 	type UpdatePersonalInfoInput,
 } from '$/shared/schemas/user/update-personal-info.schema';
 import { MAX_BIO_LENGTH } from '$/shared/schemas/user/user.schema';
-import type { AuthenticatedUser } from '$/shared/types/users';
+import type { UserDetails } from '$/shared/types/users';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 type Props = {
-	user: AuthenticatedUser;
+	user: UserDetails;
 	onSubmit: (input: UpdatePersonalInfoInput) => void;
 	loading?: boolean;
 };
 
+// TODO:
+// 1. change the button to disabled when there are no changes
+// 2. add profile picture upload functionality
+// 3. send to the server only the fields that were updated/touched
 export function PersonalInfoForm({ user, onSubmit, loading }: Props) {
 	const {
 		register,
