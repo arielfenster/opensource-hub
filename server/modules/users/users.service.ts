@@ -2,11 +2,13 @@ import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
 import type { UpdatePersonalInfoInput } from '$/shared/schemas/user/update-personal-info.schema';
 import type { UpdateSecurityInfoInput } from '$/shared/schemas/user/update-security-info.schema';
 import type { SocialAuthProviderId } from '$/shared/types/auth';
+import type { UserDetails } from '$/shared/types/users';
 import { passwordService } from '../auth/password.service';
 import { executeDataOperation } from '../dal/data-executor';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { FindUserDTO } from './dto/find-user.dto';
-import type { CreateSocialAuthUserPayload, FindUserParams, UserDetails } from './types';
+import { SocialLinksDTO } from './dto/social-links.dto';
+import type { CreateSocialAuthUserPayload, FindUserParams } from './types';
 import { usersDataAccessor } from './users.data-accessor';
 
 class UsersService {
@@ -35,13 +37,30 @@ class UsersService {
 	}
 
 	async updatePersonalInfo(userId: string, data: UpdatePersonalInfoInput) {
-		const { socialLinks, ...userPayload } = data;
+		const { socialLinks: socialLinksPayload, ...userPayload } = data;
 
-		const socialLinksPayload = socialLinks?.filter((socialLink) => !!socialLink.id) || [];
+		return executeDataOperation<UserDetails>(async ({ users, socialLinks }) => {
+			if (socialLinksPayload) {
+				const existingSocialLinks = await socialLinks.getSocialLinksForUser(userId);
+				const socialLinksDto = SocialLinksDTO.create(
+					socialLinksPayload,
+					existingSocialLinks,
+				);
 
-		return executeDataOperation(async ({ users, socialLinks }) => {
-			await socialLinks.updateSocialLinks(socialLinksPayload);
-			return users.updateUser(userId, userPayload) as Promise<UserDetails>;
+				if (socialLinksDto.toAdd.length) {
+					await socialLinks.createSocialLinks(userId, socialLinksDto.toAdd);
+				}
+
+				if (socialLinksDto.toUpdate.length) {
+					await socialLinks.updateSocialLinks(socialLinksDto.toUpdate);
+				}
+
+				if (socialLinksDto.toDelete.length) {
+					await socialLinks.deleteSocialLinks(socialLinksDto.toDelete);
+				}
+			}
+
+			return users.updateUser(userId, userPayload);
 		});
 	}
 

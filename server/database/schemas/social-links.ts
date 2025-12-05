@@ -28,4 +28,3 @@ export const socialLinkRelations = relations(socialLinks, ({ one }) => ({
 }));
 
 export type SocialLink = typeof socialLinks.$inferSelect;
-export type SocialLinkType = SocialLink['type'];
