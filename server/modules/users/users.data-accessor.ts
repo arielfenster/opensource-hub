@@ -1,4 +1,4 @@
-import type { PrivateUserInfo } from '$/shared/types/users';
+import type { PrivateUserInfo, UserDetails } from '$/shared/types/users';
 import { eq } from 'drizzle-orm';
 import { db } from '../../database/db';
 import { users, type User } from '../../database/schemas';
@@ -34,7 +34,7 @@ export class UsersDataAccessor extends DataAccessor {
 			{ withTables: { socialLinks: true } },
 		);
 
-		return this.getSafeUser(findUserDto);
+		return this.getSafeUser(findUserDto) as Promise<UserDetails>;
 	}
 
 	async updateUser(id: string, data: Partial<Omit<User, 'id'>>) {
@@ -49,7 +49,7 @@ export class UsersDataAccessor extends DataAccessor {
 			{ withTables: { socialLinks: true } },
 		);
 
-		return this.getSafeUser(findUserDto);
+		return this.getSafeUser(findUserDto) as Promise<UserDetails>;
 	}
 
 	private getPrivateColumnsToExclude(): Record<keyof PrivateUserInfo, boolean> {
