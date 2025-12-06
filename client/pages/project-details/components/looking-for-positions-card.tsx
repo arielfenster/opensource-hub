@@ -10,9 +10,7 @@ export function LookingForPositionsCard({ project }: LookingForPositionsCardProp
 
 	return (
 		<Card>
-			<Card.Header>
-				<Card.Title>{`We're Looking For`}</Card.Title>
-			</Card.Header>
+			<Card.Title>{`We're Looking For`}</Card.Title>
 			<Card.Body>
 				<ul className='flex flex-col gap-4'>
 					{project.teamPositions.map((position) => (

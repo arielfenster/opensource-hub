@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { signupSchema } from '../auth/signup.schema';
-import { updateSocialLinksSchema } from './social-links.schema';
+import { socialLinkSchema } from './social-links.schema';
 
 export const updatePersonalInfoSchema = signupSchema
 	.pick({
@@ -11,7 +11,7 @@ export const updatePersonalInfoSchema = signupSchema
 		image: true,
 	})
 	.extend({
-		socialLinks: z.array(updateSocialLinksSchema).optional(),
+		socialLinks: z.array(socialLinkSchema).optional(),
 	});
 
 export type UpdatePersonalInfoInput = z.infer<typeof updatePersonalInfoSchema>;

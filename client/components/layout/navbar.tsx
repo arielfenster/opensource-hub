@@ -1,7 +1,7 @@
-import type { AuthenticatedUser } from '$/shared/types/users';
+import type { UserDetails } from '$/shared/types/users';
 import { LinkButton } from '../ui/link-button';
 
-type NavbarProps = { user?: AuthenticatedUser };
+type NavbarProps = { user?: UserDetails };
 
 export function Navbar({ user }: NavbarProps) {
 	return (
