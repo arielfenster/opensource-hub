@@ -102,7 +102,7 @@ function SocialLinksSection() {
 			<span className='text-xl font-medium'>Social Links</span>
 			<div className='flex flex-col'>
 				{fields.map((field, index) => {
-					const registerType = register(`socialLinks.${index}.type`);
+					const typeRegister = register(`socialLinks.${index}.type`);
 
 					return (
 						<div
@@ -111,14 +111,13 @@ function SocialLinksSection() {
 						>
 							<div className='flex w-full gap-6'>
 								<FieldControl className='w-auto'>
-									<LabelControl name={`socialLinks.${index}.type`} label='Type'>
+									<LabelControl name={typeRegister.name} label='Type'>
 										<Select
 											items={selectSocialLinkTypeItems}
-											value={field.type}
-											{...registerType}
-											onSelect={(value) =>
-												registerType.onChange({ target: { value } })
-											}
+											{...typeRegister}
+											onSelect={(value) => {
+												typeRegister.onChange({ target: { value } });
+											}}
 										/>
 									</LabelControl>
 								</FieldControl>
