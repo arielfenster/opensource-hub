@@ -34,9 +34,7 @@ export function ProjectLinksCard({ links }: ProjectLinksCardProps) {
 
 	return (
 		<Card>
-			<Card.Header>
-				<Card.Title>Project Links</Card.Title>
-			</Card.Header>
+			<Card.Title>Project Links</Card.Title>
 			<Card.Body className='flex flex-col gap-4'>
 				{links?.projectLink && (
 					<ProjectLinkButton

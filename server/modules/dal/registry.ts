@@ -4,7 +4,6 @@ import { SocialLinksDataAccessor } from '../social-links/social-links.data-acces
 import { TechnologiesDataAccessor } from '../technologies/technologies.data-accessor';
 import { UsersDataAccessor } from '../users/users.data-accessor';
 
-// TODO: use import.meta.glob to find all data accessors
 export const dataAccessorsRegistry = {
 	users: UsersDataAccessor,
 	session: SessionDataAccessor,

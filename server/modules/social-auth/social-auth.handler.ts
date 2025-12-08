@@ -26,6 +26,27 @@ class SocialAuthHandler {
 		return authUrl;
 	}
 
+	private setOauthCookies(
+		c: Context,
+		provider: SocialAuthProvider,
+		state: string,
+		codeVerifier?: string,
+	) {
+		const cookieOptions: CookieOptions = {
+			httpOnly: true,
+			secure: true,
+			sameSite: 'lax',
+			maxAge: 60 * 10, // 10 minutes
+			path: '/',
+		};
+
+		setCookie(c, buildOauthStateCookieName(provider), state, cookieOptions);
+
+		if (codeVerifier) {
+			setCookie(c, buildOauthCodeVerifierCookieName(provider), codeVerifier, cookieOptions);
+		}
+	}
+
 	async verifySocialAuthCallback(c: Context, provider: SocialAuthProvider) {
 		const authProvider = oauthProviderFactory.getProvider(provider);
 
@@ -47,27 +68,6 @@ class SocialAuthHandler {
 
 			const e = error as Error;
 			throw new HTTPException(500, { message: e.message });
-		}
-	}
-
-	private setOauthCookies(
-		c: Context,
-		provider: SocialAuthProvider,
-		state: string,
-		codeVerifier?: string,
-	) {
-		const cookieOptions: CookieOptions = {
-			httpOnly: true,
-			secure: true,
-			sameSite: 'lax',
-			maxAge: 60 * 10, // 10 minutes
-			path: '/',
-		};
-
-		setCookie(c, buildOauthStateCookieName(provider), state, cookieOptions);
-
-		if (codeVerifier) {
-			setCookie(c, buildOauthCodeVerifierCookieName(provider), codeVerifier, cookieOptions);
 		}
 	}
 

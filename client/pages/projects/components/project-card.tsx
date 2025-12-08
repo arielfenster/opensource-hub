@@ -12,9 +12,7 @@ type Props = {
 export function ProjectCard({ project }: Props) {
 	return (
 		<Card className='border-t-celestial-blue border-t-4 duration-300 hover:-translate-y-3'>
-			<Card.Header>
-				<Card.Title>{project.name}</Card.Title>
-			</Card.Header>
+			<Card.Title>{project.name}</Card.Title>
 			<Card.Body className='flex flex-col gap-6'>
 				<Card.Description>{project.shortDescription}</Card.Description>
 				<div className='flex flex-wrap items-center gap-2'>

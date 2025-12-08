@@ -7,7 +7,7 @@ import { FindProjectsDTO } from '$/server/modules/projects/dto/find-projects.dto
 
 export async function renderHomePage(c: Context) {
 	const findProjectsDto = FindProjectsDTO.create(
-		{ limit: 4, skip: 0 },
+		{ limit: 3, skip: 0 },
 		{
 			orderBy: {
 				createdAt: {

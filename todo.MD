@@ -28,7 +28,13 @@ i need to create an admin dashboard in the navbar where i can see all the reques
 4. see if need to add props to tech-autocomplete or autocomplete regarding showing this option for form ("didn't found what you were looking for? click _here_ to add/request an item")
 
 5. add class-variance-authority. use it for buttons - regular, link. look at compoundVariants
-6. figure out if CardHeader/CardTitle is actually necessary, or i can just combine them into a single component
-7. create SelectField.
-8. add option to edit user-owned project
-9. add tab in profile dropdown for projects?
+6. create SelectField.
+7. add option to edit user-owned project
+8. add tab in profile dropdown for projects?
+9. search projects:
+tech stack
+position
+keywords? Tags/keywords (beyond tech stack — e.g., "AI", "social impact", "climate").
+Category/domain (web, mobile, ML, DevOps, education, games, etc.).
+Last update
+post-MVP: Recommendations ("similar to projects you viewed" or "based on your skills").

@@ -1,14 +1,15 @@
+import { cn } from '$/client/lib/utils';
 import { forwardRef } from 'react';
 import { ErrorControl } from './controls/error-control';
 import { FieldControl } from './controls/field-control';
 import { LabelControl } from './controls/label-control';
 import { type FieldErrorProps } from './field-error';
 import { Input, type InputProps } from './input';
-import { cn } from '$/client/lib/utils';
+import type { LabelProps } from './label';
 
 export type TextFieldProps = InputProps &
-	FieldErrorProps & {
-		label: string;
+	FieldErrorProps &
+	LabelProps & {
 		inputClassName?: string;
 	};
 

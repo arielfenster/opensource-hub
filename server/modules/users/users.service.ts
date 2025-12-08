@@ -2,39 +2,26 @@ import type { SignupInput } from '$/shared/schemas/auth/signup.schema';
 import type { UpdatePersonalInfoInput } from '$/shared/schemas/user/update-personal-info.schema';
 import type { UpdateSecurityInfoInput } from '$/shared/schemas/user/update-security-info.schema';
 import type { SocialAuthProviderId } from '$/shared/types/auth';
+import type { UserDetails } from '$/shared/types/users';
 import { passwordService } from '../auth/password.service';
 import { executeDataOperation } from '../dal/data-executor';
-import { socialLinksDataAccessor } from '../social-links/social-links.data-accessor';
 import { CreateUserDTO } from './dto/create-user.dto';
-import type {
-	CreateSocialAuthUserPayload,
-	FindUserParams,
-	FindUserUniqueIdentifier,
-	UserWithSocialLinks,
-} from './types';
+import { FindUserDTO } from './dto/find-user.dto';
+import { SocialLinksDTO } from './dto/social-links.dto';
+import type { CreateSocialAuthUserPayload, FindUserParams } from './types';
 import { usersDataAccessor } from './users.data-accessor';
 
 class UsersService {
 	async findUser(params: FindUserParams) {
-		const keys = Object.keys(params);
-		if (keys.length === 0) {
-			return null;
-		}
-
-		const searchKey = keys[0] as FindUserUniqueIdentifier;
-		return usersDataAccessor.findUserByUniqueIdentifier(searchKey, params[searchKey] as any);
+		const findUserDto = FindUserDTO.create(params);
+		return usersDataAccessor.getUser(findUserDto);
 	}
 
-	// TODO: remove? just select the user with the socialLinks everytime instead
-	async findUserWithSocialLinks(params: FindUserParams) {
-		const user = await this.findUser(params);
-		if (!user) {
-			return null;
-		}
-
-		const socialLinks = await socialLinksDataAccessor.getSocialLinksForUser(user.id);
-
-		return { ...user, socialLinks };
+	async findSafeUser(params: FindUserParams) {
+		const findUserDto = FindUserDTO.create(params, {
+			withTables: { socialLinks: true },
+		});
+		return usersDataAccessor.getSafeUser(findUserDto);
 	}
 
 	async createUser(data: SignupInput) {
@@ -43,23 +30,37 @@ class UsersService {
 	}
 
 	async checkIfEmailExists(email: string) {
-		const user = await usersDataAccessor.findUserByUniqueIdentifier('email', email);
+		const findUserDto = FindUserDTO.create({ email });
+		const user = await usersDataAccessor.getUser(findUserDto);
+
 		return !!user;
 	}
 
 	async updatePersonalInfo(userId: string, data: UpdatePersonalInfoInput) {
-		const { socialLinks, ...userPayload } = data;
+		const { socialLinks: socialLinksPayload, ...userPayload } = data;
 
-		const socialLinksPayload = socialLinks?.filter((socialLink) => !!socialLink.id) || [];
+		return executeDataOperation<UserDetails>(async ({ users, socialLinks }) => {
+			if (socialLinksPayload) {
+				const existingSocialLinks = await socialLinks.getSocialLinksForUser(userId);
+				const socialLinksDto = SocialLinksDTO.create(
+					socialLinksPayload,
+					existingSocialLinks,
+				);
 
-		return executeDataOperation<UserWithSocialLinks>(async ({ users, socialLinks }) => {
-			const updatedSocialLinks = await socialLinks.updateSocialLinks(socialLinksPayload);
-			const updatedUser = await users.updateUser(userId, userPayload);
+				if (socialLinksDto.toAdd.length) {
+					await socialLinks.createSocialLinks(userId, socialLinksDto.toAdd);
+				}
 
-			return {
-				...updatedUser,
-				socialLinks: updatedSocialLinks,
-			};
+				if (socialLinksDto.toUpdate.length) {
+					await socialLinks.updateSocialLinks(socialLinksDto.toUpdate);
+				}
+
+				if (socialLinksDto.toDelete.length) {
+					await socialLinks.deleteSocialLinks(socialLinksDto.toDelete);
+				}
+			}
+
+			return users.updateUser(userId, userPayload);
 		});
 	}
 
