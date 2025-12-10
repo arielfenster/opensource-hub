@@ -1,20 +1,23 @@
-import { projectLinks } from '$/server/database/schemas';
-import { createSelectSchema } from 'drizzle-zod';
-import { urlSchema } from '../common/url.schema';
+import {
+	chatTypeValues,
+	projectManagementTypeValues,
+	sourceControlTypeValues,
+} from '$/shared/types/project-links';
 import { z } from 'zod';
+import { urlSchema } from '../common/url.schema';
 
-export const projectLinksSchema = createSelectSchema(projectLinks, {
-	id: (schema) => schema.optional(),
-	projectLink: () => urlSchema.or(z.literal('')),
-	sourceControlLink: () => urlSchema.or(z.literal('')),
-	sourceControlType: (schema) => schema.optional(),
-	chatLink: () => urlSchema.or(z.literal('')),
-	chatType: (schema) => schema.optional(),
-	projectManagementLink: () => urlSchema.or(z.literal('')),
-	projectManagementType: (schema) => schema.optional(),
-	projectId: (schema) => schema.optional(),
-	createdAt: (schema) => schema.optional(),
-	updatedAt: (schema) => schema.optional(),
+export const projectLinksSchema = z.object({
+	id: z.string().optional(),
+	projectLink: urlSchema.or(z.literal('')),
+	sourceControlLink: urlSchema.or(z.literal('')),
+	sourceControlType: z.enum(sourceControlTypeValues).optional(),
+	chatLink: urlSchema.or(z.literal('')),
+	chatType: z.enum(chatTypeValues).optional(),
+	projectManagementLink: urlSchema.or(z.literal('')),
+	projectManagementType: z.enum(projectManagementTypeValues).optional(),
+	projectId: z.string().optional(),
+	createdAt: z.date().optional(),
+	updatedAt: z.date().optional(),
 });
 
 export type ProjectLinksInput = z.infer<typeof projectLinksSchema>;

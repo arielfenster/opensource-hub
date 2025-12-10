@@ -9,7 +9,7 @@ import {
 	type UpdatePersonalInfoInput,
 } from '$/shared/schemas/user/update-personal-info.schema';
 import { MAX_BIO_LENGTH } from '$/shared/schemas/user/user.schema';
-import { socialLinkTypes, type UserDetails } from '$/shared/types/users';
+import { socialLinkTypeValues, type UserDetails } from '$/shared/types/users';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo } from 'react';
 import { FormProvider, useFieldArray, useForm, useFormContext } from 'react-hook-form';
@@ -90,7 +90,7 @@ function SocialLinksSection() {
 
 	const selectSocialLinkTypeItems = useMemo(
 		() =>
-			socialLinkTypes.map((type) => ({
+			socialLinkTypeValues.map((type) => ({
 				label: type,
 				value: type,
 			})),

@@ -2,10 +2,18 @@ import { relations } from 'drizzle-orm';
 import { pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
 import { projects } from './projects';
 import { id, createdAt, updatedAt } from './utils';
+import {
+	chatTypeValues,
+	projectManagementTypeValues,
+	sourceControlTypeValues,
+} from '$/shared/types/project-links';
 
-export const sourceControlTypeEnum = pgEnum('sourceControlTypeEnum', ['Github', 'Gitlab']);
-export const chatTypeEnum = pgEnum('chatTypeEnum', ['Slack', 'Discord']);
-export const projectManagementTypeEnum = pgEnum('projectManagementTypeEnum', ['Jira', 'Trello']);
+export const sourceControlTypeEnum = pgEnum('sourceControlTypeEnum', sourceControlTypeValues);
+export const chatTypeEnum = pgEnum('chatTypeEnum', chatTypeValues);
+export const projectManagementTypeEnum = pgEnum(
+	'projectManagementTypeEnum',
+	projectManagementTypeValues,
+);
 
 export const projectLinks = pgTable('projectLinks', {
 	id: id,

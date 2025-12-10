@@ -1,5 +1,5 @@
 import { passwordService } from '$/server/modules/auth/password.service';
-import { technologyGroupNames } from '$/shared/types/technologies';
+import { technologyGroupNameValues } from '$/shared/types/technologies';
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import {
@@ -43,7 +43,7 @@ async function insertUsers() {
 async function insertTechnologies() {
 	const groups = await db
 		.insert(technologyGroups)
-		.values(technologyGroupNames.map((name) => ({ name })))
+		.values(technologyGroupNameValues.map((name) => ({ name })))
 		.returning();
 
 	const [

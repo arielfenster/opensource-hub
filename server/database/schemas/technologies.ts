@@ -2,16 +2,9 @@ import { relations } from 'drizzle-orm';
 import { pgEnum, pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core';
 import { id } from './utils';
 import { projectsToTechnologies } from '.';
+import { technologyGroupNameValues } from '$/shared/types/technologies';
 
-export const technologyGroupNameEnum = pgEnum('technologyGroupNameEnum', [
-	'languages',
-	'frameworks',
-	'databases',
-	'infra',
-	'services',
-	'developerTools',
-	'clouds',
-]);
+export const technologyGroupNameEnum = pgEnum('technologyGroupNameEnum', technologyGroupNameValues);
 
 export const technologyGroups = pgTable('technologyGroups', {
 	id: id,

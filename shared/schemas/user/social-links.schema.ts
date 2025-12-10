@@ -1,14 +1,11 @@
-import { socialLinks } from '$/server/database/schemas';
-import { createInsertSchema } from 'drizzle-zod';
+import { socialLinkTypeValues } from '$/shared/types/users';
 import { z } from 'zod';
 import { urlSchema } from '../common/url.schema';
 
-export const socialLinkSchema = createInsertSchema(socialLinks, {
-	url: () => urlSchema,
-}).pick({
-	id: true,
-	url: true,
-	type: true,
+export const socialLinkSchema = z.object({
+	id: z.string().optional(),
+	url: urlSchema,
+	type: z.enum(socialLinkTypeValues),
 });
 
 export type SocialLinkInput = z.infer<typeof socialLinkSchema>;

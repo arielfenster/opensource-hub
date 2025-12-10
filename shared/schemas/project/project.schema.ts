@@ -1,13 +1,12 @@
-import { projects } from '$/server/database/schemas';
-import { createSelectSchema } from 'drizzle-zod';
+import { projectStatusValues, projectTeamPositionValues } from '$/shared/types/projects';
 import z from 'zod';
 
-export const projectSchema = createSelectSchema(projects, {
-	name: (schema) => schema.min(2).max(40),
-	shortDescription: (schema) => schema.min(2).max(100),
-	longDescription: (schema) => schema.min(2).max(1000),
-	status: (schema) => schema.optional().default('Created'),
-	keyFeatures: (schema) => schema.optional(),
-	teamPositions: (schema) => schema.optional(),
+export const projectSchema = z.object({
+	name: z.string().min(2).max(40),
+	shortDescription: z.string().min(2).max(100),
+	longDescription: z.string().min(2).max(1000),
+	status: z.enum(projectStatusValues).optional().default('Created'),
+	keyFeatures: z.string().array().optional(),
+	teamPositions: z.array(z.enum(projectTeamPositionValues)).optional(),
 	ownerId: () => z.nanoid(),
 });

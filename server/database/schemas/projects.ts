@@ -4,23 +4,10 @@ import { users, projectLinks } from '.';
 import { createdAt, id, updatedAt } from './utils';
 import { usersToProjects } from './users-to-projects';
 import { projectsToTechnologies } from './projects-to-technologies';
+import { projectStatusValues, projectTeamPositionValues } from '$/shared/types/projects';
 
-export const projectStatusEnum = pgEnum('projectStatusEnum', [
-	'Created',
-	'In Progress',
-	'Finished',
-	'Aborted',
-]);
-export const teamPositionEnum = pgEnum('teamPositionEnum', [
-	'Backend',
-	'Frontend',
-	'Fullstack',
-	'Devops',
-	'QA',
-	'Product Manager',
-	'UI Developer',
-	'UX Developer',
-]);
+export const projectStatusEnum = pgEnum('projectStatusEnum', projectStatusValues);
+export const teamPositionEnum = pgEnum('teamPositionEnum', projectTeamPositionValues);
 
 export const projects = pgTable('projects', {
 	id: id,
