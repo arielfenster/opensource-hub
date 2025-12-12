@@ -1,17 +1,16 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 import { projectSchema } from './project.schema';
 
-export const projectGeneralInfoSchema = projectSchema
-	.pick({
-		name: true,
-		shortDescription: true,
-		longDescription: true,
-		// keyFeatures: true,
-		teamPositions: true,
-		// ownerId: true,
-	})
-	.extend({
-		keyFeatures: z.array(z.object({ feature: z.string() })),
-	});
+export const projectGeneralInfoSchema = v.object({
+	...v.pick(projectSchema, [
+		'name',
+		'shortDescription',
+		'longDescription',
+		// keyFeatures,
+		'teamPositions',
+		// ownerId,
+	]).entries,
+	keyFeatures: v.array(v.object({ feature: v.string() })),
+});
 
-export type ProjectGeneralInfoInput = z.infer<typeof projectGeneralInfoSchema>;
+export type ProjectGeneralInfoInput = v.InferInput<typeof projectGeneralInfoSchema>;

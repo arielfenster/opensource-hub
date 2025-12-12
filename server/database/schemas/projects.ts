@@ -1,9 +1,9 @@
 import { relations, sql } from 'drizzle-orm';
 import { pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
-import { users, projectLinks } from '.';
-import { createdAt, id, updatedAt } from './utils';
-import { usersToProjects } from './users-to-projects';
+import { projectLinks, users } from '.';
 import { projectsToTechnologies } from './projects-to-technologies';
+import { usersToProjects } from './users-to-projects';
+import { createdAt, id, updatedAt } from './utils';
 import { projectStatusValues, projectTeamPositionValues } from '$/shared/types/projects';
 
 export const projectStatusEnum = pgEnum('projectStatusEnum', projectStatusValues);

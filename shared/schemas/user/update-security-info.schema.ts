@@ -1,34 +1,20 @@
-import z from 'zod';
+import * as v from 'valibot';
 import { passwordSchema } from '../auth/password.schema';
 
-export const updateSecurityInfoSchema = z
-	.object({
+export const updateSecurityInfoSchema = v.pipe(
+	v.object({
 		password: passwordSchema,
 		newPassword: passwordSchema,
 		confirmNewPassword: passwordSchema,
-	})
-	.check((ctx) => {
-		const { password, newPassword, confirmNewPassword } = ctx.value;
+	}),
+	v.check(
+		(values) => values.password !== values.newPassword,
+		'New password must be different from current password',
+	),
+	v.check(
+		(values) => values.newPassword === values.confirmNewPassword,
+		'New password and confirmation new password must match',
+	),
+);
 
-		if (password === newPassword) {
-			ctx.issues.push({
-				code: 'invalid_value',
-				message: 'New password must be different from current password.',
-				path: ['newPassword'],
-				values: [ctx.value.password, ctx.value.newPassword],
-				input: ctx.value,
-			});
-		}
-
-		if (newPassword !== confirmNewPassword) {
-			ctx.issues.push({
-				code: 'invalid_value',
-				message: 'New password and confirm new password must match.',
-				path: ['confirmNewPassword'],
-				values: [ctx.value.newPassword, ctx.value.confirmNewPassword],
-				input: ctx.value,
-			});
-		}
-	});
-
-export type UpdateSecurityInfoInput = z.infer<typeof updateSecurityInfoSchema>;
+export type UpdateSecurityInfoInput = v.InferInput<typeof updateSecurityInfoSchema>;

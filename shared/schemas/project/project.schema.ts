@@ -1,12 +1,12 @@
 import { projectStatusValues, projectTeamPositionValues } from '$/shared/types/projects';
-import z from 'zod';
+import * as v from 'valibot';
 
-export const projectSchema = z.object({
-	name: z.string().min(2).max(40),
-	shortDescription: z.string().min(2).max(100),
-	longDescription: z.string().min(2).max(1000),
-	status: z.enum(projectStatusValues).optional().default('Created'),
-	keyFeatures: z.string().array().optional(),
-	teamPositions: z.array(z.enum(projectTeamPositionValues)).optional(),
-	ownerId: () => z.nanoid(),
+export const projectSchema = v.object({
+	name: v.pipe(v.string(), v.minLength(2), v.maxLength(40)),
+	shortDescription: v.pipe(v.string(), v.minLength(2), v.maxLength(100)),
+	longDescription: v.pipe(v.string(), v.minLength(2), v.maxLength(1000)),
+	status: v.optional(v.picklist(projectStatusValues), 'Created'),
+	keyFeatures: v.optional(v.array(v.string())),
+	teamPositions: v.optional(v.array(v.picklist(projectTeamPositionValues))),
+	ownerId: v.pipe(v.string(), v.nanoid()),
 });

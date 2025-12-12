@@ -2,7 +2,7 @@ import { PasswordField } from '$/client/components/form/password-field';
 import { TextField } from '$/client/components/form/textfield';
 import { Button } from '$/client/components/ui/button';
 import { signupSchema, type SignupInput } from '$/shared/schemas/auth/signup.schema';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm } from 'react-hook-form';
 
 type Props = {
@@ -17,7 +17,7 @@ export function SignupForm({ onSubmit, loading, error }: Props) {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<SignupInput>({
-		resolver: zodResolver(signupSchema),
+		resolver: valibotResolver(signupSchema),
 	});
 
 	return (

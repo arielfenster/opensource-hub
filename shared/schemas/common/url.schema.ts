@@ -1,6 +1,3 @@
-import z from 'zod';
+import * as v from 'valibot';
 
-export const urlSchema = z.url({
-	protocol: /^https$/,
-	hostname: z.regexes.hostname,
-});
+export const urlSchema = v.pipe(v.string(), v.url(), v.startsWith('https://'));

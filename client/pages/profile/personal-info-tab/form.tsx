@@ -10,7 +10,7 @@ import {
 } from '$/shared/schemas/user/update-personal-info.schema';
 import { MAX_BIO_LENGTH } from '$/shared/schemas/user/user.schema';
 import { socialLinkTypeValues, type UserDetails } from '$/shared/types/users';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useMemo } from 'react';
 import { FormProvider, useFieldArray, useForm, useFormContext } from 'react-hook-form';
 
@@ -30,7 +30,7 @@ export function PersonalInfoForm({ user, onSubmit, loading }: Props) {
 			...user,
 			socialLinks: user.socialLinks ?? [],
 		},
-		resolver: zodResolver(updatePersonalInfoSchema),
+		resolver: valibotResolver(updatePersonalInfoSchema),
 	});
 
 	const {

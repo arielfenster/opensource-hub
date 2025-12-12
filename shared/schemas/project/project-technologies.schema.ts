@@ -1,16 +1,16 @@
-import z from 'zod';
+import * as v from 'valibot';
 
-export const projectTechnologiesSchema = z.object({
-	technologies: z.array(
-		z.object({
-			id: z.string(),
-			name: z.string(),
-			group: z.object({
-				id: z.string(),
-				name: z.string(),
+export const projectTechnologiesSchema = v.object({
+	technologies: v.array(
+		v.object({
+			id: v.string(),
+			name: v.string(),
+			group: v.object({
+				id: v.string(),
+				name: v.string(),
 			}),
 		}),
 	),
 });
 
-export type ProjectTechnologiesInput = z.infer<typeof projectTechnologiesSchema>;
+export type ProjectTechnologiesInput = v.InferInput<typeof projectTechnologiesSchema>;

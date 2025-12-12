@@ -1,17 +1,20 @@
+import * as v from 'valibot';
 import { passwordSchema } from '../auth/password.schema';
-import z from 'zod';
 
 export const MAX_BIO_LENGTH = 200;
 
-export const userSchema = z.object({
-	firstName: z.string().min(2),
-	lastName: z.string().min(2),
-	email: z.email().toLowerCase(),
+export const userSchema = v.object({
+	firstName: v.pipe(v.string(), v.minLength(2)),
+	lastName: v.pipe(v.string(), v.minLength(2)),
+	email: v.pipe(v.string(), v.email()),
 	password: passwordSchema,
-	bio: z
-		.string()
-		.max(MAX_BIO_LENGTH, {
-			error: `Bio cannot contain more than ${MAX_BIO_LENGTH} characters`,
-		})
-		.nullish(),
+	bio: v.nullish(
+		v.pipe(
+			v.string(),
+			v.maxLength(
+				MAX_BIO_LENGTH,
+				`Bio cannot contain more than ${MAX_BIO_LENGTH} characters`,
+			),
+		),
+	),
 });

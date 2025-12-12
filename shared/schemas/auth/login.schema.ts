@@ -1,9 +1,6 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 import { signupSchema } from './signup.schema';
 
-export const loginSchema = signupSchema.pick({
-	email: true,
-	password: true,
-});
+export const loginSchema = v.pick(signupSchema, ['email', 'password']);
 
-export type LoginInput = z.infer<typeof loginSchema>;
+export type LoginInput = v.InferInput<typeof loginSchema>;

@@ -1,11 +1,11 @@
 import { socialLinkTypeValues } from '$/shared/types/users';
-import { z } from 'zod';
+import * as v from 'valibot';
 import { urlSchema } from '../common/url.schema';
 
-export const socialLinkSchema = z.object({
-	id: z.string().optional(),
+export const socialLinkSchema = v.object({
+	id: v.optional(v.string()),
 	url: urlSchema,
-	type: z.enum(socialLinkTypeValues),
+	type: v.picklist(socialLinkTypeValues),
 });
 
-export type SocialLinkInput = z.infer<typeof socialLinkSchema>;
+export type SocialLinkInput = v.InferInput<typeof socialLinkSchema>;

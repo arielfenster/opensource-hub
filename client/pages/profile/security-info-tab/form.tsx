@@ -4,7 +4,7 @@ import {
 	updateSecurityInfoSchema,
 	type UpdateSecurityInfoInput,
 } from '$/shared/schemas/user/update-security-info.schema';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm } from 'react-hook-form';
 
 type Props = {
@@ -18,7 +18,7 @@ export function SecurityInfoForm({ onSubmit, loading }: Props) {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<UpdateSecurityInfoInput>({
-		resolver: zodResolver(updateSecurityInfoSchema),
+		resolver: valibotResolver(updateSecurityInfoSchema),
 	});
 
 	return (

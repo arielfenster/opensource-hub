@@ -1,17 +1,10 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 import { signupSchema } from '../auth/signup.schema';
 import { socialLinkSchema } from './social-links.schema';
 
-export const updatePersonalInfoSchema = signupSchema
-	.pick({
-		firstName: true,
-		lastName: true,
-		email: true,
-		bio: true,
-		image: true,
-	})
-	.extend({
-		socialLinks: z.array(socialLinkSchema).optional(),
-	});
+export const updatePersonalInfoSchema = v.object({
+	...v.pick(signupSchema, ['firstName', 'lastName', 'email', 'bio', 'image']).entries,
+	socialLinks: v.optional(v.array(socialLinkSchema)),
+});
 
-export type UpdatePersonalInfoInput = z.infer<typeof updatePersonalInfoSchema>;
+export type UpdatePersonalInfoInput = v.InferInput<typeof updatePersonalInfoSchema>;
