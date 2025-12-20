@@ -1,4 +1,9 @@
-import { paginationSchema, type PaginationInput } from '$/shared/schemas/common/pagination.schema';
+import { safeParse } from 'valibot';
+import {
+	paginationSchema,
+	type PaginationInput,
+	type PaginationOutput,
+} from '$/shared/schemas/common/pagination.schema';
 import { superjsonDeserialize, type AppSuperJsonResult } from '$/shared/superjson';
 import type { ProjectDetails } from '$/shared/types/projects';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -9,7 +14,7 @@ type Props = Partial<PaginationInput>;
 export function useProjects(pagination: Props = {}) {
 	const rpcClient = useRpcQueryClient();
 
-	const filters = paginationSchema.safeParse(pagination).data!;
+	const filters = safeParse(paginationSchema, pagination).output as PaginationOutput;
 
 	return useInfiniteQuery<ProjectDetails[]>({
 		queryKey: ['projects', pagination],

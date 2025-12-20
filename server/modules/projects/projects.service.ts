@@ -1,11 +1,10 @@
 import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
-import type { ProjectDetails } from '$/shared/types/projects';
+import type { Project, ProjectDetails } from '$/shared/types/projects';
 import { nanoid } from 'nanoid';
 import type { FindProjectsDTO } from './dto/find-projects.dto';
 import { projectsDataAccessor } from './projects.data-accessor';
 import type { FindProjectParams, FindProjectUniqueIdentifier } from './types';
 import { executeDataOperation } from '../dal/data-executor';
-import type { Project } from '$/server/database/schemas';
 
 type FindProjectReturnValue = NonNullable<
 	Awaited<ReturnType<typeof projectsDataAccessor.findProjectByUniqueIdentifier>>

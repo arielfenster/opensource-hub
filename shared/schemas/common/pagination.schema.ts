@@ -1,8 +1,14 @@
-import z from 'zod';
+import * as v from 'valibot';
 
-export const paginationSchema = z.object({
-	limit: z.coerce.number().min(1).max(100).optional().default(10),
-	skip: z.coerce.number().min(0).optional().default(0),
+const unionSchema = v.pipe(
+	v.union([v.string(), v.number()]),
+	v.transform((value) => Number(value)),
+);
+
+export const paginationSchema = v.object({
+	limit: v.optional(v.pipe(unionSchema, v.minValue(1), v.maxValue(100)), 10),
+	skip: v.optional(v.pipe(unionSchema, v.minValue(0)), 0),
 });
 
-export type PaginationInput = z.infer<typeof paginationSchema>;
+export type PaginationInput = v.InferInput<typeof paginationSchema>;
+export type PaginationOutput = v.InferOutput<typeof paginationSchema>;

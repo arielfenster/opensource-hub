@@ -1,12 +1,12 @@
-import z from 'zod';
+import * as v from 'valibot';
 import { projectGeneralInfoSchema } from './project-general-info.schema';
 import { projectLinksSchema } from './project-links.schema';
 import { projectTechnologiesSchema } from './project-technologies.schema';
 
-export const createProjectSchema = projectGeneralInfoSchema
-	.extend({
-		links: projectLinksSchema.optional(),
-	})
-	.extend(projectTechnologiesSchema.shape);
+export const createProjectSchema = v.object({
+	...projectGeneralInfoSchema.entries,
+	links: v.optional(projectLinksSchema),
+	...projectTechnologiesSchema.entries,
+});
 
-export type CreateProjectInput = z.infer<typeof createProjectSchema>;
+export type CreateProjectInput = v.InferInput<typeof createProjectSchema>;

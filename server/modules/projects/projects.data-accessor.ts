@@ -1,5 +1,6 @@
 import { db } from '$/server/database/db';
-import { projects, type Project } from '$/server/database/schemas';
+import { projects } from '$/server/database/schemas';
+import type { Project } from '$/shared/types/projects';
 import { DataAccessor } from '../dal/data-accessor';
 import type { FindProjectsDTO } from './dto/find-projects.dto';
 import type { FindProjectUniqueIdentifier } from './types';

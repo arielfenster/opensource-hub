@@ -1,26 +1,13 @@
 import { relations, sql } from 'drizzle-orm';
 import { pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
-import { users, projectLinks } from '.';
-import { createdAt, id, updatedAt } from './utils';
-import { usersToProjects } from './users-to-projects';
+import { projectLinks, users } from '.';
 import { projectsToTechnologies } from './projects-to-technologies';
+import { usersToProjects } from './users-to-projects';
+import { createdAt, id, updatedAt } from './utils';
+import { projectStatusValues, projectTeamPositionValues } from '$/shared/types/projects';
 
-export const projectStatusEnum = pgEnum('projectStatusEnum', [
-	'Created',
-	'In Progress',
-	'Finished',
-	'Aborted',
-]);
-export const teamPositionEnum = pgEnum('teamPositionEnum', [
-	'Backend',
-	'Frontend',
-	'Fullstack',
-	'Devops',
-	'QA',
-	'Product Manager',
-	'UI Developer',
-	'UX Developer',
-]);
+export const projectStatusEnum = pgEnum('projectStatusEnum', projectStatusValues);
+export const teamPositionEnum = pgEnum('teamPositionEnum', projectTeamPositionValues);
 
 export const projects = pgTable('projects', {
 	id: id,
@@ -53,5 +40,3 @@ export const projectRelations = relations(projects, ({ one, many }) => ({
 	links: one(projectLinks),
 	technologies: many(projectsToTechnologies),
 }));
-
-export type Project = typeof projects.$inferSelect;

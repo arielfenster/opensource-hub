@@ -1,6 +1,6 @@
 import { Select } from '$/client/components/form/select';
 import { TechnologiesAutoCompleteContainer } from '$/client/components/technologies-autocomplete';
-import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/projects';
+import { projectTeamPositionValues, type ProjectTeamPosition } from '$/shared/types/projects';
 import { useMemo } from 'react';
 import { useTeamPositionsStore } from '../team-positions.store';
 
@@ -9,7 +9,7 @@ export function SearchSection() {
 
 	const selectPositionItems = useMemo(
 		() =>
-			projectTeamPositions.map((position) => ({
+			projectTeamPositionValues.map((position) => ({
 				label: position,
 				value: position,
 			})),

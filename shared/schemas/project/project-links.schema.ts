@@ -1,20 +1,23 @@
-import { projectLinks } from '$/server/database/schemas';
-import { createSelectSchema } from 'drizzle-zod';
+import {
+	chatTypeValues,
+	projectManagementTypeValues,
+	sourceControlTypeValues,
+} from '$/shared/types/project-links';
+import * as v from 'valibot';
 import { urlSchema } from '../common/url.schema';
-import { z } from 'zod';
 
-export const projectLinksSchema = createSelectSchema(projectLinks, {
-	id: (schema) => schema.optional(),
-	projectLink: () => urlSchema.or(z.literal('')),
-	sourceControlLink: () => urlSchema.or(z.literal('')),
-	sourceControlType: (schema) => schema.optional(),
-	chatLink: () => urlSchema.or(z.literal('')),
-	chatType: (schema) => schema.optional(),
-	projectManagementLink: () => urlSchema.or(z.literal('')),
-	projectManagementType: (schema) => schema.optional(),
-	projectId: (schema) => schema.optional(),
-	createdAt: (schema) => schema.optional(),
-	updatedAt: (schema) => schema.optional(),
+export const projectLinksSchema = v.object({
+	id: v.optional(v.string()),
+	projectLink: v.union([urlSchema, v.literal('')]),
+	sourceControlLink: v.union([urlSchema, v.literal('')]),
+	sourceControlType: v.optional(v.picklist(sourceControlTypeValues)),
+	chatLink: v.union([urlSchema, v.literal('')]),
+	chatType: v.optional(v.picklist(chatTypeValues)),
+	projectManagementLink: v.union([urlSchema, v.literal('')]),
+	projectManagementType: v.optional(v.picklist(projectManagementTypeValues)),
+	projectId: v.optional(v.string()),
+	createdAt: v.optional(v.date()),
+	updatedAt: v.optional(v.date()),
 });
 
-export type ProjectLinksInput = z.infer<typeof projectLinksSchema>;
+export type ProjectLinksInput = v.InferInput<typeof projectLinksSchema>;

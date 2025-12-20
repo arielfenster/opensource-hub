@@ -1,17 +1,10 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 import { userSchema } from '../user/user.schema';
 import { imageSchema } from '../common/image.schema';
 
-export const signupSchema = userSchema
-	.pick({
-		firstName: true,
-		lastName: true,
-		email: true,
-		password: true,
-		bio: true,
-	})
-	.extend({
-		image: imageSchema.optional(),
-	});
+export const signupSchema = v.object({
+	...userSchema.entries,
+	image: v.optional(imageSchema),
+});
 
-export type SignupInput = z.infer<typeof signupSchema>;
+export type SignupInput = v.InferInput<typeof signupSchema>;

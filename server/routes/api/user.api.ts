@@ -2,14 +2,14 @@ import { loggedInMiddleware } from '$/server/modules/auth/logged-in.middleware';
 import { usersHandler } from '$/server/modules/users/users.handler';
 import { updatePersonalInfoSchema } from '$/shared/schemas/user/update-personal-info.schema';
 import { updateSecurityInfoSchema } from '$/shared/schemas/user/update-security-info.schema';
-import { zValidator } from '@hono/zod-validator';
+import { vValidator } from '@hono/valibot-validator';
 import { Hono } from 'hono';
 
 export const userRouter = new Hono()
 	.post(
 		'/update-personal',
 		loggedInMiddleware,
-		zValidator('json', updatePersonalInfoSchema),
+		vValidator('json', updatePersonalInfoSchema),
 		async (c) => {
 			try {
 				const user = await usersHandler.updatePersonalInfo(c);
@@ -23,7 +23,7 @@ export const userRouter = new Hono()
 	.post(
 		'/update-security',
 		loggedInMiddleware,
-		zValidator('json', updateSecurityInfoSchema),
+		vValidator('json', updateSecurityInfoSchema),
 		async (c) => {
 			try {
 				await usersHandler.updateSecurityInfo(c);

@@ -1,11 +1,18 @@
-import {
-	technologyGroupNameEnum,
-	type Technology,
-	type TechnologyGroup,
-} from '$/server/database/schemas';
+export const technologyGroupNameValues = [
+	'languages',
+	'frameworks',
+	'databases',
+	'infra',
+	'services',
+	'developerTools',
+	'clouds',
+] as const;
+export type TechnologyGroupName = (typeof technologyGroupNameValues)[number];
 
-export type TechnologyGroupData = TechnologyGroup & { technologies: Technology[] };
+type Technology = { id: string; name: string; groupId: string };
+type TechnologyGroup = {
+	id: string;
+	name: TechnologyGroupName;
+};
+
 export type TechnologyData = Technology & { group: TechnologyGroup };
-
-export const technologyGroupNames = [...technologyGroupNameEnum.enumValues] as const;
-export type TechnologyName = (typeof technologyGroupNames)[number];

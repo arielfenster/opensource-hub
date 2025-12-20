@@ -1,6 +1,6 @@
 import { loginSchema } from '$/shared/schemas/auth/login.schema';
 import { signupSchema } from '$/shared/schemas/auth/signup.schema';
-import { zValidator } from '@hono/zod-validator';
+import { vValidator } from '@hono/valibot-validator';
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { loginHandler } from '../../modules/auth/login.handler';
@@ -10,7 +10,7 @@ import { usersHandler } from '$/server/modules/users/users.handler';
 import { guestMiddleware } from '$/server/modules/auth/guest.middleware';
 
 export const authRouter = new Hono()
-	.post('/login', guestMiddleware, zValidator('json', loginSchema), async (c) => {
+	.post('/login', guestMiddleware, vValidator('json', loginSchema), async (c) => {
 		try {
 			await loginHandler.loginWithEmailPassword(c);
 			return c.redirect('/projects');
@@ -18,7 +18,7 @@ export const authRouter = new Hono()
 			throw new HTTPException(400, { message: 'Incorrect email or password' });
 		}
 	})
-	.post('/signup', guestMiddleware, zValidator('json', signupSchema), async (c) => {
+	.post('/signup', guestMiddleware, vValidator('json', signupSchema), async (c) => {
 		try {
 			await signupHandler.signupWithEmailPassword(c);
 			return c.redirect('/projects');

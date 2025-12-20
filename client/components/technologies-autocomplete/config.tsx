@@ -1,4 +1,4 @@
-import type { TechnologyName } from '$/shared/types/technologies';
+import type { TechnologyGroupName } from '$/shared/types/technologies';
 import { Cloud, Code, CreditCard, Database, Layers, Server, Settings } from 'lucide-react';
 import type { ElementType } from 'react';
 
@@ -8,7 +8,7 @@ type TechnologyConfig = {
 	className: string;
 };
 
-export const config: Record<TechnologyName, TechnologyConfig> = {
+export const config: Record<TechnologyGroupName, TechnologyConfig> = {
 	languages: {
 		icon: Code,
 		label: 'Language',

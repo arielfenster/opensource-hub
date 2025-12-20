@@ -1,7 +1,7 @@
-import type { PrivateUserInfo, UserDetails } from '$/shared/types/users';
+import type { PrivateUserInfo, User, UserDetails } from '$/shared/types/users';
 import { eq } from 'drizzle-orm';
 import { db } from '../../database/db';
-import { users, type User } from '../../database/schemas';
+import { users } from '../../database/schemas';
 import { DataAccessor } from '../dal/data-accessor';
 import type { CreateUserDTO } from './dto/create-user.dto';
 import { FindUserDTO } from './dto/find-user.dto';

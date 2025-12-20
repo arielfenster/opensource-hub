@@ -14,8 +14,8 @@ import {
 	projectGeneralInfoSchema,
 	type ProjectGeneralInfoInput,
 } from '$/shared/schemas/project/project-general-info.schema';
-import { projectTeamPositions, type ProjectTeamPosition } from '$/shared/types/projects';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { projectTeamPositionValues, type ProjectTeamPosition } from '$/shared/types/projects';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useEffect, useMemo } from 'react';
 import { FormProvider, useFieldArray, useForm, useFormContext } from 'react-hook-form';
 
@@ -24,7 +24,7 @@ export function GeneralInfoStep() {
 	const { formId } = useStep();
 
 	const formMethods = useForm<ProjectGeneralInfoInput>({
-		resolver: zodResolver(projectGeneralInfoSchema),
+		resolver: valibotResolver(projectGeneralInfoSchema),
 		defaultValues: {
 			...data,
 			keyFeatures: data.keyFeatures ?? [{ feature: '' }],
@@ -143,7 +143,7 @@ function TeamPositionsSection() {
 
 	const selectPositionItems = useMemo(
 		() =>
-			projectTeamPositions.map((position) => ({
+			projectTeamPositionValues.map((position) => ({
 				label: position,
 				value: position,
 			})),

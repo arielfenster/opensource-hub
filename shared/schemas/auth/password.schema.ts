@@ -1,9 +1,11 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 
 export const MIN_PASSWORD_LENGTH = 8;
 
-export const passwordSchema = z
-	.string()
-	.min(MIN_PASSWORD_LENGTH, {
-		message: `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`,
-	});
+export const passwordSchema = v.pipe(
+	v.string(),
+	v.minLength(
+		MIN_PASSWORD_LENGTH,
+		`Password must be at least ${MIN_PASSWORD_LENGTH} characters long`,
+	),
+);

@@ -1,18 +1,16 @@
-import { technologies, technologyGroups } from '$/server/database/schemas';
-import { createSelectSchema } from 'drizzle-zod';
-import z from 'zod';
+import * as v from 'valibot';
 
-export const projectTechnologiesSchema = z.object({
-	technologies: z.array(
-		createSelectSchema(technologies, {
-			id: () => z.nanoid(),
-			groupId: () => z.nanoid(),
-		}).extend({
-			group: createSelectSchema(technologyGroups, {
-				id: () => z.nanoid(),
+export const projectTechnologiesSchema = v.object({
+	technologies: v.array(
+		v.object({
+			id: v.string(),
+			name: v.string(),
+			group: v.object({
+				id: v.string(),
+				name: v.string(),
 			}),
 		}),
 	),
 });
 
-export type ProjectTechnologiesInput = z.infer<typeof projectTechnologiesSchema>;
+export type ProjectTechnologiesInput = v.InferInput<typeof projectTechnologiesSchema>;

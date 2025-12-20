@@ -1,19 +1,20 @@
-import { users } from '$/server/database/schemas';
-import { createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
 import { passwordSchema } from '../auth/password.schema';
-import z from 'zod';
 
 export const MAX_BIO_LENGTH = 200;
 
-export const userSchema = createSelectSchema(users, {
-	firstName: (schema) => schema.min(2),
-	lastName: (schema) => schema.min(2),
-	email: () => z.email().toLowerCase(),
-	password: () => passwordSchema,
-	bio: (schema) =>
-		schema
-			.max(MAX_BIO_LENGTH, {
-				error: `Bio cannot contain more than ${MAX_BIO_LENGTH} characters`,
-			})
-			.optional(),
+export const userSchema = v.object({
+	firstName: v.pipe(v.string(), v.minLength(2)),
+	lastName: v.pipe(v.string(), v.minLength(2)),
+	email: v.pipe(v.string(), v.email()),
+	password: passwordSchema,
+	bio: v.nullish(
+		v.pipe(
+			v.string(),
+			v.maxLength(
+				MAX_BIO_LENGTH,
+				`Bio cannot contain more than ${MAX_BIO_LENGTH} characters`,
+			),
+		),
+	),
 });

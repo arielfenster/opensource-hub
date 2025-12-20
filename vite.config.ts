@@ -18,9 +18,6 @@ export default defineConfig({
 			adapter: bunAdapter,
 		}),
 	],
-	ssr: {
-		external: ['react', 'react-dom/client'],
-	},
 	resolve: {
 		alias: {
 			'$/server': resolve(__dirname, './server'),
@@ -43,7 +40,7 @@ export default defineConfig({
 				extend: true,
 				inlineDynamicImports: false,
 			},
-			external: ['react', 'react-dom/client'],
+			external: ['react', 'react-dom/client', 'react/jsx-runtime'],
 		},
 	},
 });

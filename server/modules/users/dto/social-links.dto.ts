@@ -1,5 +1,5 @@
-import type { SocialLink } from '$/server/database/schemas';
 import type { SocialLinkInput } from '$/shared/schemas/user/social-links.schema';
+import type { SocialLink } from '$/shared/types/users';
 
 type SocialLinkInputWithId = SocialLinkInput & { id: string };
 

@@ -1,13 +1,12 @@
-import { projects } from '$/server/database/schemas';
-import { createSelectSchema } from 'drizzle-zod';
-import z from 'zod';
+import { projectStatusValues, projectTeamPositionValues } from '$/shared/types/projects';
+import * as v from 'valibot';
 
-export const projectSchema = createSelectSchema(projects, {
-	name: (schema) => schema.min(2).max(40),
-	shortDescription: (schema) => schema.min(2).max(100),
-	longDescription: (schema) => schema.min(2).max(1000),
-	status: (schema) => schema.optional().default('Created'),
-	keyFeatures: (schema) => schema.optional(),
-	teamPositions: (schema) => schema.optional(),
-	ownerId: () => z.nanoid(),
+export const projectSchema = v.object({
+	name: v.pipe(v.string(), v.minLength(2), v.maxLength(40)),
+	shortDescription: v.pipe(v.string(), v.minLength(2), v.maxLength(100)),
+	longDescription: v.pipe(v.string(), v.minLength(2), v.maxLength(1000)),
+	status: v.optional(v.picklist(projectStatusValues), 'Created'),
+	keyFeatures: v.optional(v.array(v.string())),
+	teamPositions: v.optional(v.array(v.picklist(projectTeamPositionValues))),
+	ownerId: v.pipe(v.string(), v.nanoid()),
 });

@@ -6,7 +6,7 @@ import {
 	projectLinksSchema,
 	type ProjectLinksInput,
 } from '$/shared/schemas/project/project-links.schema';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -19,7 +19,7 @@ export function ProjectLinksStep() {
 		formState: { errors },
 		getValues,
 	} = useForm<ProjectLinksInput>({
-		resolver: zodResolver(projectLinksSchema),
+		resolver: valibotResolver(projectLinksSchema),
 		defaultValues: data.links ?? {},
 	});
 

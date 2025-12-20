@@ -1,5 +1,5 @@
 import { passwordService } from '$/server/modules/auth/password.service';
-import { technologyGroupNames } from '$/shared/types/technologies';
+import { technologyGroupNameValues } from '$/shared/types/technologies';
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import {
@@ -7,12 +7,12 @@ import {
 	technologies,
 	technologyGroups,
 	users,
-	type User,
 	projectsToTechnologies,
-	type Project,
 	projectLinks,
 } from '../schemas';
 import { projectsService } from '$/server/modules/projects/projects.service';
+import type { User } from '$/shared/types/users';
+import type { Project } from '$/shared/types/projects';
 
 async function seed() {
 	const user = await insertUsers();
@@ -43,7 +43,7 @@ async function insertUsers() {
 async function insertTechnologies() {
 	const groups = await db
 		.insert(technologyGroups)
-		.values(technologyGroupNames.map((name) => ({ name })))
+		.values(technologyGroupNameValues.map((name) => ({ name })))
 		.returning();
 
 	const [

@@ -2,8 +2,9 @@ import { index, pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
 import { id, createdAt, updatedAt } from './utils';
 import { relations } from 'drizzle-orm';
 import { socialLinks, usersToProjects } from '.';
+import { userRoleValues } from '$/shared/types/users';
 
-export const userRoleEnum = pgEnum('userRoleEnum', ['User', 'Admin']);
+export const userRoleEnum = pgEnum('userRoleEnum', userRoleValues);
 
 export const users = pgTable(
 	'users',
@@ -29,6 +30,3 @@ export const userRelations = relations(users, ({ many }) => ({
 	socialLinks: many(socialLinks),
 	projects: many(usersToProjects),
 }));
-
-export type User = typeof users.$inferSelect;
-export type UserRole = User['role'];

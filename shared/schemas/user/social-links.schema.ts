@@ -1,14 +1,11 @@
-import { socialLinks } from '$/server/database/schemas';
-import { createInsertSchema } from 'drizzle-zod';
-import { z } from 'zod';
+import { socialLinkTypeValues } from '$/shared/types/users';
+import * as v from 'valibot';
 import { urlSchema } from '../common/url.schema';
 
-export const socialLinkSchema = createInsertSchema(socialLinks, {
-	url: () => urlSchema,
-}).pick({
-	id: true,
-	url: true,
-	type: true,
+export const socialLinkSchema = v.object({
+	id: v.optional(v.string()),
+	url: urlSchema,
+	type: v.picklist(socialLinkTypeValues),
 });
 
-export type SocialLinkInput = z.infer<typeof socialLinkSchema>;
+export type SocialLinkInput = v.InferInput<typeof socialLinkSchema>;
