@@ -17,26 +17,20 @@ export function TechnologiesAutoCompleteContainer(
 
 export type TechnologiesAutoCompleteProps = {
 	data: TechnologyData[];
-	onSelect?: (item: TechnologyData) => void;
-	onRemove?: (item: TechnologyData) => void;
 	className?: string;
 };
 
-function TechnologiesAutoComplete({
-	data,
-	onSelect,
-	onRemove,
-	className,
-}: TechnologiesAutoCompleteProps) {
+function TechnologiesAutoComplete({ data, className }: TechnologiesAutoCompleteProps) {
 	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologiesStore();
 
 	function renderEmptyState() {
 		return (
-			<div className='p-3 text-sm text-gray-600'>
+			<div className='text-md p-3 text-gray-600'>
 				<p>No matches found.</p>
 				<button
 					className='mt-1 text-blue-600 underline hover:text-blue-800'
 					onClick={console.log}
+					type='button'
 				>
 					Request a new technology
 				</button>
