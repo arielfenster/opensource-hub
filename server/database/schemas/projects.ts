@@ -40,5 +40,3 @@ export const projectRelations = relations(projects, ({ one, many }) => ({
 	links: one(projectLinks),
 	technologies: many(projectsToTechnologies),
 }));
-
-export type Project = typeof projects.$inferSelect;

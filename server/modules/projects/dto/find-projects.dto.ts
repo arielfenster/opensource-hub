@@ -1,5 +1,6 @@
-import { projects, type Project } from '$/server/database/schemas';
-import type { PaginationInput } from '$/shared/schemas/common/pagination.schema';
+import { projects } from '$/server/database/schemas';
+import type { PaginationOutput } from '$/shared/schemas/common/pagination.schema';
+import type { Project } from '$/shared/types/projects';
 import { SQL, asc, desc } from 'drizzle-orm';
 
 type OrderBy = {
@@ -20,7 +21,7 @@ export class FindProjectsDTO {
 		public readonly orderBy?: SQL<unknown>[],
 	) {}
 
-	static create(input: PaginationInput, options?: FindProjectsOptions) {
+	static create(input: PaginationOutput, options?: FindProjectsOptions) {
 		const { limit, skip } = input;
 		const orderByClause = this.buildOrderByClause(options?.orderBy);
 

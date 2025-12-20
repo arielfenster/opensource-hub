@@ -1,6 +1,11 @@
 import { Card } from '$/client/components/ui/card';
-import type { RecentProject } from '$/shared/types/projects';
+import type { ProjectDetails } from '$/shared/types/projects';
 import { useMemo } from 'react';
+
+export type RecentProject = Pick<
+	ProjectDetails,
+	'id' | 'name' | 'shortDescription' | 'technologies'
+>;
 
 export function SummaryProjectCard({ name, shortDescription, technologies }: RecentProject) {
 	const technologiesList = useMemo(

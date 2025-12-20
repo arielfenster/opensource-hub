@@ -7,12 +7,12 @@ import {
 	technologies,
 	technologyGroups,
 	users,
-	type User,
 	projectsToTechnologies,
-	type Project,
 	projectLinks,
 } from '../schemas';
 import { projectsService } from '$/server/modules/projects/projects.service';
+import type { User } from '$/shared/types/users';
+import type { Project } from '$/shared/types/projects';
 
 async function seed() {
 	const user = await insertUsers();

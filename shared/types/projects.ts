@@ -1,15 +1,5 @@
-import { type Project, type ProjectLinks } from '$/server/database/schemas';
+import type { ProjectLinks } from './project-links';
 import type { TechnologyData } from './technologies';
-
-export type ProjectDetails = Project & {
-	links: ProjectLinks | null;
-	technologies: TechnologyData[];
-};
-
-export type RecentProject = Pick<
-	ProjectDetails,
-	'id' | 'name' | 'shortDescription' | 'technologies'
->;
 
 export const projectStatusValues = ['Created', 'In Progress', 'Finished', 'Aborted'] as const;
 export const projectTeamPositionValues = [
@@ -25,3 +15,22 @@ export const projectTeamPositionValues = [
 
 export type ProjectStatus = (typeof projectStatusValues)[number];
 export type ProjectTeamPosition = (typeof projectTeamPositionValues)[number];
+
+export type Project = {
+	id: string;
+	name: string;
+	slug: string;
+	shortDescription: string;
+	longDescription: string;
+	status: ProjectStatus;
+	keyFeatures: string[];
+	teamPositions: ProjectTeamPosition[];
+	ownerId: string;
+	createdAt: Date;
+	updatedAt: Date;
+};
+
+export type ProjectDetails = Project & {
+	links: ProjectLinks | null;
+	technologies: TechnologyData[];
+};

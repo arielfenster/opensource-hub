@@ -1,10 +1,9 @@
 import { Button } from '$/client/components/ui/button';
 import { getImagePath } from '$/client/lib/images';
 import { PREFETCHED_RECENT_PROJECTS_KEY } from '$/shared/constants';
-import { type RecentProject } from '$/shared/types/projects';
 import { useQueryClient } from '@tanstack/react-query';
 import { PageSection } from './page-section';
-import { SummaryProjectCard } from './summary-project-card';
+import { SummaryProjectCard, type RecentProject } from './summary-project-card';
 
 export function HomePage() {
 	const recentProjects = useQueryClient().getQueryData<RecentProject[]>(

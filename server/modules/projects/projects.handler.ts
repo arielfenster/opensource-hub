@@ -1,11 +1,11 @@
-import type { PaginationInput } from '$/shared/schemas/common/pagination.schema';
-import type { Context } from 'hono';
-import { projectsService } from './projects.service';
+import type { PaginationOutput } from '$/shared/schemas/common/pagination.schema';
 import type { CreateProjectInput } from '$/shared/schemas/project/create-project.schema';
+import type { Context } from 'hono';
 import { sessionService } from '../session/session.service';
 import { FindProjectsDTO } from './dto/find-projects.dto';
+import { projectsService } from './projects.service';
 
-type ListProjectsContext = Context<{}, any, { out: { query: PaginationInput } }>;
+type ListProjectsContext = Context<{}, any, { out: { query: PaginationOutput } }>;
 
 type CreateProjectContext = Context<{}, any, { out: { json: CreateProjectInput } }>;
 

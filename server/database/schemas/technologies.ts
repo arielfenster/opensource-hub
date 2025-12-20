@@ -11,8 +11,6 @@ export const technologyGroups = pgTable('technologyGroups', {
 	name: technologyGroupNameEnum('name').notNull().unique(),
 });
 
-export type TechnologyGroup = typeof technologyGroups.$inferSelect;
-
 export const technologyGroupRelations = relations(technologyGroups, ({ many }) => ({
 	technologies: many(technologies),
 }));
@@ -30,8 +28,6 @@ export const technologies = pgTable(
 		uniqueNamePerGroup: uniqueIndex('unique_name_per_group').on(table.name, table.groupId),
 	}),
 );
-
-export type Technology = typeof technologies.$inferSelect;
 
 export const technologyRelations = relations(technologies, ({ one, many }) => ({
 	group: one(technologyGroups, {

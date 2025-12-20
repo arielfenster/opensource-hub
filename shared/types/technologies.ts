@@ -1,8 +1,3 @@
-import { type Technology, type TechnologyGroup } from '$/server/database/schemas';
-
-export type TechnologyGroupData = TechnologyGroup & { technologies: Technology[] };
-export type TechnologyData = Technology & { group: TechnologyGroup };
-
 export const technologyGroupNameValues = [
 	'languages',
 	'frameworks',
@@ -12,4 +7,12 @@ export const technologyGroupNameValues = [
 	'developerTools',
 	'clouds',
 ] as const;
-export type TechnologyName = (typeof technologyGroupNameValues)[number];
+export type TechnologyGroupName = (typeof technologyGroupNameValues)[number];
+
+type Technology = { id: string; name: string; groupId: string };
+type TechnologyGroup = {
+	id: string;
+	name: TechnologyGroupName;
+};
+
+export type TechnologyData = Technology & { group: TechnologyGroup };

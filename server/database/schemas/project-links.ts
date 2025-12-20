@@ -37,5 +37,3 @@ export const projectLinksRelations = relations(projectLinks, ({ one }) => ({
 		references: [projects.id],
 	}),
 }));
-
-export type ProjectLinks = typeof projectLinks.$inferSelect;

@@ -40,14 +40,7 @@ export default defineConfig({
 				extend: true,
 				inlineDynamicImports: false,
 			},
-			external: [
-				'react',
-				'react-dom/client',
-				'react/jsx-runtime',
-				'drizzle-orm',
-				/^drizzle-orm\/.*/,
-				'$/server/database/schemas',
-			],
+			external: ['react', 'react-dom/client', 'react/jsx-runtime'],
 		},
 	},
 });
