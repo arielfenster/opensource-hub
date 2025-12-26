@@ -9,6 +9,7 @@
 	--color-celestial-blue: #3e92cc;
 
 	--animate-spin-slow: spin-slow 1s linear infinite;
+	--animate-fade: fade 0.1s linear;
 
 	--color-chip-1: oklch(0.75 0.2 60);
 	--color-chip-2: oklch(0.7 0.22 142);
@@ -24,6 +25,15 @@
 		}
 		100% {
 			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes fade {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
 		}
 	}
 }
