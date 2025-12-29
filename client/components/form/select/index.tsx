@@ -52,7 +52,10 @@ const SingleSelect = forwardRef<HTMLSelectElement, SingleSelectProps>(function S
 ) {
 	return (
 		<select
-			className='text-md bg-ghost-white cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none'
+			className={cn(
+				'text-md cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none',
+				className,
+			)}
 			name={name}
 			id={name}
 			onChange={(e) => {

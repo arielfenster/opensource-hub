@@ -21,7 +21,7 @@ export function ProjectTechnologiesStep() {
 						onStepSubmit({ technologies: selectedTechnologies });
 					}}
 				>
-					<TechnologiesAutoCompleteContainer className='w-full' />
+					<TechnologiesAutoCompleteContainer className='w-full' requestNewTechnology />
 				</form>
 				{error && (
 					<div className='border-2 border-red-600 bg-red-100 p-4'>

@@ -7,7 +7,7 @@ import {
 	FaGoogle as GoogleLogo,
 } from 'react-icons/fa';
 import { Button, type ButtonProps } from './button';
-import { startCase } from '$/client/lib/utils';
+import { capitalize } from '$/client/lib/utils';
 
 const SOCIAL_LOGOS: Record<SocialAuthProvider, JSX.Element> = {
 	google: <GoogleLogo size={'25px'} />,
@@ -33,7 +33,7 @@ export function SocialAuthButton({ provider, className, ...rest }: Props) {
 			{...rest}
 		>
 			{SOCIAL_LOGOS[provider]}
-			{startCase(provider)}
+			{capitalize(provider)}
 		</Button>
 	);
 }
