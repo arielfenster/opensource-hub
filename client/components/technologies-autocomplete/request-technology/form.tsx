@@ -38,7 +38,10 @@ export const RequestTechnologyForm = forwardRef<HTMLFormElement, RequestTechnolo
 		return (
 			<form
 				ref={ref}
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={(event) => {
+					event.stopPropagation();
+					handleSubmit(onSubmit)(event);
+				}}
 				className='flex flex-col items-center gap-2'
 			>
 				<TextField

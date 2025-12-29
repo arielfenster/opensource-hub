@@ -25,7 +25,7 @@ type TechnologiesAutoCompleteProps = {
 function TechnologiesAutoComplete({
 	data,
 	className,
-	requestNewTechnology = true,
+	requestNewTechnology = false,
 }: TechnologiesAutoCompleteProps) {
 	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologiesStore();
 
