@@ -1,4 +1,4 @@
-import { loggedInMiddleware } from '$/server/modules/auth/logged-in.middleware';
+import { loggedInMiddleware } from '$/server/modules/auth/middlewares/logged-in.middleware';
 import { projectsHandler } from '$/server/modules/projects/projects.handler';
 import { paginationSchema } from '$/shared/schemas/common/pagination.schema';
 import { createProjectSchema } from '$/shared/schemas/project/create-project.schema';

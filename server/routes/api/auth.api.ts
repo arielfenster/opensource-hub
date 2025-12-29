@@ -5,9 +5,9 @@ import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { loginHandler } from '../../modules/auth/login.handler';
 import { signupHandler } from '../../modules/auth/signup.handler';
-import { loggedInMiddleware } from '$/server/modules/auth/logged-in.middleware';
+import { loggedInMiddleware } from '$/server/modules/auth/middlewares/logged-in.middleware';
 import { usersHandler } from '$/server/modules/users/users.handler';
-import { guestMiddleware } from '$/server/modules/auth/guest.middleware';
+import { guestMiddleware } from '$/server/modules/auth/middlewares/guest.middleware';
 
 export const authRouter = new Hono()
 	.post('/login', guestMiddleware, vValidator('json', loginSchema), async (c) => {
