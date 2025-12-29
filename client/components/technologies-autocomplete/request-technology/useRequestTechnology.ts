@@ -2,7 +2,11 @@ import { useRpcQueryClient } from '$/client/providers/rpc-query-provider';
 import type { RequestTechnologyInput } from '$/shared/schemas/technologies/request-technology.schema';
 import { useMutation } from '@tanstack/react-query';
 
-export function useRequestTechnology() {
+type Props = {
+	onSuccess?: () => void;
+};
+
+export function useRequestTechnology({ onSuccess }: Props) {
 	const rpcClient = useRpcQueryClient();
 
 	const mutation = useMutation({
@@ -12,9 +16,7 @@ export function useRequestTechnology() {
 		},
 		async onSuccess(response) {
 			if (response.ok) {
-				// TODO: show message in the dialog and then close it, or
-				// show a toast and close the dialog
-				console.log(await response.json());
+				onSuccess?.();
 			} else {
 				const errorText = await response.text();
 				throw new Error(errorText);

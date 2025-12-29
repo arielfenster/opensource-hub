@@ -4,10 +4,23 @@ import { Dialog } from '../../ui/dialog';
 import { RequestTechnologyForm } from './form';
 import { useRequestTechnology } from './useRequestTechnology';
 import { useDialog } from '../../ui/dialog/context';
+import toast from 'react-hot-toast';
 
 export function RequestTechnologyDialogContent() {
 	const formRef = useRef<HTMLFormElement | null>(null);
-	const { submit, loading, error } = useRequestTechnology();
+	const { submit, loading, error } = useRequestTechnology({
+		onSuccess() {
+			toast.success('Technology request submitted successfully', {
+				style: {
+					backgroundColor: '#16A34A',
+					color: '#FFFAFF',
+					fontWeight: 'bolder',
+				},
+				duration: 3000,
+			});
+			setOpen(false);
+		},
+	});
 	const { setOpen } = useDialog();
 
 	return (
