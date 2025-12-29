@@ -1,7 +1,8 @@
 import { db } from '$/server/database/db';
-import { projectsToTechnologies } from '$/server/database/schemas';
+import { projectsToTechnologies, technologyRequests } from '$/server/database/schemas';
 import type { TechnologyData } from '$/shared/types/technologies';
 import { DataAccessor } from '../dal/data-accessor';
+import type { RequestTechnologyDTO } from './dto/request-technology.dto';
 
 export class TechnologiesDataAccessor extends DataAccessor {
 	async findAllTechnologies(): Promise<TechnologyData[]> {
@@ -19,6 +20,16 @@ export class TechnologiesDataAccessor extends DataAccessor {
 		}));
 
 		await this.db.insert(projectsToTechnologies).values(links).returning().execute();
+	}
+
+	async createTechnologyRequest(dto: RequestTechnologyDTO) {
+		const [request] = await this.db
+			.insert(technologyRequests)
+			.values(dto)
+			.returning()
+			.execute();
+
+		return request;
 	}
 }
 
