@@ -12,7 +12,8 @@ export function useRequestTechnology() {
 		},
 		async onSuccess(response) {
 			if (response.ok) {
-
+				// TODO: show message in the dialog and then close it, or
+				// show a toast and close the dialog
 				console.log(await response.json());
 			} else {
 				const errorText = await response.text();

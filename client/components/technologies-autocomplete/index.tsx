@@ -29,7 +29,7 @@ function TechnologiesAutoComplete({
 }: TechnologiesAutoCompleteProps) {
 	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologiesStore();
 
-	function renderEmptyState() {
+	function renderEmptyState(closeDropdown: () => void) {
 		return (
 			<div className='text-md p-3 text-gray-600'>
 				<p>No matches found.</p>
@@ -39,6 +39,7 @@ function TechnologiesAutoComplete({
 							<button
 								className='mt-1 text-blue-600 underline hover:text-blue-800'
 								type='button'
+								onClick={closeDropdown}
 							>
 								Request a new technology
 							</button>
