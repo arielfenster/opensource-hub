@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRpcQueryClient } from '../providers/rpc-query-provider';
 
+// TODO: move this to technologies autocomplete folder
 export function useFetchTechnologies() {
 	const rpcClient = useRpcQueryClient();
 

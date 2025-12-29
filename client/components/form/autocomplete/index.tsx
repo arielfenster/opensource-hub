@@ -1,8 +1,9 @@
 import { cn } from '$/client/lib/utils';
-import type { ReactNode } from 'react';
+import { useCallback, type ReactNode } from 'react';
 import { Input, type InputProps } from '../input';
 import { useAutoComplete } from './hook';
 import { Dropdown } from '../../ui/dropdown';
+import { useDropdown } from '../../ui/dropdown/context';
 
 import './index.css';
 
@@ -11,7 +12,7 @@ export type AutoCompleteProps<T> = Omit<InputProps, 'onSelect'> & {
 	valueKey: keyof T;
 	onSelect: (option: T) => void;
 	renderOption: (option: T) => ReactNode;
-	renderEmptyState?: () => React.ReactNode;
+	renderEmptyState?: (closeDropdown: () => void) => React.ReactNode;
 };
 
 export function AutoComplete<T>(props: AutoCompleteProps<T>) {
@@ -38,6 +39,9 @@ function AutoCompleteInner<T>({
 		handleSelect,
 		handleKeyDown,
 	} = useAutoComplete({ options, valueKey, onSelect });
+	const { setOpen } = useDropdown();
+
+	const closeDropdown = useCallback(() => setOpen(false), [setOpen]);
 
 	return (
 		<>
@@ -65,7 +69,7 @@ function AutoCompleteInner<T>({
 								{renderOption(option)}
 							</Dropdown.Item>
 						))
-					: renderEmptyState()}
+					: renderEmptyState(closeDropdown)}
 			</Dropdown.Content>
 		</>
 	);

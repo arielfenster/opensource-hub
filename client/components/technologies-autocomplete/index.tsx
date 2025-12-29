@@ -6,6 +6,8 @@ import { SearchIcon } from 'lucide-react';
 import { AutoComplete } from '../form/autocomplete';
 import { config } from './config';
 import { TechnologyChip } from './technology-chip';
+import { Dialog } from '../ui/dialog';
+import { RequestTechnologyDialogContent } from './request-technology/dialog-content';
 
 export function TechnologiesAutoCompleteContainer(
 	props: Omit<TechnologiesAutoCompleteProps, 'data'>,
@@ -15,31 +17,36 @@ export function TechnologiesAutoCompleteContainer(
 	return <TechnologiesAutoComplete data={technologies} {...props} />;
 }
 
-export type TechnologiesAutoCompleteProps = {
+type TechnologiesAutoCompleteProps = {
 	data: TechnologyData[];
-	onSelect?: (item: TechnologyData) => void;
-	onRemove?: (item: TechnologyData) => void;
 	className?: string;
+	requestNewTechnology?: boolean;
 };
-
 function TechnologiesAutoComplete({
 	data,
-	onSelect,
-	onRemove,
 	className,
+	requestNewTechnology = false,
 }: TechnologiesAutoCompleteProps) {
 	const { selectedTechnologies, addTechnology, removeTechnology } = useTechnologiesStore();
 
-	function renderEmptyState() {
+	function renderEmptyState(closeDropdown: () => void) {
 		return (
-			<div className='p-3 text-sm text-gray-600'>
+			<div className='text-md p-3 text-gray-600'>
 				<p>No matches found.</p>
-				<button
-					className='mt-1 text-blue-600 underline hover:text-blue-800'
-					onClick={console.log}
-				>
-					Request a new technology
-				</button>
+				{requestNewTechnology && (
+					<Dialog>
+						<Dialog.Trigger>
+							<button
+								className='mt-1 text-blue-600 underline hover:text-blue-800'
+								type='button'
+								onClick={closeDropdown}
+							>
+								Request a new technology
+							</button>
+						</Dialog.Trigger>
+						<RequestTechnologyDialogContent />
+					</Dialog>
+				)}
 			</div>
 		);
 	}

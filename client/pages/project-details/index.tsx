@@ -14,7 +14,7 @@ export function ProjectDetailsPage() {
 	)!;
 
 	return (
-		<div className='py-8'>
+		<div className='flex flex-col gap-3 py-8'>
 			<h3 className='text-royal-blue text-lg font-medium'>Project details</h3>
 			<div className='grid grid-cols-[2fr_1fr] gap-8'>
 				<div className='flex flex-col gap-8'>

@@ -50,7 +50,7 @@ class ProjectsService {
 
 	async createProject(data: CreateProjectInput, ownerId: string) {
 		const slug = this.generateProjectSlug(data.name);
-		const keyFeatures = (data.keyFeatures ?? []).map((value) => value.feature);
+		const keyFeatures = (data.keyFeatures ?? []).map((value) => value.feature).filter(Boolean);
 		const teamPositions = data.teamPositions ?? [];
 
 		return executeDataOperation<Project>(async ({ projects, technologies }) => {
