@@ -151,7 +151,7 @@ function TeamPositionsSection() {
 	);
 
 	return (
-		<FieldControl className='w-full'>
+		<FieldControl>
 			<LabelControl label='Team Positions' name='teamPositions'>
 				<Select
 					className='w-full'
