@@ -41,7 +41,7 @@ class SessionService {
 			return null;
 		}
 
-		const session = await sessionService.getSessionById(sessionCookie);
+		const session = await this.getSessionById(sessionCookie);
 		if (!session) {
 			return null;
 		}
