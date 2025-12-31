@@ -14,7 +14,7 @@ function Tabs({ defaultTab, children }: PropsWithChildren<{ defaultTab: string }
 }
 
 function TabsList({ className, children }: CommonProps) {
-	return <div className={className}>{children}</div>;
+	return <aside className={className}>{children}</aside>;
 }
 
 function TabsTrigger({ name, className, children }: CommonPropsWithName) {
@@ -25,10 +25,8 @@ function TabsTrigger({ name, className, children }: CommonPropsWithName) {
 		<button
 			onClick={() => setActiveTab(name)}
 			className={cn(
-				'cursor-pointer rounded-md px-4 py-2 hover:bg-gray-200',
-				isActive
-					? 'bg-celestial-blue hover:bg-celestial-blue-hover text-white'
-					: 'text-eerie-black',
+				'text-eerie-black cursor-pointer rounded-md px-4 py-2 hover:bg-gray-200',
+				isActive && 'bg-celestial-blue hover:bg-celestial-blue-hover text-white',
 				className,
 			)}
 		>

@@ -1,7 +1,9 @@
 import type { ProjectDetails, ProjectTeamPosition } from '$/shared/types/projects';
 import type { TechnologyData } from '$/shared/types/technologies';
 
+// TODO: remove
 export type SearchFilterType = 'tech' | 'position';
+// TODO: remove
 export type SearchFilter =
 	| {
 			type: 'tech';

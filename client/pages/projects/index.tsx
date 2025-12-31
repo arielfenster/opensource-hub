@@ -7,7 +7,7 @@ import { SearchSection } from './components/search-section';
 import { getFilteredProjects } from './service';
 import { useTeamPositionsStore } from './team-positions.store';
 
-// maybe bring back container components?
+// TODO: maybe bring back container components?
 export function ProjectsPage() {
 	const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } = useProjects({
 		limit: 9,

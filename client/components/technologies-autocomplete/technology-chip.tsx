@@ -7,6 +7,7 @@ type Props = ChipProps & {
 	onClick?: () => void;
 };
 
+// TODO: remove to ui folder?
 export function TechnologyChip({ technology, ...rest }: Props) {
 	return (
 		<Chip className={config[technology.group.name].className} outlined {...rest}>

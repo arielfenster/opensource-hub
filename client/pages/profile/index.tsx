@@ -14,7 +14,7 @@ const TabsType = {
 // TODO: add the tab to the url, so that the user can share the link to a specific tab,
 // either with hash or query parameter
 export function ProfilePage() {
-	const user = useAuth().user!;
+	const { user } = useAuth();
 
 	return (
 		<div className='flex flex-col gap-8 px-4 py-8'>
@@ -44,7 +44,7 @@ export function ProfilePage() {
 					</Tabs.List>
 					<Tabs.ContentContainer className='flex-3 shadow-lg'>
 						<Tabs.Content name={TabsType.PERSONAL}>
-							<PersonalInfoTab user={user} />
+							<PersonalInfoTab user={user!} />
 						</Tabs.Content>
 						<Tabs.Content name={TabsType.SECURITY}>
 							<SecurityInfoTab />
