@@ -1,17 +1,6 @@
 import type { ProjectDetails, ProjectTeamPosition } from '$/shared/types/projects';
 import type { TechnologyData } from '$/shared/types/technologies';
 
-export type SearchFilterType = 'tech' | 'position';
-export type SearchFilter =
-	| {
-			type: 'tech';
-			value: TechnologyData;
-	  }
-	| {
-			type: 'position';
-			value: ProjectTeamPosition;
-	  };
-
 export function getFilteredProjects(
 	projects: ProjectDetails[],
 	filterTechnologies: TechnologyData[],

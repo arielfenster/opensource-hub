@@ -1,4 +1,4 @@
-import { TechnologyChip } from '$/client/components/technologies-autocomplete/technology-chip';
+import { TechnologyChip } from '$/client/components/ui/technology-chip';
 import { Card } from '$/client/components/ui/card';
 import { Chip } from '$/client/components/ui/chip';
 import { LinkButton } from '$/client/components/ui/link-button';

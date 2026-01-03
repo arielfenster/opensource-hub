@@ -1,43 +1,24 @@
-import { Spinner } from '$/client/components/ui/spinner';
 import { useProjects } from '$/client/hooks/useProjects';
 import { useTechnologiesStore } from '$/client/stores/technologies.store';
-import { useEffect, useRef } from 'react';
-import { ResultsSection } from './components/results-section';
-import { SearchSection } from './components/search-section';
+import { useInfiniteScroll } from './hooks/useInfiniteScroll';
 import { getFilteredProjects } from './service';
 import { useTeamPositionsStore } from './team-positions.store';
+import { ProjectsView } from './view';
 
-// maybe bring back container components?
 export function ProjectsPage() {
 	const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } = useProjects({
 		limit: 9,
 	});
-	const observationTargetRef = useRef<HTMLDivElement | null>(null);
 
 	const { selectedTechnologies } = useTechnologiesStore();
 	const { selectedPositions } = useTeamPositionsStore();
 
-	useEffect(() => {
-		if (observationTargetRef.current) {
-			const observer = new IntersectionObserver(
-				(entries) => {
-					const entry = entries[0];
-					if (entry.isIntersecting) {
-						if (hasNextPage && !isFetchingNextPage) {
-							fetchNextPage({ cancelRefetch: false });
-						}
-					}
-				},
-				{
-					root: null,
-					rootMargin: '0px',
-					threshold: 1.0,
-				},
-			);
-
-			observer.observe(observationTargetRef.current);
-		}
-	}, [observationTargetRef.current]);
+	const observationTargetRef = useInfiniteScroll({
+		shouldHandleIntersection: hasNextPage && !isFetchingNextPage,
+		onIntersection: () => {
+			fetchNextPage({ cancelRefetch: false });
+		},
+	});
 
 	const filteredProjects = getFilteredProjects(
 		data.pages.flat(),
@@ -46,22 +27,12 @@ export function ProjectsPage() {
 	);
 
 	return (
-		<div className='flex flex-col gap-6 px-4 py-8'>
-			<h1 className='text-royal-blue text-4xl font-semibold'>Discover Projects</h1>
-			<div className='flex flex-col gap-12'>
-				<SearchSection />
-				<ResultsSection projects={filteredProjects} />
-				<div className='self-center' ref={observationTargetRef}>
-					{isFetchingNextPage || isFetching ? (
-						<div className='flex flex-col items-center gap-2'>
-							Loading projects...
-							<Spinner />
-						</div>
-					) : !hasNextPage ? (
-						'No more projects to load'
-					) : null}
-				</div>
-			</div>
-		</div>
+		<ProjectsView
+			filteredProjects={filteredProjects}
+			observationTargetRef={observationTargetRef}
+			isFetchingNextPage={isFetchingNextPage}
+			isFetching={isFetching}
+			hasNextPage={hasNextPage}
+		/>
 	);
 }

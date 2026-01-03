@@ -1,6 +1,5 @@
 import * as v from 'valibot';
 
-// TODO: move this to technologies schemas folder
 export const projectTechnologiesSchema = v.object({
 	technologies: v.array(
 		v.object({
