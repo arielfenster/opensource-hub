@@ -1,4 +1,4 @@
-import { TechnologyChip } from '$/client/components/technologies-autocomplete/technology-chip';
+import { TechnologyChip } from '$/client/components/ui/technology-chip';
 import { Card } from '$/client/components/ui/card';
 import { parseDate } from '$/client/lib/utils';
 import type { ProjectDetails } from '$/shared/types/projects';
@@ -10,9 +10,7 @@ export function ProjectReviewCard({ project }: ProjectReviewCardProps) {
 	return (
 		<Card>
 			<Card.Header className='gap-6'>
-				<Card.Title className='page_title'>
-					{project.name}
-				</Card.Title>
+				<Card.Title className='page_title'>{project.name}</Card.Title>
 				<Card.Description className='line-clamp-none text-lg'>
 					{project.shortDescription}
 				</Card.Description>

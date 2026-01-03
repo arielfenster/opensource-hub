@@ -5,7 +5,7 @@ import type { TechnologyData } from '$/shared/types/technologies';
 import { SearchIcon } from 'lucide-react';
 import { AutoComplete } from '../form/autocomplete';
 import { config } from './config';
-import { TechnologyChip } from './technology-chip';
+import { TechnologyChip } from '../ui/technology-chip';
 import { Dialog } from '../ui/dialog';
 import { RequestTechnologyDialogContent } from './request-technology/dialog-content';
 
