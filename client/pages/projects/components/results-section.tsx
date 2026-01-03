@@ -1,7 +1,7 @@
 import type { ProjectDetails } from '$/shared/types/projects';
 import { ProjectCard } from './project-card';
 
-type ResultsSectionProps = {
+export type ResultsSectionProps = {
 	projects: ProjectDetails[];
 };
 

@@ -19,7 +19,7 @@ export function RecentProjectsSection({ recentProjects }: RecentProjectsSectionP
 	);
 }
 
-export function SummaryProjectCard({ name, shortDescription, technologies }: ProjectDetails) {
+function SummaryProjectCard({ name, shortDescription, technologies }: ProjectDetails) {
 	const technologiesList = useMemo(
 		() => technologies.map((tech) => tech.name).join(', '),
 		[technologies],
