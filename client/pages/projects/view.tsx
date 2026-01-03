@@ -17,7 +17,7 @@ export function ProjectsView({
 }: ProjectsViewProps) {
 	return (
 		<div className='flex flex-col gap-6 px-4 py-8'>
-			<h1 className='text-royal-blue text-4xl font-semibold'>Discover Projects</h1>
+			<h1 className='page_title'>Discover Projects</h1>
 			<div className='flex flex-col gap-12'>
 				<SearchSection />
 				<ResultsSection projects={filteredProjects} />

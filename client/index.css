@@ -37,3 +37,7 @@
 		}
 	}
 }
+
+.page_title {
+	@apply text-royal-blue text-4xl font-semibold;
+}

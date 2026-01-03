@@ -1,29 +1,27 @@
 import { Card } from '$/client/components/ui/card';
 import type { ProjectDetails } from '$/shared/types/projects';
-import { useMemo } from 'react';
 
 type RecentProjectsSectionProps = { recentProjects: ProjectDetails[] };
 
 export function RecentProjectsSection({ recentProjects }: RecentProjectsSectionProps) {
+	if (recentProjects.length === 0) {
+		return null;
+	}
+
 	return (
-		recentProjects.length > 0 && (
-			<div className='bg-celestial-blue flex w-full flex-col items-center gap-4 p-8'>
-				<h3 className='text-ghost-white text-3xl font-semibold'>Recently Added Projects</h3>
-				<div className='flex w-full justify-around'>
-					{recentProjects.map((project) => (
-						<SummaryProjectCard key={project.id} {...project} />
-					))}
-				</div>
+		<div className='bg-celestial-blue flex w-full flex-col items-center gap-4 p-8'>
+			<h3 className='text-ghost-white text-3xl font-semibold'>Recently Added Projects</h3>
+			<div className='flex w-full justify-around'>
+				{recentProjects.map((project) => (
+					<SummaryProjectCard key={project.id} {...project} />
+				))}
 			</div>
-		)
+		</div>
 	);
 }
 
 function SummaryProjectCard({ name, shortDescription, technologies }: ProjectDetails) {
-	const technologiesList = useMemo(
-		() => technologies.map((tech) => tech.name).join(', '),
-		[technologies],
-	);
+	const technologiesList = technologies.map((tech) => tech.name).join(', ');
 
 	return (
 		<Card className='bg-ghost-white w-[22rem]'>

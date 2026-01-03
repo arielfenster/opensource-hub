@@ -8,7 +8,7 @@ export function ProfilePage() {
 
 	return (
 		<div className='flex flex-col gap-8 px-4 py-8'>
-			<h1 className='text-royal-blue text-4xl font-semibold'>Profile Settings</h1>
+			<h1 className='page_title'>Profile Settings</h1>
 			<div className='flex gap-8'>
 				<ProfileTabs user={user!} />
 			</div>

@@ -10,7 +10,7 @@ export function ProjectReviewCard({ project }: ProjectReviewCardProps) {
 	return (
 		<Card>
 			<Card.Header className='gap-6'>
-				<Card.Title className='text-royal-blue text-4xl font-semibold'>
+				<Card.Title className='page_title'>
 					{project.name}
 				</Card.Title>
 				<Card.Description className='line-clamp-none text-lg'>
