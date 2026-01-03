@@ -1,4 +1,4 @@
-import { loggedInMiddleware } from '$/server/modules/auth/middlewares/logged-in.middleware';
+import { userOnlyMiddleware } from '$/server/modules/auth/middlewares/user-only.middleware';
 import { projectsHandler } from '$/server/modules/projects/projects.handler';
 import { paginationSchema } from '$/shared/schemas/common/pagination.schema';
 import { createProjectSchema } from '$/shared/schemas/project/create-project.schema';
@@ -16,7 +16,7 @@ export const projectsRouter = new Hono()
 			throw error;
 		}
 	})
-	.post('/create', loggedInMiddleware, vValidator('json', createProjectSchema), async (c) => {
+	.post('/create', userOnlyMiddleware, vValidator('json', createProjectSchema), async (c) => {
 		try {
 			const project = await projectsHandler.createProject(c);
 			return c.redirect(`/projects/${project.slug}`);

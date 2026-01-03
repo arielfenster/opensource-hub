@@ -1,4 +1,4 @@
-import { loggedInMiddleware } from '$/server/modules/auth/middlewares/logged-in.middleware';
+import { userOnlyMiddleware } from '$/server/modules/auth/middlewares/user-only.middleware';
 import { technologiesHandler } from '$/server/modules/technologies/technologies.handler';
 import { requestTechnologySchema } from '$/shared/schemas/technologies/request-technology.schema';
 import { vValidator } from '@hono/valibot-validator';
@@ -16,7 +16,7 @@ export const technologiesRouter = new Hono()
 	})
 	.post(
 		'/request',
-		loggedInMiddleware,
+		userOnlyMiddleware,
 		vValidator('json', requestTechnologySchema),
 		async (c) => {
 			try {

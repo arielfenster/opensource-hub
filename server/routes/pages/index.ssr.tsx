@@ -1,6 +1,6 @@
 import { adminGuard } from '$/server/modules/auth/guards/admin.guard';
-import { guestGuard } from '$/server/modules/auth/guards/guest.guard';
-import { loggedInGuard } from '$/server/modules/auth/guards/logged-in.guard';
+import { guestOnlyGuard } from '$/server/modules/auth/guards/guest-only.guard';
+import { userOnlyGuard } from '$/server/modules/auth/guards/user-only.guard';
 import { Hono } from 'hono';
 import { renderAboutPage } from './about.ssr';
 import { renderAdminPage } from './admin.ssr';
@@ -17,9 +17,9 @@ import { renderSignupPage } from './signup.ssr';
 export const pagesRouter = new Hono()
 	.get('/', renderHomePage)
 	.get('/about', renderAboutPage)
-	.get('/login', guestGuard, renderLoginPage)
-	.get('/signup', guestGuard, renderSignupPage)
-	.get('/profile', loggedInGuard, renderProfilePage)
+	.get('/login', guestOnlyGuard, renderLoginPage)
+	.get('/signup', guestOnlyGuard, renderSignupPage)
+	.get('/profile', userOnlyGuard, renderProfilePage)
 	.get('/projects', renderProjectsPage)
 	.get('/projects/create', renderCreateProjectPage)
 	.get('/projects/:slug', renderProjectDetailsPage)

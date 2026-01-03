@@ -1,4 +1,4 @@
-import { loggedInMiddleware } from '$/server/modules/auth/middlewares/logged-in.middleware';
+import { userOnlyMiddleware } from '$/server/modules/auth/middlewares/user-only.middleware';
 import { usersHandler } from '$/server/modules/users/users.handler';
 import { updatePersonalInfoSchema } from '$/shared/schemas/user/update-personal-info.schema';
 import { updateSecurityInfoSchema } from '$/shared/schemas/user/update-security-info.schema';
@@ -8,7 +8,7 @@ import { Hono } from 'hono';
 export const userRouter = new Hono()
 	.post(
 		'/update-personal',
-		loggedInMiddleware,
+		userOnlyMiddleware,
 		vValidator('json', updatePersonalInfoSchema),
 		async (c) => {
 			try {
@@ -22,7 +22,7 @@ export const userRouter = new Hono()
 	)
 	.post(
 		'/update-security',
-		loggedInMiddleware,
+		userOnlyMiddleware,
 		vValidator('json', updateSecurityInfoSchema),
 		async (c) => {
 			try {

@@ -1,10 +1,10 @@
-import { guestMiddleware } from '$/server/modules/auth/middlewares/guest.middleware';
+import { guestOnlyMiddleware } from '$/server/modules/auth/middlewares/guest-only.middleware';
 import { socialAuthHandler } from '$/server/modules/social-auth/social-auth.handler';
 import type { SocialAuthProvider } from '$/shared/types/auth';
 import { Hono } from 'hono';
 
 export const socialAuthRouter = new Hono()
-	.use(guestMiddleware)
+	.use(guestOnlyMiddleware)
 	.get('/:provider', async (c) => {
 		const provider = c.req.param('provider') as SocialAuthProvider;
 		const authUrl = await socialAuthHandler.connectWithSocialAuth(c, provider);
