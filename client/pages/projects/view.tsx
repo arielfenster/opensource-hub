@@ -1,12 +1,16 @@
 import type { ProjectDetails } from '$/shared/types/projects';
-import {
-	ProjectsListStatusSection,
-	type ProjectsListStatusSectionProps,
-} from './components/projects-list-status-section';
+import type { RefObject } from 'react';
+import { ProjectsListStatusSection } from './components/projects-list-status-section';
 import { ResultsSection } from './components/results-section';
 import { SearchSection } from './components/search-section';
 
-type ProjectsViewProps = { filteredProjects: ProjectDetails[] } & ProjectsListStatusSectionProps;
+type ProjectsViewProps = {
+	filteredProjects: ProjectDetails[];
+	observationTargetRef: RefObject<HTMLDivElement | null>;
+	isFetchingNextPage: boolean;
+	isFetching: boolean;
+	hasNextPage: boolean;
+};
 
 export function ProjectsView({
 	filteredProjects,

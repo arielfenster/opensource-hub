@@ -1,7 +1,7 @@
 import { Spinner } from '$/client/components/ui/spinner';
 import type { RefObject } from 'react';
 
-export type ProjectsListStatusSectionProps = {
+type ProjectsListStatusSectionProps = {
 	observationTargetRef: RefObject<HTMLDivElement | null>;
 	isFetchingNextPage: boolean;
 	isFetching: boolean;
