@@ -1,4 +1,4 @@
-import { guestMiddleware } from '$/server/modules/auth/guest.middleware';
+import { guestMiddleware } from '$/server/modules/auth/middlewares/guest.middleware';
 import { socialAuthHandler } from '$/server/modules/social-auth/social-auth.handler';
 import type { SocialAuthProvider } from '$/shared/types/auth';
 import { Hono } from 'hono';

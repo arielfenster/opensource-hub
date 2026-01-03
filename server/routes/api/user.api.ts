@@ -1,4 +1,4 @@
-import { loggedInMiddleware } from '$/server/modules/auth/logged-in.middleware';
+import { loggedInMiddleware } from '$/server/modules/auth/middlewares/logged-in.middleware';
 import { usersHandler } from '$/server/modules/users/users.handler';
 import { updatePersonalInfoSchema } from '$/shared/schemas/user/update-personal-info.schema';
 import { updateSecurityInfoSchema } from '$/shared/schemas/user/update-security-info.schema';

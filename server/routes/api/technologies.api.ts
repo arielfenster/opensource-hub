@@ -1,4 +1,4 @@
-import { loggedInMiddleware } from '$/server/modules/auth/logged-in.middleware';
+import { loggedInMiddleware } from '$/server/modules/auth/middlewares/logged-in.middleware';
 import { technologiesHandler } from '$/server/modules/technologies/technologies.handler';
 import { requestTechnologySchema } from '$/shared/schemas/technologies/request-technology.schema';
 import { vValidator } from '@hono/valibot-validator';
