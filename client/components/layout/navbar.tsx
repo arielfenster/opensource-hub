@@ -23,7 +23,6 @@ export function Navbar({ user }: NavbarProps) {
 					Create project
 				</LinkButton>
 			) : null}
-			{user?.role === 'Admin' ? <LinkButton href='/admin'>Admin Panel</LinkButton> : null}
 		</nav>
 	);
 }

@@ -37,6 +37,6 @@ export type User = {
 	updatedAt: Date;
 };
 
-export type PrivateUserInfo = Pick<User, 'password' | SocialAuthProviderId>;
+export type PrivateUserInfo = Pick<User, 'password' | 'role' | SocialAuthProviderId>;
 type AuthenticatedUser = Omit<User, keyof PrivateUserInfo>;
 export type UserDetails = AuthenticatedUser & { socialLinks?: SocialLink[] };

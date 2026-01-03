@@ -1,8 +1,13 @@
-import { ProfilePage } from '$/client/pages/profile';
 import type { Context } from 'hono';
 import { renderServerPage } from './render';
+import { ProfilePage } from '$/client/pages/profile';
+import { isUserLoggedIn } from '$/server/lib/auth';
 
 export async function renderProfilePage(c: Context) {
+	if (!isUserLoggedIn(c)) {
+		return c.redirect('/');
+	}
+
 	const html = await renderServerPage(c, <ProfilePage />, {
 		page: 'profile',
 		title: 'Profile',
