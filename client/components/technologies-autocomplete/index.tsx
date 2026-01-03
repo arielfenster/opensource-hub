@@ -1,4 +1,4 @@
-import { useFetchTechnologies } from '$/client/hooks/useFetchTechnologies';
+import { useFetchTechnologies } from './useFetchTechnologies';
 import { cn } from '$/client/lib/utils';
 import { useTechnologiesStore } from '$/client/stores/technologies.store';
 import type { TechnologyData } from '$/shared/types/technologies';
