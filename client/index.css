@@ -41,3 +41,11 @@
 .page_title {
 	@apply text-royal-blue text-4xl font-semibold;
 }
+
+.tabs_list {
+	@apply flex h-fit flex-1 flex-col gap-4 rounded-md shadow-lg;
+}
+
+.tabs_trigger {
+	@apply flex gap-2 py-4 pl-8;
+}
