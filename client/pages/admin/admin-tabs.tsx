@@ -1,5 +1,8 @@
 import { Tabs } from '$/client/components/ui/tabs';
 import { InboxIcon, SettingsIcon, UsersIcon } from 'lucide-react';
+import { TechRequestsTab } from './tech-requests-tab';
+import { UsersTab } from './users-tab';
+import { SettingsTab } from './settings-tab';
 
 type AdminTabsProps = {
 	techRequests: any;
@@ -32,13 +35,13 @@ export function AdminTabs({ techRequests, users, settings }: AdminTabsProps) {
 			</Tabs.List>
 			<Tabs.ContentContainer className='flex-3 shadow-lg'>
 				<Tabs.Content name={TabsType.TECH_REQUESTS}>
-					<div>Tech Requests Content</div>
+					<TechRequestsTab techRequests={techRequests} />
 				</Tabs.Content>
 				<Tabs.Content name={TabsType.USERS}>
-					<div>Users Content</div>
+					<UsersTab users={users} />
 				</Tabs.Content>
 				<Tabs.Content name={TabsType.SETTINGS}>
-					<div>Settings Content</div>
+					<SettingsTab settings={settings} />
 				</Tabs.Content>
 			</Tabs.ContentContainer>
 		</Tabs>
