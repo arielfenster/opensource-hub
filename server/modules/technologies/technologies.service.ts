@@ -9,6 +9,10 @@ class TechnologiesService {
 	async requestNewTechnology(dto: RequestTechnologyDTO) {
 		return technologiesDataAccessor.createTechnologyRequest(dto);
 	}
+
+	async getTechnologyRequests() {
+		return technologiesDataAccessor.findAllTechnologyRequests();
+	}
 }
 
 export const technologiesService = new TechnologiesService();

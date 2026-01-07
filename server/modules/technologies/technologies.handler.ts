@@ -18,6 +18,10 @@ class TechnologiesHandler {
 		const dto = RequestTechnologyDTO.create(input, requestedBy);
 		return technologiesService.requestNewTechnology(dto);
 	}
+
+	async getTechnologyRequests() {
+		return technologiesService.getTechnologyRequests();
+	}
 }
 
 export const technologiesHandler = new TechnologiesHandler();

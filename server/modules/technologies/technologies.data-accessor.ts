@@ -31,6 +31,14 @@ export class TechnologiesDataAccessor extends DataAccessor {
 
 		return request;
 	}
+
+	async findAllTechnologyRequests() {
+		return this.db.query.technologyRequests
+			.findMany({
+				where: (fields, { eq }) => eq(fields.status, 'pending'),
+			})
+			.execute();
+	}
 }
 
 export const technologiesDataAccessor = new TechnologiesDataAccessor(db);
