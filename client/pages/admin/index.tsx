@@ -2,11 +2,11 @@ import { useAdminData } from './hook';
 import { AdminView } from './view';
 
 export function AdminPage() {
-	const { techRequests, users, settings, loading, errors } = useAdminData();
+	const { technologyRequests, users, settings, loading, errors } = useAdminData();
 
 	return (
 		<AdminView
-			techRequests={techRequests}
+			technologyRequests={technologyRequests}
 			users={users}
 			settings={settings}
 			loading={loading}

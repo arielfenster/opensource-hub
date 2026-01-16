@@ -3,7 +3,7 @@ import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 
 export const adminRouter = new Hono()
-	.get('/tech-requests', async (c) => {
+	.get('/technology-requests', async (c) => {
 		try {
 			const requests = await technologiesHandler.getTechnologyRequests();
 			return c.json(requests);

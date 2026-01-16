@@ -3,11 +3,11 @@ import { TechnologyGroupLabel } from '$/client/components/ui/technology-group-la
 import { parseDate } from '$/client/lib/utils';
 import type { TechnologyRequest } from '$/shared/types/technology-requests';
 
-type TechRequestsTabProps = {
-	techRequests: TechnologyRequest[];
+type TechnologyRequestsTabProps = {
+	technologyRequests: TechnologyRequest[];
 };
 
-export function TechRequestsTab({ techRequests }: TechRequestsTabProps) {
+export function TechnologyRequestsTab({ technologyRequests }: TechnologyRequestsTabProps) {
 	return (
 		<Table>
 			<Table.Header>
@@ -15,9 +15,10 @@ export function TechRequestsTab({ techRequests }: TechRequestsTabProps) {
 				<Table.Head>Group</Table.Head>
 				<Table.Head>Requester</Table.Head>
 				<Table.Head>Submitted</Table.Head>
+				<Table.Head>Actions</Table.Head>
 			</Table.Header>
 			<Table.Body>
-				{techRequests.map((request) => (
+				{technologyRequests.map((request) => (
 					<Table.Row key={request.id}>
 						<Table.Cell>{request.name}</Table.Cell>
 						<Table.Cell>
@@ -31,9 +32,16 @@ export function TechRequestsTab({ techRequests }: TechRequestsTabProps) {
 						</Table.Cell>
 						<Table.Cell>{request.requestedBy}</Table.Cell>
 						<Table.Cell>{parseDate(request.createdAt)}</Table.Cell>
+						<Table.Cell>
+							<TableActions />
+						</Table.Cell>
 					</Table.Row>
 				))}
 			</Table.Body>
 		</Table>
 	);
+}
+
+function TableActions() {
+	return <div>Actions</div>;
 }

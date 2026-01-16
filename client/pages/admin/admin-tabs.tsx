@@ -1,27 +1,27 @@
 import { Tabs } from '$/client/components/ui/tabs';
 import { InboxIcon, SettingsIcon, UsersIcon } from 'lucide-react';
-import { TechRequestsTab } from './tech-requests-tab';
+import { TechnologyRequestsTab } from './technology-requests-tab';
 import { UsersTab } from './users-tab';
 import { SettingsTab } from './settings-tab';
 import type { TechnologyRequest } from '$/shared/types/technology-requests';
 
 type AdminTabsProps = {
-	techRequests: TechnologyRequest[];
+	technologyRequests: TechnologyRequest[];
 	users: any;
 	settings: any;
 };
 
 const TabsType = {
-	TECH_REQUESTS: 'techRequests',
+	TECHNOLOGY_REQUESTS: 'technologyRequests',
 	USERS: 'users',
 	SETTINGS: 'settings',
 };
 
-export function AdminTabs({ techRequests, users, settings }: AdminTabsProps) {
+export function AdminTabs({ technologyRequests, users, settings }: AdminTabsProps) {
 	return (
-		<Tabs defaultTab={TabsType.TECH_REQUESTS}>
+		<Tabs defaultTab={TabsType.TECHNOLOGY_REQUESTS}>
 			<Tabs.List className='tabs_list'>
-				<Tabs.Trigger name={TabsType.TECH_REQUESTS} className='tabs_trigger'>
+				<Tabs.Trigger name={TabsType.TECHNOLOGY_REQUESTS} className='tabs_trigger'>
 					<InboxIcon />
 					<span>Tech Requests</span>
 				</Tabs.Trigger>
@@ -35,8 +35,8 @@ export function AdminTabs({ techRequests, users, settings }: AdminTabsProps) {
 				</Tabs.Trigger>
 			</Tabs.List>
 			<Tabs.ContentContainer className='flex-3 shadow-lg'>
-				<Tabs.Content name={TabsType.TECH_REQUESTS}>
-					<TechRequestsTab techRequests={techRequests} />
+				<Tabs.Content name={TabsType.TECHNOLOGY_REQUESTS}>
+					<TechnologyRequestsTab technologyRequests={technologyRequests} />
 				</Tabs.Content>
 				<Tabs.Content name={TabsType.USERS}>
 					<UsersTab users={users} />

@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 export function useAdminData() {
 	const rpcClient = useRpcQueryClient();
 
-	const techRequestsQuery = useQuery({
-		queryKey: ['admin', 'tech-requests'],
-		queryFn: async () => (await rpcClient.admin['tech-requests'].$get()).json(),
+	const technologyRequestsQuery = useQuery({
+		queryKey: ['admin', 'technology-requests'],
+		queryFn: async () => (await rpcClient.admin['technology-requests'].$get()).json(),
 		initialData: [],
 	});
 	const usersQuery = useQuery({
@@ -19,10 +19,10 @@ export function useAdminData() {
 	});
 
 	return {
-		techRequests: techRequestsQuery.data,
+		technologyRequests: technologyRequestsQuery.data,
 		users: usersQuery.data,
 		settings: settingsQuery.data,
-		loading: techRequestsQuery.isPending || usersQuery.isPending || settingsQuery.isPending,
-		errors: [techRequestsQuery.error, usersQuery.error, settingsQuery.error],
+		loading: technologyRequestsQuery.isPending || usersQuery.isPending || settingsQuery.isPending,
+		errors: [technologyRequestsQuery.error, usersQuery.error, settingsQuery.error],
 	};
 }
