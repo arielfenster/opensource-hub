@@ -1,8 +1,9 @@
 import { Spinner } from '$/client/components/ui/spinner';
+import type { TechnologyRequest } from '$/shared/types/technology-requests';
 import { AdminTabs } from './admin-tabs';
 
 type AdminViewProps = {
-	techRequests: any;
+	techRequests: TechnologyRequest[];
 	users: any;
 	settings: any;
 	loading: boolean;

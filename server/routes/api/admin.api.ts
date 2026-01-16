@@ -15,7 +15,7 @@ export const adminRouter = new Hono()
 	})
 	.get('/users', async (c) => {
 		try {
-			return c.text(`hello from /users`);
+			return c.json({ message: `hello from /users` });
 		} catch (error) {
 			throw new HTTPException(500, {
 				message: (error as Error).message,
@@ -24,7 +24,7 @@ export const adminRouter = new Hono()
 	})
 	.get('/settings', async (c) => {
 		try {
-			return c.text(`hello from /settings`);
+			return c.json({ message: `hello from /settings` });
 		} catch (error) {
 			throw new HTTPException(500, {
 				message: (error as Error).message,

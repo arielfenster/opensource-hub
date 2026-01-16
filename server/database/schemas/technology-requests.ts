@@ -1,12 +1,9 @@
 import { pgEnum, pgTable, varchar } from 'drizzle-orm/pg-core';
 import { createdAt, id, updatedAt } from './utils';
 import { technologyGroupNameEnum, technologyGroups, users } from '.';
+import { technologyRequestStatusValues } from '$/shared/types/technology-requests';
 
-export const technologyRequestEnum = pgEnum('technologyRequestEnum', [
-	'pending',
-	'approved',
-	'rejected',
-]);
+export const technologyRequestEnum = pgEnum('technologyRequestEnum', technologyRequestStatusValues);
 
 export const technologyRequests = pgTable('technologyRequests', {
 	id: id,

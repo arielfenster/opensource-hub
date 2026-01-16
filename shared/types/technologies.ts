@@ -9,7 +9,7 @@ export const technologyGroupNameValues = [
 ] as const;
 export type TechnologyGroupName = (typeof technologyGroupNameValues)[number];
 
-type Technology = { id: string; name: string; groupId: string };
+type Technology = { id: string; name: string };
 type TechnologyGroup = {
 	id: string;
 	name: TechnologyGroupName;

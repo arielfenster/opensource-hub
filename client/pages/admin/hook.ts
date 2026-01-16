@@ -6,15 +6,16 @@ export function useAdminData() {
 
 	const techRequestsQuery = useQuery({
 		queryKey: ['admin', 'tech-requests'],
-		queryFn: () => rpcClient.admin['tech-requests'].$get(),
+		queryFn: async () => (await rpcClient.admin['tech-requests'].$get()).json(),
+		initialData: [],
 	});
 	const usersQuery = useQuery({
 		queryKey: ['admin', 'users'],
-		queryFn: () => rpcClient.admin.users.$get(),
+		queryFn: async () => (await rpcClient.admin.users.$get()).json(),
 	});
 	const settingsQuery = useQuery({
 		queryKey: ['admin', 'settings'],
-		queryFn: () => rpcClient.admin.settings.$get(),
+		queryFn: async () => (await rpcClient.admin.settings.$get()).json(),
 	});
 
 	return {

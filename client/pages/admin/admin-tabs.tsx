@@ -3,9 +3,10 @@ import { InboxIcon, SettingsIcon, UsersIcon } from 'lucide-react';
 import { TechRequestsTab } from './tech-requests-tab';
 import { UsersTab } from './users-tab';
 import { SettingsTab } from './settings-tab';
+import type { TechnologyRequest } from '$/shared/types/technology-requests';
 
 type AdminTabsProps = {
-	techRequests: any;
+	techRequests: TechnologyRequest[];
 	users: any;
 	settings: any;
 };
