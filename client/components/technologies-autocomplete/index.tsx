@@ -4,10 +4,10 @@ import { useTechnologiesStore } from '$/client/stores/technologies.store';
 import type { TechnologyData } from '$/shared/types/technologies';
 import { SearchIcon } from 'lucide-react';
 import { AutoComplete } from '../form/autocomplete';
-import { config } from './config';
 import { TechnologyChip } from '../ui/technology-chip';
 import { Dialog } from '../ui/dialog';
 import { RequestTechnologyDialogContent } from './request-technology/dialog-content';
+import { TechnologyGroupLabel } from '../ui/technology-group-label';
 
 export function TechnologiesAutoCompleteContainer(
 	props: Omit<TechnologiesAutoCompleteProps, 'data'>,
@@ -52,20 +52,10 @@ function TechnologiesAutoComplete({
 	}
 
 	function renderOption(option: TechnologyData) {
-		const Icon = config[option.group.name].icon;
-
 		return (
 			<div className='flex cursor-pointer justify-between p-2'>
 				<span className='text-lg'>{option.name}</span>
-				<div
-					className={cn(
-						'flex items-center gap-2 rounded-lg border bg-gray-100 px-2 py-1',
-						config[option.group.name].className,
-					)}
-				>
-					<Icon className='h-4 w-4' />
-					{config[option.group.name].label}
-				</div>
+				<TechnologyGroupLabel technology={option} />
 			</div>
 		);
 	}
