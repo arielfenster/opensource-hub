@@ -1,8 +1,10 @@
 import { db } from '$/server/database/db';
 import { projectsToTechnologies, technologyRequests } from '$/server/database/schemas';
 import type { TechnologyData } from '$/shared/types/technologies';
+import { eq } from 'drizzle-orm';
 import { DataAccessor } from '../dal/data-accessor';
 import type { RequestTechnologyDTO } from './dto/request-technology.dto';
+import type { UpdateTechnologyRequestDTO } from './dto/update-technology-request.dto';
 
 export class TechnologiesDataAccessor extends DataAccessor {
 	async findAllTechnologies(): Promise<TechnologyData[]> {
@@ -30,6 +32,19 @@ export class TechnologiesDataAccessor extends DataAccessor {
 			.execute();
 
 		return request;
+	}
+
+	async updateTechnologyRequest(dto: UpdateTechnologyRequestDTO) {
+		const { id, status } = dto;
+
+		const [updatedRequest] = await this.db
+			.update(technologyRequests)
+			.set({ status })
+			.where(eq(technologyRequests.id, id))
+			.returning()
+			.execute();
+
+		return updatedRequest;
 	}
 
 	async findAllTechnologyRequests() {

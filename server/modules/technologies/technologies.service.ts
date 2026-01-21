@@ -1,4 +1,5 @@
 import type { RequestTechnologyDTO } from './dto/request-technology.dto';
+import type { UpdateTechnologyRequestDTO } from './dto/update-technology-request.dto';
 import { technologiesDataAccessor } from './technologies.data-accessor';
 
 class TechnologiesService {
@@ -12,6 +13,10 @@ class TechnologiesService {
 
 	async getTechnologyRequests() {
 		return technologiesDataAccessor.findAllTechnologyRequests();
+	}
+
+	async updateTechnologyRequest(dto: UpdateTechnologyRequestDTO) {
+		return technologiesDataAccessor.updateTechnologyRequest(dto);
 	}
 }
 
