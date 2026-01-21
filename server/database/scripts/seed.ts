@@ -9,6 +9,7 @@ import {
 	users,
 	projectsToTechnologies,
 	projectLinks,
+	technologyRequests,
 } from '../schemas';
 import { projectsService } from '$/server/modules/projects/projects.service';
 import type { User } from '$/shared/types/users';
@@ -20,6 +21,7 @@ async function seed() {
 	const projects = await insertProjects(user);
 	await addTechnologiesToProjects(projects);
 	await addProjectLinks(projects);
+	await addTechnologyRequests(user);
 }
 
 async function insertUsers() {
@@ -717,6 +719,28 @@ async function addProjectLinks(projects: Project[]) {
 		},
 	]);
 	console.log('Successfully added links to projects');
+}
+
+async function addTechnologyRequests(requester: User) {
+	await db.insert(technologyRequests).values([
+		{
+			requestedBy: requester.email,
+			name: 'GraphQL',
+			group: 'services',
+		},
+		{
+			requestedBy: requester.email,
+			name: 'Tailwind CSS',
+			group: 'frameworks',
+		},
+		{
+			requestedBy: requester.email,
+			name: 'Donald Duck',
+			group: 'languages',
+		},
+	]);
+
+	console.log('Successfully inserted technology requests')
 }
 
 seed()
