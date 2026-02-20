@@ -21,7 +21,7 @@ export const adminRouter = new Hono()
 		async (c) => {
 			try {
 				await technologiesHandler.updateTechnologyRequest(c);
-				return c.status(200);
+				return c.text('');
 			} catch (error) {
 				throw new HTTPException(500, {
 					message: (error as Error).message,

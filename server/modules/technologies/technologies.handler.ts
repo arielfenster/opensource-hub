@@ -34,9 +34,10 @@ class TechnologiesHandler {
 	async updateTechnologyRequest(c: UpdateTechnologyRequestContext) {
 		const id = c.req.param('id');
 		const input = c.req.valid('json');
-		const dto = UpdateTechnologyRequestDTO.create(id, input);
 
+		const dto = UpdateTechnologyRequestDTO.create(id, input);
 		const updatedRequest = await technologiesService.updateTechnologyRequest(dto);
+
 		// TODO: send email to requester about status update
 
 		return updatedRequest;

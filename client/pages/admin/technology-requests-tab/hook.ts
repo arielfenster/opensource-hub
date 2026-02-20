@@ -1,25 +1,25 @@
 import { useRpcQueryClient } from '$/client/providers/rpc-query-provider';
-import type { TechnologyRequest } from '$/shared/types/technology-requests';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type Props = {
-	technologyRequest: TechnologyRequest;
-	onSuccess: () => void;
+	onSuccess?: () => void;
 };
 
-export function useTechnologyRequestActions({ technologyRequest, onSuccess }: Props) {
+export function useTechnologyRequestActions({ onSuccess }: Props = {}) {
 	const rpcClient = useRpcQueryClient();
+	const queryClient = useQueryClient();
 
 	const approve = useMutation({
-		mutationKey: ['admin', 'technology-requests', technologyRequest.id, 'approve'],
-		mutationFn: async () => {
+		mutationKey: ['admin', 'technology-requests', 'approve'],
+		mutationFn: async (id: string) => {
 			return rpcClient.admin['technology-requests'][':id'].$patch({
-				param: { id: technologyRequest.id },
+				param: { id },
 				json: { status: 'approved' },
 			});
 		},
 		async onSuccess(response) {
 			if (response.ok) {
+				queryClient.refetchQueries({ queryKey: ['admin', 'technology-requests'] });
 				onSuccess?.();
 			} else {
 				const errorText = await response.text();
@@ -29,15 +29,16 @@ export function useTechnologyRequestActions({ technologyRequest, onSuccess }: Pr
 	});
 
 	const decline = useMutation({
-		mutationKey: ['admin', 'technology-requests', technologyRequest.id, 'decline'],
-		mutationFn: async () => {
+		mutationKey: ['admin', 'technology-requests', 'decline'],
+		mutationFn: async (id: string) => {
 			return rpcClient.admin['technology-requests'][':id'].$patch({
-				param: { id: technologyRequest.id },
+				param: { id },
 				json: { status: 'declined' },
 			});
 		},
 		async onSuccess(response) {
 			if (response.ok) {
+				queryClient.refetchQueries({ queryKey: ['admin', 'technology-requests'] });
 				onSuccess?.();
 			} else {
 				const errorText = await response.text();

@@ -1,4 +1,4 @@
-import type { TechnologyGroupName } from './technologies';
+import type { TechnologyGroup } from './technologies';
 
 export const technologyRequestStatusValues = ['pending', 'approved', 'declined'] as const;
 export type TechnologyRequestStatus = (typeof technologyRequestStatusValues)[number];
@@ -6,9 +6,9 @@ export type TechnologyRequestStatus = (typeof technologyRequestStatusValues)[num
 export type TechnologyRequest = {
 	id: string;
 	name: string;
-	group: TechnologyGroupName;
+	groupId: string;
 	requestedBy: string;
 	status: TechnologyRequestStatus;
 	createdAt: string;
 	updatedAt: string;
-};
+} & { group: TechnologyGroup };
