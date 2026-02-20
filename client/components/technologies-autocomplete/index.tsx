@@ -44,7 +44,7 @@ function TechnologiesAutoComplete({
 								Request a new technology
 							</button>
 						</Dialog.Trigger>
-						<RequestTechnologyDialogContent />
+						<RequestTechnologyDialogContent technologies={data} />
 					</Dialog>
 				)}
 			</div>
