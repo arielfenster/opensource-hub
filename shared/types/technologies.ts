@@ -1,16 +1,16 @@
 export const technologyGroupNameValues = [
-	'languages',
-	'frameworks',
-	'databases',
-	'infra',
-	'services',
-	'developerTools',
-	'clouds',
+	'Languages',
+	'Frameworks',
+	'Databases',
+	'Infra',
+	'Services',
+	'Developer Tools',
+	'Clouds',
 ] as const;
 export type TechnologyGroupName = (typeof technologyGroupNameValues)[number];
 
-type Technology = { id: string; name: string };
-type TechnologyGroup = {
+export type Technology = { id: string; name: string };
+export type TechnologyGroup = {
 	id: string;
 	name: TechnologyGroupName;
 };

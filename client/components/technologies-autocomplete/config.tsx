@@ -9,37 +9,37 @@ type TechnologyConfig = {
 };
 
 export const config: Record<TechnologyGroupName, TechnologyConfig> = {
-	languages: {
+	Languages: {
 		icon: Code,
 		label: 'Language',
 		className: 'text-ghost-white bg-chip-1 border-0',
 	},
-	frameworks: {
+	Frameworks: {
 		icon: Layers,
 		label: 'Framework',
 		className: 'text-ghost-white bg-chip-2 border-0',
 	},
-	databases: {
+	Databases: {
 		icon: Database,
 		label: 'Database',
 		className: 'text-ghost-white bg-chip-4 border-0',
 	},
-	infra: {
+	Infra: {
 		icon: Server,
 		label: 'Infra',
 		className: 'text-ghost-white bg-chip-3 border-0',
 	},
-	services: {
+	Services: {
 		icon: CreditCard,
 		label: 'Services',
 		className: 'text-ghost-white bg-chip-5 border-0',
 	},
-	developerTools: {
+	'Developer Tools': {
 		icon: Settings,
 		label: 'Dev Tools',
 		className: 'text-ghost-white bg-chip-6 border-0',
 	},
-	clouds: {
+	Clouds: {
 		icon: Cloud,
 		label: 'Cloud',
 		className: 'text-ghost-white bg-chip-7 border-0',
