@@ -55,7 +55,7 @@ function TechnologiesAutoComplete({
 		return (
 			<div className='flex cursor-pointer justify-between p-2'>
 				<span className='text-lg'>{option.name}</span>
-				<TechnologyGroupLabel technology={option} />
+				<TechnologyGroupLabel technologyGroupName={option.group.name} />
 			</div>
 		);
 	}
