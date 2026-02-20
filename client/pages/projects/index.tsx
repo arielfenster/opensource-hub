@@ -6,6 +6,7 @@ import { useTeamPositionsStore } from './team-positions.store';
 import { ProjectsView } from './view';
 
 export function ProjectsPage() {
+	// TODO: keep only this hook call here and move the rest of the stuff to ProjectsContainer?
 	const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } = useProjects({
 		limit: 9,
 	});
@@ -26,6 +27,13 @@ export function ProjectsPage() {
 		selectedPositions,
 	);
 
+	// TODO: rename the props to:
+	/**
+	 * projects={filteredProjects}
+	 * isLoading={isFetchingNextPage || isFetching}
+	 * hasMore={hasNextPage}
+	 * loadMoreTargetRef={observationTargetRef} not sure about this one
+	 */
 	return (
 		<ProjectsView
 			filteredProjects={filteredProjects}
