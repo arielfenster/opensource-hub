@@ -2,7 +2,7 @@ import type { UpdateTechnologyRequestInput } from '$/shared/schemas/technologies
 import type { TechnologyRequestStatus } from '$/shared/types/technology-requests';
 
 export class UpdateTechnologyRequestDTO {
-	constructor(
+	private constructor(
 		public readonly id: string,
 		public readonly status: TechnologyRequestStatus,
 	) {}

@@ -1,7 +1,7 @@
 import type { RequestTechnologyInput } from '$/shared/schemas/technologies/request-technology.schema';
 
 export class RequestTechnologyDTO {
-	constructor(
+	private constructor(
 		public readonly name: string,
 		public readonly groupId: string,
 		public readonly requestedBy: string,

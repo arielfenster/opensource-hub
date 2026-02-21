@@ -1,5 +1,5 @@
 export class CreateTechnologyDTO {
-	constructor(
+	private constructor(
 		public readonly groupId: string,
 		public readonly name: string,
 	) {}
