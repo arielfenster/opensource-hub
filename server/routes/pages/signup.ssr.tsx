@@ -1,13 +1,8 @@
 import { SignupPage } from '$/client/pages/auth/signup';
-import { isUserLoggedIn } from '$/server/lib/auth';
-import { renderServerPage } from './render';
 import { type Context } from 'hono';
+import { renderServerPage } from './render';
 
 export async function renderSignupPage(c: Context) {
-	if (isUserLoggedIn(c)) {
-		return c.redirect('/');
-	}
-
 	const html = renderServerPage(c, <SignupPage />, {
 		page: 'auth/signup',
 		title: 'Sign Up',

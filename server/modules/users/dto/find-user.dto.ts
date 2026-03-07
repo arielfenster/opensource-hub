@@ -10,7 +10,7 @@ type FindUserOptions = {
 };
 
 export class FindUserDTO {
-	constructor(
+	private constructor(
 		public readonly key: FindUserUniqueIdentifier,
 		public readonly value: string,
 		public readonly withTables?: WithTablesConfig,

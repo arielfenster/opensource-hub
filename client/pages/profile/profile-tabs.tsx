@@ -18,20 +18,20 @@ const TabsType = {
 export function ProfileTabs({ user }: ProfileTabsProps) {
 	return (
 		<Tabs defaultTab={TabsType.PERSONAL}>
-			<Tabs.List className='flex h-fit flex-1 flex-col gap-4 rounded-md shadow-lg'>
-				<Tabs.Trigger name={TabsType.PERSONAL} className='flex gap-2 py-4 pl-8'>
+			<Tabs.List className='tabs_list'>
+				<Tabs.Trigger name={TabsType.PERSONAL} className='tabs_trigger'>
 					<User2 />
 					<span>Personal Info</span>
 				</Tabs.Trigger>
-				<Tabs.Trigger name={TabsType.SECURITY} className='flex gap-2 py-4 pl-8'>
+				<Tabs.Trigger name={TabsType.SECURITY} className='tabs_trigger'>
 					<LockIcon />
 					<span>Security</span>
 				</Tabs.Trigger>
-				<Tabs.Trigger name={TabsType.NOTIFICATIONS} className='flex gap-2 py-4 pl-8'>
+				<Tabs.Trigger name={TabsType.NOTIFICATIONS} className='tabs_trigger'>
 					<BellIcon />
 					<span>Notifications</span>
 				</Tabs.Trigger>
-				<Tabs.Trigger name={TabsType.PRIVACY} className='flex gap-2 py-4 pl-8'>
+				<Tabs.Trigger name={TabsType.PRIVACY} className='tabs_trigger'>
 					<ShieldIcon />
 					<span>Privacy</span>
 				</Tabs.Trigger>

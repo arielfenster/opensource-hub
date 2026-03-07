@@ -9,6 +9,8 @@ also, need to create methods for approving and declining requests.
 each of them should update the request's status and send an email to the requester (if email exists).
 i need to create an admin dashboard in the navbar where i can see all the requests and click to approve/decline them. (NICE!)
 
+2. rename CommonProps type to something like PropsWithClassName, ClassNameProps, etc. or just Props, GeneralProps
+3. rename all index/view/hook files in pages to actual logic-specific name? i.e useLoginHook.ts, admin-page.tsx, etc.
 4. see if need to add props to tech-autocomplete or autocomplete regarding showing this option for form ("didn't found what you were looking for? click _here_ to add/request an item")
 
 5. add class-variance-authority. use it for buttons - regular, link. look at compoundVariants

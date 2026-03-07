@@ -7,6 +7,7 @@ export const PAGES = [
 	'projects',
 	'project-details',
 	'create-project',
+	'admin',
 ] as const;
 export type AppPage = (typeof PAGES)[number];
 
