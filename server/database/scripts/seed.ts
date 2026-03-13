@@ -1,5 +1,5 @@
 import { passwordService } from '$/server/modules/auth/password.service';
-import { technologyGroupNameValues } from '$/shared/types/technologies';
+import { technologyGroupNameValues, type TechnologyGroup } from '$/shared/types/technologies';
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import {
@@ -9,6 +9,7 @@ import {
 	users,
 	projectsToTechnologies,
 	projectLinks,
+	technologyRequests,
 } from '../schemas';
 import { projectsService } from '$/server/modules/projects/projects.service';
 import type { User } from '$/shared/types/users';
@@ -16,10 +17,11 @@ import type { Project } from '$/shared/types/projects';
 
 async function seed() {
 	const user = await insertUsers();
-	await insertTechnologies();
+	const groups = await insertTechnologies();
 	const projects = await insertProjects(user);
 	await addTechnologiesToProjects(projects);
 	await addProjectLinks(projects);
+	await addTechnologyRequests(user, groups);
 }
 
 async function insertUsers() {
@@ -27,6 +29,7 @@ async function insertUsers() {
 	const createdUsers = await db
 		.insert(users)
 		.values({
+			id: 'RcWdwLDZTfUAaiIfZ8hvF',
 			firstName: 'Ariel',
 			lastName: 'Test',
 			email: 'ariel@gmail.com',
@@ -176,6 +179,8 @@ async function insertTechnologies() {
 		.execute();
 
 	console.log('Successfully inserted technologies');
+
+	return groups;
 }
 
 async function insertProjects(owner: User) {
@@ -717,6 +722,30 @@ async function addProjectLinks(projects: Project[]) {
 		},
 	]);
 	console.log('Successfully added links to projects');
+}
+
+async function addTechnologyRequests(requester: User, groups: TechnologyGroup[]) {
+	const [languages, frameworks, _, __, services] = groups;
+
+	await db.insert(technologyRequests).values([
+		{
+			requestedBy: requester.email,
+			name: 'GraphQL',
+			groupId: services.id,
+		},
+		{
+			requestedBy: requester.email,
+			name: 'Panda CSS',
+			groupId: frameworks.id,
+		},
+		{
+			requestedBy: requester.email,
+			name: 'Donald Duck',
+			groupId: languages.id,
+		},
+	]);
+
+	console.log('Successfully inserted technology requests');
 }
 
 seed()

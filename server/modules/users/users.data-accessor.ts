@@ -55,7 +55,6 @@ export class UsersDataAccessor extends DataAccessor {
 	private getPrivateColumnsToExclude(): Record<keyof PrivateUserInfo, boolean> {
 		return {
 			password: false,
-			role: false,
 			googleId: false,
 			githubId: false,
 			gitlabId: false,

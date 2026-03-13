@@ -1,9 +1,8 @@
-import { capitalize, fromKebabCase } from '$/client/lib/utils';
 import {
 	requestTechnologySchema,
 	type RequestTechnologyInput,
 } from '$/shared/schemas/technologies/request-technology.schema';
-import { technologyGroupNameValues } from '$/shared/types/technologies';
+import { type TechnologyData } from '$/shared/types/technologies';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { forwardRef, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,11 +12,12 @@ import { Select } from '../../form/select';
 import { TextField } from '../../form/textfield';
 
 type RequestTechnologyFormProps = {
+	technologies: TechnologyData[];
 	onSubmit: (input: RequestTechnologyInput) => void;
 };
 
 export const RequestTechnologyForm = forwardRef<HTMLFormElement, RequestTechnologyFormProps>(
-	function RequestTechnologyForm({ onSubmit }, ref) {
+	function RequestTechnologyForm({ technologies, onSubmit }, ref) {
 		const {
 			register,
 			handleSubmit,
@@ -26,14 +26,17 @@ export const RequestTechnologyForm = forwardRef<HTMLFormElement, RequestTechnolo
 			resolver: valibotResolver(requestTechnologySchema),
 		});
 
-		const selectTechnologyGroupItems = useMemo(
-			() =>
-				technologyGroupNameValues.map((value) => ({
-					label: fromKebabCase(value).split(' ').map(capitalize).join(' '),
-					value,
-				})),
-			[],
-		);
+		const selectTechnologyGroupItems = useMemo(() => {
+			const map = new Map<string, string>();
+			technologies.forEach((tech) => {
+				map.set(tech.group.id, tech.group.name);
+			});
+
+			return Array.from(map.entries()).map(([id, name]) => ({
+				label: name,
+				value: id,
+			}));
+		}, [technologies]);
 
 		return (
 			<form
@@ -56,8 +59,8 @@ export const RequestTechnologyForm = forwardRef<HTMLFormElement, RequestTechnolo
 						<Select
 							className='w-full'
 							items={selectTechnologyGroupItems}
-							{...register('group')}
-							onSelect={console.log}
+							{...register('groupId')}
+							onSelect={() => {}}
 						/>
 					</LabelControl>
 				</FieldControl>

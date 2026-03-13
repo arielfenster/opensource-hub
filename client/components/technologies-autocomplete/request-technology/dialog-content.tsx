@@ -5,8 +5,13 @@ import { RequestTechnologyForm } from './form';
 import { useRequestTechnology } from './useRequestTechnology';
 import { useDialog } from '../../ui/dialog/context';
 import toast from 'react-hot-toast';
+import type { TechnologyData } from '$/shared/types/technologies';
 
-export function RequestTechnologyDialogContent() {
+type Props = {
+	technologies: TechnologyData[];
+};
+
+export function RequestTechnologyDialogContent({ technologies }: Props) {
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const { submit, loading, error } = useRequestTechnology({
 		onSuccess() {
@@ -29,7 +34,7 @@ export function RequestTechnologyDialogContent() {
 				<Dialog.Title>Request New Technology</Dialog.Title>
 			</Dialog.Header>
 			<Dialog.Body>
-				<RequestTechnologyForm ref={formRef} onSubmit={submit} />
+				<RequestTechnologyForm technologies={technologies} ref={formRef} onSubmit={submit} />
 				{error && <span className='text-red-600'>Error: {error}</span>}
 			</Dialog.Body>
 			<Dialog.Actions>

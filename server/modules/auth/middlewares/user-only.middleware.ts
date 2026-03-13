@@ -1,10 +1,10 @@
-import { isUserLoggedIn } from '$/server/lib/auth';
 import type { Context, Next } from 'hono';
 import { createMiddleware } from 'hono/factory';
 import { HTTPException } from 'hono/http-exception';
+import { requireAuthRule } from '../rules/require-auth.rule';
 
-export const loggedInMiddleware = createMiddleware(async (c: Context, next: Next) => {
-	if (!isUserLoggedIn(c)) {
+export const userOnlyMiddleware = createMiddleware(async (c: Context, next: Next) => {
+	if (!requireAuthRule(c)) {
 		return new HTTPException(401, {
 			message: 'Unauthorized access. Please log in.',
 		}).getResponse();

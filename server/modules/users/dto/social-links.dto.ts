@@ -10,7 +10,7 @@ export type ParsedSocialLinksData = {
 };
 
 export class SocialLinksDTO {
-	constructor(
+	private constructor(
 		public readonly toAdd: ParsedSocialLinksData['toAdd'],
 		public readonly toUpdate: ParsedSocialLinksData['toUpdate'],
 		public readonly toDelete: ParsedSocialLinksData['toDelete'],

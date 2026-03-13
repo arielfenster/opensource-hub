@@ -1,6 +1,6 @@
 import { relations } from 'drizzle-orm';
 import { pgEnum, pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core';
-import { id } from './utils';
+import { createdAt, id } from './utils';
 import { projectsToTechnologies } from '.';
 import { technologyGroupNameValues } from '$/shared/types/technologies';
 
@@ -9,6 +9,7 @@ export const technologyGroupNameEnum = pgEnum('technologyGroupNameEnum', technol
 export const technologyGroups = pgTable('technologyGroups', {
 	id: id,
 	name: technologyGroupNameEnum('name').notNull().unique(),
+	createdAt: createdAt,
 });
 
 export const technologyGroupRelations = relations(technologyGroups, ({ many }) => ({
@@ -23,6 +24,7 @@ export const technologies = pgTable(
 		groupId: varchar('groupId')
 			.notNull()
 			.references(() => technologyGroups.id),
+		createdAt: createdAt,
 	},
 	(table) => ({
 		uniqueNamePerGroup: uniqueIndex('unique_name_per_group').on(table.name, table.groupId),

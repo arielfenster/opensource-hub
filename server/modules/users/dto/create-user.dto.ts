@@ -6,7 +6,7 @@ type CreateRegularAuthUserPayload = SignupInput;
 type CreateUserPayload = CreateRegularAuthUserPayload & CreateSocialAuthUserPayload;
 
 export class CreateUserDTO {
-	constructor(
+	private constructor(
 		public readonly firstName: string,
 		public readonly lastName: string,
 		public readonly email: string,
